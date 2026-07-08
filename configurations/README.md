@@ -14,19 +14,21 @@ Target: shaded ~60–70 sq ft tent, Nevada desert August, cool while sleeping by
 day, DIY DC system, ~1-week trip. See [`../docs/requirements.md`](../docs/requirements.md)
 and [`../decisions/0003`](../decisions/0003-retarget-to-desert-tent.md).
 
-**➡️ Full list with BOMs & tradeoffs: [`candidates.md`](candidates.md)** — 7 complete
-builds spanning DC-direct vs AC-inverter-mini-split across 12/24/48 V. Still
-options, no pick.
+**➡️ Full list by key parameter combination: [`candidates.md`](candidates.md)** — 9
+builds spanning DC-direct vs AC-inverter (combined vs standalone) across 12/24/48 V.
+Defined by parameters, not cost. Still options, no pick.
 
-| # | Config | Arch | Bus | ~Total |
-|---|--------|------|-----|--------|
-| C1 | DC-12V cooler | DC-direct | 12 V | ~$1,250 |
-| C2 | DC-24V mini-split | DC-direct | 24 V | ~$3,200 |
-| C3 | DC-48V mini-split | DC-direct | 48 V | ~$3,200 |
-| C4 | 48V bank + 12V cooler (converter) | DC + converter | 48 V | ~$1,650 |
-| C5 | AC-24V all-in-one | AC mini-split | 24 V | ~$1,700 |
-| C6 | AC-48V EG4 | AC mini-split | 48 V | ~$2,500 |
-| C7 | AC-12V standalone | AC mini-split | 12 V | ~$1,500 |
+| # | Architecture | Inverter class | Bus | AC unit |
+|---|--------------|----------------|-----|---------|
+| C1 | DC-direct | — | 12 V | 12 V cooler |
+| C2 | DC-direct | — | 24 V | 24 V DC mini-split |
+| C3 | DC-direct | — | 48 V | 48 V DC mini-split |
+| C4 | DC + converter | — (48→12 V) | 48 V | 12 V cooler |
+| C5 | AC-inverter | Combined (all-in-one) | 24 V | 115 V mini-split/window |
+| C6 | AC-inverter | Combined (all-in-one) | 48 V | 115 V mini-split |
+| C7 | AC-inverter | Standalone + MPPT | 12 V | 115 V window |
+| C8 | AC-inverter | Standalone + MPPT | 24 V | 115 V mini-split/window |
+| C9 | AC-inverter | Standalone + MPPT | 48 V | 115 V mini-split |
 
 Shared fundamentals (solar-direct sizing, Step-0 shade, playa/dust notes) live in
 [`config-d-tent-solar-direct.md`](config-d-tent-solar-direct.md).

@@ -37,9 +37,9 @@ bigger AC unit, or trade cost for autonomy, without losing the trail.
 | Build / duration | DIY 12 V/24 V battery+solar+MPPT · one-off ~1-week trip · portable, dust-hardened |
 
 **Candidate builds (research mode, no pick yet):**
-[`configurations/candidates.md`](configurations/candidates.md) — 7 complete builds
-(~$1,250–$3,200) spanning DC-direct vs AC-inverter-mini-split across 12/24/48 V.
-Shared fundamentals in [`configurations/config-d-tent-solar-direct.md`](configurations/config-d-tent-solar-direct.md).
+[`configurations/candidates.md`](configurations/candidates.md) — 9 builds defined by
+key parameter combination (DC-direct vs AC-inverter combined-vs-standalone, across
+12/24/48 V). Shared fundamentals in [`configurations/config-d-tent-solar-direct.md`](configurations/config-d-tent-solar-direct.md).
 Configs A/B/C are kept as *reference for a room/dwelling* — oversized for a tent.
 Open decisions and research threads are tracked in [`docs/research-log.md`](docs/research-log.md).
 
