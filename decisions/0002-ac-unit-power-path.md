@@ -2,12 +2,23 @@
 
 **Status:** **Resolved → Option C (12/24 V DC vehicle unit)** · 2026-07-08
 
-> **Resolution:** The space is a shaded ~60–70 sq ft tent → **Option C**. A
-> residential mini-split (A/B) is oversized and impractical (no wall, outdoor
-> condenser, lineset). We use a DC "parking cooler" split AC, no inverter.
-> **Sub-decision still open: 12 V (the exact linked unit) vs 24 V (recommended,
-> half the current).** Full build in `../configurations/config-d-tent-solar-direct.md`;
+> **Resolution:** The space is a shaded ~60–70 sq ft tent → **Option C** (DC unit,
+> no inverter). Full build in `../configurations/config-d-tent-solar-direct.md`;
 > broader tent retarget in `0003`.
+>
+> **12 V vs 24 V sub-decision (still open — researching, 2026-07-08):**
+> New input from DC-unit research: a real, affordable **24 V mini-split exists** —
+> the **Full Battery 24V Mini Split, 9k BTU, ~$2,030** (variable-speed Panasonic
+> compressor, ~500 W / 19 A, no inverter **and no DC-DC converter**). This changes
+> the tradeoff — 24 V no longer means an exotic/expensive unit — but **no decision
+> yet.** The live tradeoffs to weigh:
+> - **24 V:** better comfort + dehumidification (variable-speed), ~19 A (easy
+>   wiring), no converter — but ~$2,030 unit and a more involved split install.
+> - **12 V:** ~$335–895 cooler, cheapest hardware — but crude, 60–80 A, and needs a
+>   converter if the bank is 24 V.
+> - **48 V:** cleanest current; pairs well with high-Voc surplus panels; HotSpot /
+>   Full Battery 48 V units (~$2,030–2,195).
+> Decide alongside bus voltage, battery cells, and panel choice.
 
 ## Context
 The AC unit's power type dictates the whole system architecture: system voltage,

@@ -26,6 +26,42 @@ builds but need 4 in series for 48 V.
 | LiTime (Ampere Time) 12 V 100 Ah | 12.8 | 100 | 1.28 | 100 A | 100 A | ~$260 | ✅ | Best budget $/kWh; 4S for 48 V (check series rating). |
 | SOK 12 V 206 Ah | 12.8 | 206 | 2.64 | 200 A | 100 A | ~$650 | ⚖️ | Large 12 V block. |
 
+## DIY no-weld LFP cells / modules (Battery Hookup) — options being researched
+
+For a DIY bolt-together pack (**no laser/spot welding** — hand tools only), the
+gating spec is **bolt-on / threaded-stud terminals**. Bus voltage is still open, so
+these scale to 12 V (4S) / 24 V (8S) / 48 V (16S). *(Researched July 2026 — Battery
+Hookup sells out fast; re-verify price & stock at checkout. Options, not a pick.)*
+
+| Product | Chem | Per cell/module | Terminal (no-weld?) | Condition | ~Price | ~$/kWh | Bus fit |
+|---------|------|-----------------|---------------------|-----------|--------|--------|---------|
+| [4× EVE LF280K 280 Ah](https://batteryhookup.com/products/new-4x-eve-lf280k-3-2v-280ah-lifepo4-cells-with-thick-busbars-m6-bolts) | LFP | 3.2 V · 280 Ah · 0.896 kWh (set = 3.58 kWh) | ✅ welded terminal blocks, **M6 threaded**, bolts incl. | New, Grade A | $250 / 4 | **~$70** | 4/8/16 cells |
+| [4× EVE LF206 206 Ah](https://batteryhookup.com/products/new-4x-eve-lf206-3-22v-206ah-lifepo4-cells-with-thick-welded-terminal-blocks-m6-bolts) | LFP | 3.22 V · 206 Ah · 0.663 kWh (set = 2.65 kWh) | ✅ **M6 threaded** blocks, bolts incl. | New overstock | $205 / 4 | ~$77 | 4/8/16 cells |
+| 51.2 V 100 Ah rack module (needs BMS) | LFP | 51.2 V · 100 Ah · **5.12 kWh** | ✅ external bolt lugs (pre-built 16S) | Used, working | ~$384 | ~$75 | 48 V turnkey |
+| 51.2 V 100 Ah rack "2 bad group" | LFP | 5.12 kWh nom (~4.5 usable after repair) | ✅ bolt lugs | Used, needs repair | ~$225 | ~$44* | 48 V (tinkerer) |
+| 48 V 200 Ah w/ BMS | LFP | 51.2 V · 200 Ah · **9.6 kWh** | ✅ bolt lugs, BMS incl. | Used | ~$750 | ~$78 | 48 V turnkey (large) |
+| 12.8 V 34 Ah module w/ BMS | LFP | 12.8 V · 34 Ah · 0.435 kWh | ✅ bolt/terminal, BMS incl. | Used/overstock | ~$30 | ~$69 | 12 V turnkey (small) |
+| [PC40138-LFP 17 Ah](https://batteryhookup.com/products/lifepo4-power-cells-pc40138-lfp-3-2v-17ah) | LFP | 3.2 V · 17 Ah · 0.054 kWh | ✅ threaded stud, nuts incl. | Used | $10 | ~$184 | any (small) |
+
+\* if successfully repaired. **Excluded (require laser welding — flat terminals):**
+Sunwoda LF314 314 Ah (~$40/kWh, cheapest but weld-only), Envision AESC 305 Ah,
+3.2 V 300 Ah overstock, bare 18650/21700, pouch cells. Considered and rejected per
+the no-weld constraint.
+
+### Sample no-weld packs (from EVE cells)
+- **12 V (4S):** 4× EVE LF206 → 12.8 V 206 Ah = **2.65 kWh** (~$205); or 4× LF280K = **3.58 kWh** (~$250). + 4S 100 A BMS (~$25).
+- **24 V (8S):** 8× EVE LF206 → 25.6 V 206 Ah = **5.3 kWh** (~$410). + 8S BMS (~$25).
+- **48 V (16S):** cleanest = 1× 51.2 V 100 Ah rack module **5.12 kWh** (~$384) + 16S BMS; all-cell alt = 16× LF206 = **10.6 kWh** (~$820, overshoots target).
+
+### Ancillaries for a bolt-together pack
+- **BMS** sized to S-count & current: 4S/8S/16S 100 A from ~$25; 4S 300 A ~$60; LCD/RS485 units ~$12–90.
+- **Bus bars + M6 hardware** (~$5–20; EVE sets include bolts). **Compression fixture** (end plates + threaded rod, generic ~$30–60 — Battery Hookup doesn't stock one).
+- **Top-balance** all cells in parallel to ~3.6 V before series assembly.
+
+> Note vs. the tent buffer: the active build wants only **~2.5 kWh**. These cells
+> can hit that (12 V 4S LF206) or scale up cheaply if the design grows — kept here
+> as options while bus voltage and unit choice are still open.
+
 ## Sizing to the baseline
 
 - Design need (from methodology): **~7.5 kWh nominal** for 1-day autonomy at 80% DoD.

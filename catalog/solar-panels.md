@@ -33,6 +33,50 @@ dust daily**.
 > 200–220 W** (~$600–900, easiest transport/setup). Match the array voltage to
 > your MPPT and system (12 V vs 24 V).
 
+## Surplus / used panels — SF Bay Area (cheap-array options being researched)
+
+Used residential panels are the cheapest watts around. *(Researched July 2026 —
+Craigslist listings are live but sell fast; **Facebook Marketplace is login-walled
+and couldn't be browsed** — search it yourself, see tips below. Options, not a pick.)*
+
+**Market snapshot:** SF Bay Craigslist has a steady supply of **used 300–315 W
+60/72-cell residential panels at ~$0.14–0.18/W** (~$45–55 each), concentrated in
+Union City, Santa Rosa, Napa/Petaluma, Oakland, San Jose — several are bulk lots.
+That's the very good end of used pricing (secondary market spans ~$0.05–0.60/W).
+
+| Example listing (sfbay.craigslist.org) | W | Price | $/W | Where | Note |
+|-----------------------------------------|---|-------|-----|-------|------|
+| "$25 Solar Panels 175W" | 175 | $25 | ~$0.14 | Union City | Cheapest $/W; low W = more panels for 1 kW |
+| Trina 305 W | 305 | $49 | ~$0.16 | Oakland | Name brand |
+| 20× 305 W blowout lot | 305 | $900/lot | ~$0.15 | San Jose | 6.1 kW lot — more than you need |
+| 10× ~300 W lot ("3 kW") | ~300 | $450/lot | ~$0.15 | Union City | Lot of 10 |
+| 315 W (several) | 315 | $55 | ~$0.17 | Union City / Napa | |
+| JA Solar 455 W bifacial | 455 | $160 | ~$0.35 | Fremont | Big/heavy/modern |
+| **Renogy 400 W suitcase (foldable)** | 400 | $195 | ~$0.49 | Santa Clara | Portable standout — packs down, self-standing |
+
+**Mail-order surplus (ships):** SanTan Solar — used 250–320 W 72-cell ~$0.30–0.60/W
+delivered, tested + 1-yr warranty, some 6-panel minimums (site blocks scraping —
+verify live). Useful stringing spec: **Mission Solar 300 W 72-cell → Voc 40.18 V,
+Vmp 32.80 V, Isc 9.61 A, ~40 lb, 66.5×39.3 in**.
+
+**How to shop FB Marketplace yourself** (agent couldn't log in):
+- Search: `solar panel(s)`, `used solar panels`, `solar panel pallet`, `300w solar`,
+  `off grid solar`, `mono solar panel`; portable: `foldable solar`, `solar suitcase`.
+  Sort by *Date listed*, tight radius, re-check every few days.
+- **Good $/W:** ~$0.15/W is excellent; keep looking above ~$0.50/W for a plain used panel. Foldables run $1–2/W (the portability tax).
+- **Inspect in person:** power-test under sun (Voc near rated, decent Isc); look for cracks/delamination/browning/burnt junction box; confirm **MC4 vs cut leads**; all panels in a lot **same model**.
+- **Red flags:** won't power-test, cut/taped leads, hail cracks, grid-tie panel with attached microinverter (not off-grid friendly), mismatched "sets," pallet you can't haul.
+
+**Tradeoffs for a portable ~1 kW tent array (not a recommendation):**
+- *Used residential 300 W (~$0.15/W):* ~1 kW for ~$135–165, only 3–4 panels — but ~40 lb, ~66×39 in each, **big wind sails** in the desert (real ballast/staking needed).
+- *Foldable suitcase (Renogy 400 W ~$195):* 2–3× the $/W, but light, packable, no glass, fast teardown.
+- *Mix:* a couple cheap residential panels + one foldable for flexibility.
+
+> ⚠️ **Stringing ceiling is the charge controller's max PV voltage, not the battery
+> bus.** 72-cell panels are ~40 V Voc each and Voc *rises in cold* (×~1.15–1.25) —
+> two in series can approach/exceed a 100 V MPPT limit on a cold desert morning.
+> Decide panels and bus voltage together (see stringing notes below).
+
 ## Stringing notes
 
 - **Baseline array:** 5 × 400 W = **2,000 W**. Two strings of... depends on

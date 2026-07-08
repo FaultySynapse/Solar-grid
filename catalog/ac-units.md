@@ -18,45 +18,55 @@ far less surge and average power than fixed-speed window/portable units.
 | Generic non-inverter window 12k | Fixed-speed window | 12,000 | EER ~11 | ~1,050 | **High (LRA 3–5×)** | 115 VAC | ~$300 | 🚫 | Cheap but hard surge; needs soft-start kit + big inverter. Avoid if possible. |
 | Pioneer 24k mini-split | Inverter mini-split | 24,000 | SEER2 ~19 | ~1,100–1,900 | Low | 230 VAC | ~$1,300 | ⚖️ | If you retarget to 2 tons — roughly doubles array/battery. |
 
-## 12 V / 24 V DC vehicle/RV split AC (small-space, no inverter)
+## 24 V DC split / mini-split — no inverter, no DC-DC converter ✅ (active class)
 
-"Parking cooler" style DC split ACs made for truck cabs, vans, and RVs. Run
-straight off a 12 V or 24 V battery — **no inverter at all**. Cheap and simple,
-but built to cool a *small* space (cab/van/single small room), generally lower
-efficiency than residential inverter mini-splits, and at **12 V the current is
-high** (thick, short cables essential). Prefer the **24 V** variant if offered —
-half the current for the same power.
+The sweet spot for this project: runs straight off a **24 V** LiFePO4 bus (no
+inverter, and — unlike a 12 V unit on a 24 V bank — **no DC-DC converter**), at
+about **half the current** of a 12 V unit. The market is thin but a genuine
+affordable option now exists. *(Researched July 2026 — re-verify stock/price.)*
 
-| Model | Type | BTU/h | Running W (typ) | Current | Supply | ~Price | Fit | Notes |
-|-------|------|-------|-----------------|---------|--------|--------|-----|-------|
-| "Jay" 12 V truck split AC ([eBay 366514149055](https://www.ebay.com/itm/366514149055)) | DC split (vehicle) | 11,000 | ~400–600 W | ~60–80 A @ 12 V | 12 VDC | ~$335 | ⚖️ | The unit you linked. Great $/BTU, no inverter; **12 V high-current**, small-space rated. Listing's "8500 W" is a spec error — real draw is ~0.4–0.6 kW. Verify duty/efficiency. |
-| Generic 24 V DC RV split AC | DC split (vehicle) | 9,000–12,000 | ~400–700 W | ~20–35 A @ 24 V | 24 VDC | ~$400–700 | ⚖️ | Same class at 24 V — **half the current**, easier wiring. Preferred over 12 V if available. |
+| Model | BTU/h | Supply | Running W | Running A | Compressor | ~Price | Fit | Notes / source |
+|-------|-------|--------|-----------|-----------|------------|--------|-----|----------------|
+| **Full Battery 24V Mini Split (9k)** | 9,000 | 24 V (21–30 V) | ~500 W | ~19 A | Variable-speed Panasonic BLDC (soft-start) | **~$2,030** | ✅ **Recommended** | Real split (indoor head + outdoor condenser); no inverter/converter. Also on Amazon (ASIN B0CQTZFX9K) & eBay. Buy button flickered "sold out" — check live stock. [fullbattery.com](https://fullbattery.com/products/24v-mini-split) |
+| Full Battery 24V Mini Split (6k / 12k) | 6,000 / 12,000 | 24 V | ~350 / ~750 W | ~14 / ~32 A | Same | ~$2,030 | ⚖️ | 6k for a well-shaded tent; 12k only if it runs hot (32 A → heavier wiring). |
+| Inclusive Inc "48V/24V DC-Direct" mini-split | 12,000 | 48 **& 24** V | ~700 W (spec'd @48 V) | ~16 A @48 V → ~32 A @24 V | Variable-speed, 28–32+ SEER | ~$1,990–2,590/zone | ⚖️ | More efficient, solar-direct. **24 V watts/amps not separately published — confirm with vendor.** Pages are SPAs. [inclusiveinc.org](https://inclusiveinc.org/products/dc-direct-mini-split) |
+| UndermountAC 24V | n/a (unpublished) | 24 V (12/48 too) | — | — | — | ~$3,799+ | 🚫 | No published BTU/W/A; vehicle under-mount; overpriced for a tent. |
 
-> ⚠️ These vehicle DC units are sized/optimized to cool a truck cab or small van,
-> not a house. If your target space is a single small room / tiny cabin / van,
-> they're an excellent cheap, inverter-free option. For a larger room or whole
-> dwelling, a residential inverter mini-split (above) will cool better per watt.
-> **Confirm the unit's real running power and duty cycle** — small DC units can run
-> at near-continuous full draw in heat, which changes daily-energy math.
+## 12 V DC vehicle/RV split AC (budget "parking cooler" — no inverter)
 
-## Native 48 V DC "off-grid" AC (no inverter needed)
+Plentiful and cheap (truck/RV market), but **high current** (~40–80 A at 12 V →
+thick short cables), crude fixed/variable coolers optimized for a truck cab. On a
+**24 V bank they need a 24→12 V DC-DC converter (~60 A+)** — bulky, lossy, and it
+erodes the price advantage. Best only if you commit to a **12 V bank**.
 
-Running the compressor directly off the DC battery bus skips inverter conversion
-losses and the surge-handling problem entirely. Fewer models, higher unit price,
-but architecturally very clean for solar.
+| Model | BTU/h | Supply | Running W | Current | ~Price | Fit | Notes / source |
+|-------|-------|--------|-----------|---------|--------|-----|----------------|
+| "Jay" 12 V truck split AC ([eBay 366514149055](https://www.ebay.com/itm/366514149055)) | 11,000 | 12 V | ~400–600 W | ~60–80 A | ~$335 | ⚖️ | The unit you linked. Cheapest; listing's "8500 W" is a spec error (~0.4–0.6 kW real). |
+| OutEquipPro "Skyeline" 12V mini split | 12,500 | 12 V | ~215–745 W | ~18–62 A | ~$895 | ⚖️ | Cheapest *real* split; in stock US, 1-yr warranty. Up to 62 A. [outequippro.com](https://outequippro.com/products/12v-air-conditioner-unit-mini-split-12500-btu-dual-fan-quiet-ac) |
+| KingClima 12V/24V parking AC (OEM) | ~E-clima | 12 or 24 V | — | — | quote only | ⚖️ | China OEM; **also does 24 V** — RFQ if chasing cheap 24 V; weeks lead time. |
 
-| Model | Type | BTU/h | Efficiency | Power draw | Supply | ~Price | Fit | Notes |
-|-------|------|-------|-----------|-----------|--------|--------|-----|-------|
-| HotSpot Energy ACDC12b/c | Hybrid AC/DC inverter mini-split | 12,000 | High | ~420–1,000 W (DC side) | 48 VDC solar + 115 VAC hybrid | ~$1,600 | ⚖️ | Can run straight off panels; hybrids AC grid + DC solar. Niche but purpose-built. |
-| GREE/Generic 48 VDC mini-split 12k | DC inverter mini-split | 12,000 | High | ~500–900 W | 48 VDC | ~$900–1,400 | ⚖️ | "Solar DC" units; verify BMS/voltage-window compatibility with your bank. |
+## Native 48 V DC AC (no inverter — for a 48 V bank)
 
-## Selecting for this project
+Cleanest at 48 V (lowest current), if you build a 48 V bank.
 
-- **Baseline pick:** a 12k **inverter mini-split** (MRCOOL DIY or Pioneer class) run
-  through the system's pure-sine inverter. Best balance of cost, availability, and
-  off-grid behavior.
-- **Architecture fork:** a native **48 VDC** unit removes the inverter from the AC
-  path (efficiency + simplicity) at higher unit cost and lower model choice — see
-  `decisions/0002-native-dc-ac-vs-inverter-path.md`.
-- Whatever you choose, **get the real datasheet power curve** and, ideally, measure
-  a day with a clamp/plug meter. Duty cycle dominates daily energy.
+| Model | BTU/h | Supply | Running W | Running A | ~Price | Fit | Notes / source |
+|-------|-------|--------|-----------|-----------|--------|-----|----------------|
+| **HotSpot Energy DC4812VRF** | 12,000 | 48 V (46–58 V) | ~544 W avg | ~20 A max | ~$2,195 (unit) | ⚖️ | Established brand, variable-capacity, solar-direct. Some resellers list **discontinued** — verify stock. [hotspotenergy.com](https://www.hotspotenergy.com/DC-air-conditioner/) |
+| Full Battery 48V Mini Split (9k) | 9,000 | 48 V | ~500 W | ~10 A | ~$2,030 | ⚖️ | Panasonic 48 V BLDC. (12k listing shows "30 A" — spec error, ~16 A real.) [fullbattery.com](https://fullbattery.com/products/48v-hvac) |
+
+> ⚠️ **Not** low-voltage DC-bus units: **HotSpot ACDC12C** and the **EG4 hybrid**
+> take high-voltage PV-direct (90–380 V) + AC grid — they **cannot** run off a
+> 12/24/48 V battery bus. Excluded from the DC-bus builds.
+
+## Options on the table (still researching — no pick yet)
+
+- **24 V real mini-split — Full Battery 24V, 9k BTU (~$2,030).** The one mainstream
+  affordable **real 24 V mini-split**: variable-speed compressor (efficient,
+  dehumidifies, gentle startup), ~500 W / 19 A, no inverter, **no DC-DC converter**.
+  Aligns with the "reliable comfort + low humidity" priority (`decisions/0004`).
+  Tradeoff: higher unit cost + a more involved split install (head + condenser + lineset).
+- **12 V truck cooler (~$335–895) on a 12 V bank.** Cheapest hardware; crude,
+  high-current, weaker at holding temp/humidity.
+- **48 V units — HotSpot DC4812VRF / Full Battery 48V** if a 48 V bank wins out.
+- Cross-cutting: whichever unit, **confirm real running watts + duty cycle** (clamp
+  meter) — it drives array size. Unit choice and bus voltage should be decided together.

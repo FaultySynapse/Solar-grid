@@ -46,25 +46,39 @@ That's why we keep the ~9–11k BTU unit's capacity margin rather than downsizin
 
 ---
 
-## Recommended build — 24 V (cleaner wiring)
-At 24 V the AC draws ~half the amps of the 12 V unit (~25–30 A vs ~60–80 A), so
-wiring, fusing, and the MPPT are all easier and cheaper. Worth sourcing the **24 V
-variant** of the DC AC.
+> **Still researching — these are options, not a final pick.** Bus voltage (12/24/48 V),
+> AC unit, panels, and cells are all open. Two candidate builds below; more may be
+> added as research lands.
+
+## Option A — 24 V build (real mini-split, no converter)
+A genuine **24 V mini-split** exists at a fair price: the **Full Battery 24V Mini
+Split, 9k BTU** (~$2,030, variable-speed Panasonic compressor, ~500 W / 19 A). It
+runs straight off a 24 V bus — **no inverter and no DC-DC converter** — and its
+variable-speed compressor dehumidifies and holds temperature far better than a 12 V
+truck cooler (relevant to the "reliable comfort + low humidity" priority,
+[`../decisions/0004`](../decisions/0004-active-ac-is-the-required-baseline.md)).
+At 24 V the ~19 A draw also makes wiring/fusing easy. *Cost is the tradeoff vs 12 V.*
 
 | Qty | Part | From catalog | ~Unit | ~Subtotal |
 |-----|------|--------------|-------|-----------|
-| 1 | 24 V DC split AC, ~9–12k BTU | [ac-units](../catalog/ac-units.md) | $600 | $600 |
+| 1 | **Full Battery 24V Mini Split, 9k BTU** (~500 W / 19 A) | [ac-units](../catalog/ac-units.md) | $2,030 | $2,030 |
 | 1 | 24 V 100 Ah LiFePO4 (2.56 kWh) *(or 2× 12 V 100 Ah in series)* | [batteries](../catalog/batteries.md) | $520 | $520 |
 | 5 | 200 W rigid panel (~1,000 W) *(or 2× 400 W)* | [solar-panels](../catalog/solar-panels.md) | $110 | $550 |
 | 1 | 60 A MPPT (Victron 100/50 or EPEver 6415AN) | [charge-controllers](../catalog/charge-controllers.md) | $280 | $280 |
-| — | BoS: ANL/Class-T fuse, DC breaker, PV fuses, cables, MC4, busbar | [balance-of-system](../catalog/balance-of-system.md) | — | ~$180 |
+| — | BoS: ANL fuse, DC breaker, PV fuses, cables, MC4, busbar | [balance-of-system](../catalog/balance-of-system.md) | — | ~$180 |
 | — | Dust box (sealed tote/case + cable glands), panel stakes/ballast | [balance-of-system](../catalog/balance-of-system.md) | — | ~$120 |
-| **Total (parts)** | | | | **~$2,250** |
+| **Total (parts)** | | | | **~$3,680** |
 
-## As-linked build — 12 V (uses the exact eBay unit)
-Cheapest unit, but 12 V means **high current everywhere**: ~60–80 A on the AC feed
-(fat, short cables) and, for a full 1 kW array, an ~80–100 A MPPT. Keeping the
-array at ~600–750 W lets you use a 60 A MPPT.
+> Availability: cross-shop [fullbattery.com](https://fullbattery.com/products/24v-mini-split)
+> vs the identical Amazon (ASIN B0CQTZFX9K) / eBay OEM listing; stock flickers.
+> Setup note: it's a real split (indoor head + outdoor condenser + lineset) — more
+> to rig in a tent than a self-contained cooler, but far better comfort.
+
+## Option B — 12 V build (budget cooler, as-linked)
+Cheapest unit (the linked $335 truck cooler, or OutEquipPro ~$895), but 12 V means
+**high current everywhere**: ~60–80 A on the AC feed (fat, short cables) and, for a
+full 1 kW array, an ~80–100 A MPPT. Keeping the array at ~600–750 W lets you use a
+60 A MPPT. *Cheaper hardware; cruder cooling and heavier wiring than Option A.*
 
 | Qty | Part | From catalog | ~Unit | ~Subtotal |
 |-----|------|--------------|-------|-----------|

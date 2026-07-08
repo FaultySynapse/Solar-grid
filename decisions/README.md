@@ -10,7 +10,7 @@ earlier decision.
 | # | Decision | Status |
 |---|----------|--------|
 | [0001](0001-record-architecture-decisions.md) | Use this repo + ADR log to track product selection | Accepted |
-| [0002](0002-ac-unit-power-path.md) | AC unit power path: AC-inverter vs 48 V DC vs 12/24 V DC | Resolved → 12/24 V DC (12 V vs 24 V sub-choice open) |
+| [0002](0002-ac-unit-power-path.md) | AC unit power path: AC-inverter vs 48 V DC vs 12/24 V DC | DC/no-inverter settled; **bus voltage 12/24/48 V still open (researching)** |
 | [0003](0003-retarget-to-desert-tent.md) | Retarget to desert tent, daytime solar-direct cooling | Accepted |
 | [0004](0004-active-ac-is-the-required-baseline.md) | Active refrigerant AC is the required baseline; efficiency add-ons parked | Accepted |
 
