@@ -1,11 +1,18 @@
-# Config D — Desert Tent, Solar-Direct Daytime ⭐ (active build)
+# Tent Build — Fundamentals (shared by all candidates)
 
 **One-line:** Cool a shaded ~60–70 sq ft tent while you sleep during the day, in
-the Nevada desert in August, by running a small DC AC **directly off a portable
-solar array** with a small LiFePO4 buffer battery — no inverter.
+the Nevada desert in August, running a small AC **mostly off a portable solar
+array** with a small LiFePO4 buffer battery.
 
-Serves the retargeted [`../docs/requirements.md`](../docs/requirements.md).
-Pivot rationale in [`../decisions/0003-retarget-to-desert-tent.md`](../decisions/0003-retarget-to-desert-tent.md).
+This is the **shared fundamentals** doc — the solar-direct concept, sizing, Step-0
+shade, and playa/dust notes that every candidate build relies on. **The full list
+of complete candidate configurations is [`candidates.md`](candidates.md)** (C1–C7).
+Serves the retargeted [`../docs/requirements.md`](../docs/requirements.md); pivot
+rationale in [`../decisions/0003-retarget-to-desert-tent.md`](../decisions/0003-retarget-to-desert-tent.md).
+
+> The two example builds below (Option A 24 V DC, Option B 12 V DC) are now
+> generalized into the full candidate list in [`candidates.md`](candidates.md)
+> (C2 and C1 respectively, plus five more). Kept here to illustrate the sizing.
 
 ## The key idea
 You cool **during the day, when the sun is strongest.** So the panels run the AC

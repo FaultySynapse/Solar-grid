@@ -8,19 +8,28 @@ in [`../docs/requirements.md`](../docs/requirements.md).
 Copy [`../templates/configuration-template.md`](../templates/configuration-template.md)
 to add a new one. When you pivot between these, record why in [`../decisions/`](../decisions/).
 
-## Active build — shaded desert tent, daytime solar-direct cooling
+## Tent candidate configurations (the active list) ⭐
 
 Target: shaded ~60–70 sq ft tent, Nevada desert August, cool while sleeping by
 day, DIY DC system, ~1-week trip. See [`../docs/requirements.md`](../docs/requirements.md)
 and [`../decisions/0003`](../decisions/0003-retarget-to-desert-tent.md).
 
-| # | Config | AC | Array | Battery | Inverter | ~Total cost | Best when |
-|---|--------|----|-------|---------|----------|-------------|-----------|
-| **D** | [Tent Solar-Direct](config-d-tent-solar-direct.md) ⭐ | DC split ~9–11k BTU | ~1,000 W | ~2.5 kWh | none | **~$1,750 (12 V) / ~$2,250 (24 V)** | The current use case |
+**➡️ Full list with BOMs & tradeoffs: [`candidates.md`](candidates.md)** — 7 complete
+builds spanning DC-direct vs AC-inverter-mini-split across 12/24/48 V. Still
+options, no pick.
 
-⭐ = current recommended build. Config D has two variants inside it: **12 V**
-(the exact linked eBay unit, cheapest) and **24 V** (recommended — half the
-current, cleaner wiring).
+| # | Config | Arch | Bus | ~Total |
+|---|--------|------|-----|--------|
+| C1 | DC-12V cooler | DC-direct | 12 V | ~$1,250 |
+| C2 | DC-24V mini-split | DC-direct | 24 V | ~$3,200 |
+| C3 | DC-48V mini-split | DC-direct | 48 V | ~$3,200 |
+| C4 | 48V bank + 12V cooler (converter) | DC + converter | 48 V | ~$1,650 |
+| C5 | AC-24V all-in-one | AC mini-split | 24 V | ~$1,700 |
+| C6 | AC-48V EG4 | AC mini-split | 48 V | ~$2,500 |
+| C7 | AC-12V standalone | AC mini-split | 12 V | ~$1,500 |
+
+Shared fundamentals (solar-direct sizing, Step-0 shade, playa/dust notes) live in
+[`config-d-tent-solar-direct.md`](config-d-tent-solar-direct.md).
 
 ## Reference builds — residential room/dwelling (oversized for the tent)
 

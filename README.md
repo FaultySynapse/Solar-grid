@@ -36,10 +36,12 @@ bigger AC unit, or trade cost for autonomy, without losing the trail.
 | Battery | Small buffer (~2.5 kWh) — no overnight bank needed |
 | Build / duration | DIY 12 V/24 V battery+solar+MPPT · one-off ~1-week trip · portable, dust-hardened |
 
-**Active build:** [`configurations/config-d-tent-solar-direct.md`](configurations/config-d-tent-solar-direct.md)
-(~$1,750 at 12 V / ~$2,250 at 24 V). Configs A/B/C are kept as *reference for a
-room/dwelling* — oversized for a tent. The pivot from the original dwelling
-baseline is recorded in [`decisions/0003`](decisions/0003-retarget-to-desert-tent.md).
+**Candidate builds (research mode, no pick yet):**
+[`configurations/candidates.md`](configurations/candidates.md) — 7 complete builds
+(~$1,250–$3,200) spanning DC-direct vs AC-inverter-mini-split across 12/24/48 V.
+Shared fundamentals in [`configurations/config-d-tent-solar-direct.md`](configurations/config-d-tent-solar-direct.md).
+Configs A/B/C are kept as *reference for a room/dwelling* — oversized for a tent.
+Open decisions and research threads are tracked in [`docs/research-log.md`](docs/research-log.md).
 
 ## Workflow: how to use this repo
 
