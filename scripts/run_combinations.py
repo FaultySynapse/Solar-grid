@@ -1,36 +1,48 @@
 #!/usr/bin/env python3
 """
-Run the tent-cooling configuration combinations.
+Combination engine: filter parts against config constraints AND compute the
+derived metrics + cost for a combination.
 
-Loads the parts data (data/parts/*.json) and the config table (data/configs.json),
-then for every configuration filters each part-category's parts against that
-config's constraints. A part qualifies for a slot only if it satisfies EVERY
-constraint; anything else is disqualified. `null` in a cell means the part is not
-used in that config ("none").
+Loads the parts data (data/parts/*.json), the config table (data/configs.json),
+the conditions (data/scenario.json), the derived-parameter definitions/constants
+(data/metrics.json), and cost adders (data/costs.json).
+
+- Constraint filtering: which parts qualify for each config slot (`null` = none).
+- Metrics: for a chosen combination, compute thermal load, AC power/duty (from the
+  AC part + thermal load), daily energy, array/battery sizing, autonomy, and a
+  PASS/WARN/FAIL feasibility verdict.
+- Cost: total system cost from part prices x quantities + cost adders.
+
+This module is the shared engine imported by solve.py and rank.py.
 
 Usage:
-  python3 scripts/run_combinations.py                # summary per config
-  python3 scripts/run_combinations.py --config C6    # one config, verbose
-  python3 scripts/run_combinations.py --table        # render the config x category constraint table
-  python3 scripts/run_combinations.py --enumerate 5  # list up to 5 full part combinations per config
-  python3 scripts/run_combinations.py --check        # validate constraint fields against spec definitions
+  python3 scripts/run_combinations.py                 # qualifying parts + combo count per config
+  python3 scripts/run_combinations.py --table         # config x category constraint table
+  python3 scripts/run_combinations.py --metrics       # metrics + cost for each config's representative combo
+  python3 scripts/run_combinations.py --config C6 --enumerate 5
+  python3 scripts/run_combinations.py --check         # validate constraint fields against spec definitions
 
-No third-party dependencies (Python 3.8+ standard library only).
+Standard library only (Python 3.8+).
 """
 import argparse
 import json
 import itertools
+import math
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 PARTS_DIR = DATA / "parts"
+SERIES_FOR_BUS = {12: 4, 24: 8, 48: 16}
 
 
 # ---------- loading ----------
 
+def load_json(name):
+    return json.loads((DATA / name).read_text())
+
+
 def load_categories():
-    """Return {category: {"specs": {...}, "parts": [...]}} from data/parts/*.json."""
     cats = {}
     for f in sorted(PARTS_DIR.glob("*.json")):
         obj = json.loads(f.read_text())
@@ -39,7 +51,24 @@ def load_categories():
 
 
 def load_configs():
-    return json.loads((DATA / "configs.json").read_text())
+    return load_json("configs.json")
+
+
+def load_scenario():
+    return load_json("scenario.json")
+
+
+def load_metric_constants():
+    return {k: v["value"] for k, v in load_json("metrics.json")["constants"].items()}
+
+
+def load_costs():
+    return load_json("costs.json")
+
+
+def sval(scenario, path):
+    section, field = path.split(".")
+    return scenario[section][field]["value"]
 
 
 # ---------- constraint matching ----------
@@ -51,8 +80,14 @@ def _as_number(v):
         return None
 
 
+def _scalar_eq(a, b):
+    na, nb = _as_number(a), _as_number(b)
+    if na is not None and nb is not None:
+        return na == nb
+    return a == b
+
+
 def match_field(part_value, requirement):
-    """True if a single part field satisfies one constraint requirement."""
     if isinstance(requirement, dict):
         for op, want in requirement.items():
             if op == "min":
@@ -79,21 +114,12 @@ def match_field(part_value, requirement):
             else:
                 raise ValueError(f"unknown operator '{op}'")
         return True
-    # scalar requirement: equality, or membership if the part field is a list
     if isinstance(part_value, list):
         return requirement in part_value
     return _scalar_eq(part_value, requirement)
 
 
-def _scalar_eq(a, b):
-    na, nb = _as_number(a), _as_number(b)
-    if na is not None and nb is not None:
-        return na == nb
-    return a == b
-
-
 def matches(part, constraints):
-    """True if a part satisfies all constraints in a cell (missing field => fail)."""
     for field, req in constraints.items():
         if field not in part:
             return False
@@ -106,7 +132,169 @@ def qualifying_parts(category_parts, constraints):
     return [p for p in category_parts if matches(p, constraints)]
 
 
-# ---------- rendering ----------
+# ---------- combinations ----------
+
+def slot_options(cfg, cats):
+    """{category: [qualifying parts]} for non-null slots; None for null slots."""
+    out = {}
+    for cat in load_configs()["part_categories"]:
+        cell = cfg["constraints"].get(cat)
+        out[cat] = None if cell is None else qualifying_parts(cats.get(cat, {}).get("parts", []), cell)
+    return out
+
+
+def pick_combo(cfg, cats, overrides=None):
+    """First qualifying part per slot (or an override id); None for null slots."""
+    overrides = overrides or {}
+    combo = {}
+    for cat, opts in slot_options(cfg, cats).items():
+        if opts is None:
+            combo[cat] = None
+        elif cat in overrides:
+            combo[cat] = next((p for p in opts if p["id"] == overrides[cat]), None)
+        else:
+            combo[cat] = opts[0] if opts else None
+    return combo
+
+
+def iter_combos(cfg, cats):
+    """Yield every full combination (dict cat->part or None) for a config."""
+    opts = slot_options(cfg, cats)
+    active = [(c, v) for c, v in opts.items() if v is not None]
+    cats_order = [c for c, _ in active]
+    for tup in itertools.product(*[v for _, v in active]):
+        combo = {c: None for c in opts}
+        for c, p in zip(cats_order, tup):
+            combo[c] = p
+        yield combo
+
+
+# ---------- metrics ----------
+
+def compute_metrics(cfg, combo, scenario, K):
+    """Return (metrics dict, checks list). metrics has key 'incomplete' if unsizable."""
+    g = lambda p: sval(scenario, p)
+    ac, inv, conv = combo["ac_unit"], combo["inverter"], combo["dc_dc_converter"]
+    cc, pan, bat = combo["charge_controller"], combo["solar_panel"], combo["battery"]
+    bus = cfg["bus_voltage"]
+    m = {}
+
+    dT = g("site.outside_temp_day") - g("thermal_conditions.target_indoor_temp")
+    m["thermal_load_w"] = (g("thermal_conditions.envelope_ua") * dT
+                           + g("thermal_conditions.solar_gain")
+                           + g("thermal_conditions.occupancy_gain") * g("space.occupancy_count"))
+
+    if not ac.get("cooling_btu") or ac.get("running_w") is None:
+        return {"incomplete": f"ac_unit '{ac['id']}' missing cooling_btu/running_w"}, \
+               [("ac_data_complete", "FAIL", False)]
+
+    m["ac_cooling_w"] = ac["cooling_btu"] * K["btu_h_to_w"]
+    m["ac_duty_cycle"] = min(1.0, m["thermal_load_w"] / m["ac_cooling_w"])
+    m["ac_avg_power_w"] = ac["running_w"] * m["ac_duty_cycle"]
+    hours = g("cooling_schedule.cooling_hours")
+    m["ac_daily_energy_wh"] = m["ac_avg_power_w"] * hours
+
+    m["non_ac_daily_energy_wh"] = sum(i["watts"] * i["hours_per_day"] for i in scenario["non_ac_loads"]["items"])
+    m["inverter_idle_energy_wh"] = inv.get("idle_w", 0) * (hours + 2) if inv else 0
+    m["converter_loss_wh"] = m["ac_daily_energy_wh"] * (1 / conv["efficiency"] - 1) if conv else 0
+    m["design_daily_energy_wh"] = (m["ac_daily_energy_wh"] + m["non_ac_daily_energy_wh"]
+                                   + m["inverter_idle_energy_wh"] + m["converter_loss_wh"]) * K["energy_margin"]
+
+    m["array_w_required"] = m["design_daily_energy_wh"] / (g("site.peak_sun_hours") * K["system_efficiency"])
+    m["panels_needed"] = math.ceil(m["array_w_required"] / pan["watt"])
+    m["array_w_provided"] = m["panels_needed"] * pan["watt"]
+    m["mppt_current_required"] = m["array_w_provided"] / bus * K["mppt_headroom"]
+    m["panel_voc_cold"] = pan["voc"] * K["cold_voc_factor"]
+
+    dod = g("resilience.usable_depth_of_discharge")
+    usable_need = (m["ac_avg_power_w"] * g("resilience.battery_buffer_runtime")
+                   + m["design_daily_energy_wh"] * g("resilience.cloudy_day_bridge"))
+    m["battery_usable_needed_wh"] = usable_need
+    m["battery_nominal_needed_wh"] = usable_need / dod
+    need_kwh = m["battery_nominal_needed_wh"] / 1000
+    if bat.get("form") == "cell":
+        S = SERIES_FOR_BUS[bus]
+        string_kwh = S * bat["capacity_kwh"]
+        strings = max(1, math.ceil(need_kwh / string_kwh))
+        m["series_count"] = S
+        m["battery_strings"] = strings
+        m["battery_blocks_needed"] = S * strings
+        m["battery_kwh_provided"] = strings * string_kwh
+    else:
+        count = max(1, math.ceil(need_kwh / bat["capacity_kwh"]))
+        m["series_count"] = 1
+        m["battery_strings"] = count
+        m["battery_blocks_needed"] = count
+        m["battery_kwh_provided"] = count * bat["capacity_kwh"]
+    m["autonomy_hours"] = (m["battery_kwh_provided"] * 1000 * dod / m["ac_avg_power_w"]) if m["ac_avg_power_w"] else float("inf")
+
+    checks = [("ac_can_hold_setpoint", "FAIL", m["thermal_load_w"] <= m["ac_cooling_w"])]
+    pv_limit = (cc or {}).get("max_pv_voc") if cc else (inv or {}).get("pv_max_voltage")
+    if pv_limit is not None:
+        checks.append(("controller_voltage_ok (1 panel)", "FAIL", m["panel_voc_cold"] <= pv_limit))
+    if cc:
+        checks.append(("controller_current_ok", "WARN", cc["rated_a"] >= m["array_w_provided"] / bus))
+        checks.append(("controller_bus_ok", "FAIL", bus in cc["max_battery_v"]))
+    if inv:
+        checks.append(("inverter_power_ok", "FAIL", inv["continuous_w"] >= ac["running_w"] * K["inverter_headroom"]))
+    if conv and ac.get("running_a"):
+        checks.append(("converter_current_ok", "FAIL", conv["continuous_a"] >= ac["running_a"]))
+    checks.append(("buffer_meets_need", "WARN", m["battery_kwh_provided"] * dod * 1000 >= usable_need - 1))
+    return m, checks
+
+
+def verdict(checks):
+    if any(sev == "FAIL" and not ok for _, sev, ok in checks):
+        return "FAIL"
+    if any(not ok for _, _, ok in checks):
+        return "WARN"
+    return "PASS"
+
+
+# ---------- cost ----------
+
+def compute_cost(combo, metrics, costs):
+    """Return (total_usd, breakdown) or (None, reason) if a needed price is missing."""
+    qty = {
+        "ac_unit": 1, "inverter": 1, "charge_controller": 1, "dc_dc_converter": 1,
+        "solar_panel": metrics.get("panels_needed", 1),
+        "battery": metrics.get("battery_blocks_needed", 1),
+    }
+    breakdown = {}
+    parts_total = 0.0
+    for cat, part in combo.items():
+        if part is None:
+            continue
+        price = part.get("price_usd")
+        if price is None:
+            return None, f"no price for {cat} '{part['id']}'"
+        line = price * qty.get(cat, 1)
+        breakdown[cat] = line
+        parts_total += line
+
+    adders = {k: v["value"] for k, v in costs["adders"].items()}
+    adders_total = sum(adders.values())
+
+    bat = combo["battery"]
+    bms_each = costs["rules"]["bms_per_battery_string"]["value"]
+    if bat.get("form") == "cell":
+        bms_total = bms_each * metrics.get("battery_strings", 1)
+    elif bat.get("bms") == "needed":
+        bms_total = bms_each * metrics.get("battery_blocks_needed", 1)
+    else:
+        bms_total = 0
+    breakdown["bms"] = bms_total
+    breakdown.update({f"adder:{k}": v for k, v in adders.items()})
+
+    subtotal = parts_total + adders_total + bms_total
+    total = subtotal * costs["rules"]["contingency_factor"]["value"]
+    breakdown["_parts"] = parts_total
+    breakdown["_adders"] = adders_total
+    breakdown["_total"] = total
+    return total, breakdown
+
+
+# ---------- rendering / CLI ----------
 
 def summarize_constraint(cell):
     if cell is None:
@@ -129,49 +317,61 @@ def run(configs, cats, only=None, enumerate_n=0):
         if only and cfg["id"] != only:
             continue
         print(f"\n=== {cfg['id']}: {cfg['label']}  ({cfg['group']}) ===")
-        slot_options = {}
+        opts = slot_options(cfg, cats)
         combo_count = 1
         for cat in categories:
-            cell = cfg["constraints"].get(cat)
-            if cell is None:
+            hits = opts[cat]
+            if hits is None:
                 print(f"  {cat:<18}: none")
                 continue
-            parts = cats.get(cat, {}).get("parts", [])
-            hits = qualifying_parts(parts, cell)
-            slot_options[cat] = hits
             if hits:
-                ids = ", ".join(p["id"] for p in hits)
-                print(f"  {cat:<18}: {len(hits):>2} match  [{ids}]")
+                print(f"  {cat:<18}: {len(hits):>2} match  [{', '.join(p['id'] for p in hits)}]")
                 combo_count *= len(hits)
             else:
-                print(f"  {cat:<18}:  0 match  ⚠  NO QUALIFYING PART  ({summarize_constraint(cell)})")
+                print(f"  {cat:<18}:  0 match  ! NO QUALIFYING PART")
                 combo_count = 0
         print(f"  -> valid combinations: {combo_count}")
         if enumerate_n and combo_count:
-            cats_used = [c for c in categories if cfg['constraints'].get(c) is not None]
-            lists = [slot_options[c] for c in cats_used]
-            for i, combo in enumerate(itertools.product(*lists)):
+            for i, combo in enumerate(iter_combos(cfg, cats)):
                 if i >= enumerate_n:
                     print(f"     ... ({combo_count - enumerate_n} more)")
                     break
-                parts_str = ", ".join(f"{c}={p['id']}" for c, p in zip(cats_used, combo))
-                print(f"     [{i + 1}] {parts_str}")
+                used = [(c, p) for c, p in combo.items() if p is not None]
+                print(f"     [{i + 1}] " + ", ".join(f"{c}={p['id']}" for c, p in used))
+
+
+def metrics_summary(configs, cats, only=None):
+    scenario, K, costs = load_scenario(), load_metric_constants(), load_costs()
+    for cfg in configs["configs"]:
+        if only and cfg["id"] != only:
+            continue
+        combo = pick_combo(cfg, cats)
+        if any(combo[c] is None for c in ("ac_unit", "solar_panel", "battery")):
+            print(f"{cfg['id']:<3} incomplete combo — skipping")
+            continue
+        m, checks = compute_metrics(cfg, combo, scenario, K)
+        if m.get("incomplete"):
+            print(f"{cfg['id']:<3} {cfg['architecture']:<12} {cfg['bus_voltage']:>2}V  -> DATA INCOMPLETE: {m['incomplete']}")
+            continue
+        cost, _ = compute_cost(combo, m, costs)
+        cost_s = f"${cost:,.0f}" if cost is not None else "$ n/a"
+        print(f"{cfg['id']:<3} {cfg['architecture']:<12} {cfg['bus_voltage']:>2}V  "
+              f"load={m['thermal_load_w']:.0f}W duty={m['ac_duty_cycle']:.2f} "
+              f"ac_avg={m['ac_avg_power_w']:.0f}W daily={m['design_daily_energy_wh']/1000:.1f}kWh "
+              f"array={m['array_w_provided']:.0f}W batt={m['battery_kwh_provided']:.1f}kWh  "
+              f"{cost_s:>8}  -> {verdict(checks)}")
 
 
 def render_table(configs):
     categories = configs["part_categories"]
-    header = ["Config"] + categories
-    rows = [header]
+    rows = [["Config"] + categories]
     for cfg in configs["configs"]:
-        row = [cfg["id"]]
-        for cat in categories:
-            row.append(summarize_constraint(cfg["constraints"].get(cat)))
-        rows.append(row)
-    widths = [max(len(r[i]) for r in rows) for i in range(len(header))]
+        rows.append([cfg["id"]] + [summarize_constraint(cfg["constraints"].get(c)) for c in categories])
+    widths = [max(len(r[i]) for r in rows) for i in range(len(rows[0]))]
     for ri, row in enumerate(rows):
         print(" | ".join(cell.ljust(widths[i]) for i, cell in enumerate(row)))
         if ri == 0:
-            print("-+-".join("-" * widths[i] for i in range(len(header))))
+            print("-+-".join("-" * widths[i] for i in range(len(row))))
 
 
 def check(configs, cats):
@@ -186,29 +386,30 @@ def check(configs, cats):
             specs = cats.get(cat, {}).get("specs", {})
             for field in cell:
                 if field not in specs:
-                    print(f"  {cfg['id']}.{cat}: constraint field '{field}' not defined in {cat} specs"); ok = False
+                    print(f"  {cfg['id']}.{cat}: constraint field '{field}' not in {cat} specs"); ok = False
     print("check: OK" if ok else "check: problems found")
     return ok
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Run tent-cooling config combinations.")
-    ap.add_argument("--config", help="only show this config id (e.g. C6)")
+    ap = argparse.ArgumentParser(description="Filter parts against configs and compute metrics/cost.")
+    ap.add_argument("--config", help="only this config id (e.g. C6)")
     ap.add_argument("--table", action="store_true", help="print the config x category constraint table")
+    ap.add_argument("--metrics", action="store_true", help="metrics + cost for each config's representative combo")
     ap.add_argument("--enumerate", type=int, default=0, metavar="N", help="list up to N full part combinations per config")
     ap.add_argument("--check", action="store_true", help="validate constraint fields against spec definitions")
     args = ap.parse_args()
 
     cats = load_categories()
     configs = load_configs()
-
     if args.check:
         check(configs, cats)
-        return
-    if args.table:
+    elif args.table:
         render_table(configs)
-        return
-    run(configs, cats, only=args.config, enumerate_n=args.enumerate)
+    elif args.metrics:
+        metrics_summary(configs, cats, only=args.config)
+    else:
+        run(configs, cats, only=args.config, enumerate_n=args.enumerate)
 
 
 if __name__ == "__main__":

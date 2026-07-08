@@ -5,15 +5,20 @@ configuration is a row of **constraints** per part category; a script filters th
 parts against the constraints to tell you which parts qualify and how many valid
 combinations each config has.
 
+All quantities are **metric** (W, degC, m2, Wh, kWh); AC nameplate BTU/h is
+converted to thermal watts inside the engine.
+
 ```
 data/
   scenario.json           # CONDITIONS only — inputs. No derived values.
   metrics.json            # derived-parameter DEFINITIONS (formulas, inputs, feasibility) + constants
+  costs.json              # cost adders NOT in per-part price (BoS, wiring, mounting, dust box, BMS, contingency)
   parts/<category>.json   # per-category: spec definitions + the parts list
   configs.json            # the config table (rows=configs, cols=part categories; each row tags bus_voltage + architecture)
 scripts/
-  run_combinations.py     # filters parts against config constraints (which parts qualify)
-  solve.py                # computes the derived metrics for a part combination (sizing + feasibility)
+  run_combinations.py     # ENGINE: filters parts against constraints AND computes metrics + cost
+  solve.py                # detailed metrics + feasibility + cost for one combination
+  rank.py                 # top-N cheapest feasible combinations per config and overall
 ```
 
 ## Conditions vs. derived (important split)
@@ -30,13 +35,26 @@ scripts/
   stored.
 
 ```bash
-python3 scripts/solve.py                 # representative combo (first qualifying part) for every config
-python3 scripts/solve.py --config C6     # full metrics + feasibility for C6's representative combo
+python3 scripts/run_combinations.py --metrics       # metrics + cost, representative combo per config
+python3 scripts/solve.py --config C6                 # full metrics + feasibility + cost for one combo
 python3 scripts/solve.py --config C2 --set battery=eve-lf280k --set solar_panel=canadian-400w
-python3 scripts/solve.py --list-metrics  # the derived-parameter definitions + constants
+python3 scripts/solve.py --list-metrics              # the derived-parameter definitions + constants
 ```
 Verdict per combination is PASS / WARN / FAIL from the feasibility checks (e.g. AC
 can hold setpoint, controller PV-voltage/current fits, inverter power headroom).
+
+## Cost & ranking — `data/costs.json` + `scripts/rank.py`
+Total system cost for a combination = sum(part `price_usd` x quantity, where the
+quantities `panels_needed` / `battery_blocks_needed` come from the solved metrics)
++ the adders in `costs.json` (BoS, wiring, mounting, dust box, per-string BMS),
+x contingency. A part with no `price_usd` makes that combination's cost unknown,
+so it's excluded from ranking. `rank.py` enumerates every qualifying combination,
+solves it, drops FAILs, and reports the cheapest N per config and overall:
+```bash
+python3 scripts/rank.py                 # top 3 per config + top 10 overall
+python3 scripts/rank.py --n 5 --overall 20
+python3 scripts/rank.py --no-warn       # PASS-only (exclude WARN)
+```
 
 ## Scenario — `data/scenario.json`
 The machine-readable **conditions** that drive a power solution (the companion to

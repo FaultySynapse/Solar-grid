@@ -10,14 +10,14 @@
     "location":            { "value": "Nevada desert (Black Rock-style playa)", "status": "known", "definition": "Install location; drives sun and cooling demand." },
     "month":               { "value": "August", "status": "known", "definition": "Season of use." },
     "peak_sun_hours":      { "value": 7.0, "unit": "h/day", "status": "assumption", "definition": "Equivalent full-sun hours; design around the worst usable value." },
-    "outside_temp_day":    { "value": 105, "unit": "degF", "status": "assumption", "definition": "Design daytime high (range ~100-110); the temperature the AC works against." },
-    "outside_temp_night":  { "value": 65, "unit": "degF", "status": "assumption", "definition": "Typical overnight low (big desert diurnal swing)." },
+    "outside_temp_day":    { "value": 40, "unit": "degC", "status": "assumption", "definition": "Design daytime high (~38-43 degC); the temperature the AC works against." },
+    "outside_temp_night":  { "value": 18, "unit": "degC", "status": "assumption", "definition": "Typical overnight low (big desert diurnal swing)." },
     "relative_humidity":   { "value": "very low (dry)", "status": "known", "definition": "Dry air — refrigerant AC dehumidifies; evaporative would add humidity." },
     "dust_exposure":       { "value": "high (alkaline playa dust)", "status": "known", "definition": "Drives sealed enclosure + filter cleaning needs." }
   },
 
   "space": {
-    "floor_area":          { "value": 65, "unit": "sqft", "status": "known", "definition": "Tent footprint (~two queen mattresses, ~60-70 sqft)." },
+    "floor_area":          { "value": 6.0, "unit": "m2", "status": "known", "definition": "Tent footprint (~two queen mattresses, ~6 m2 / ~65 sqft)." },
     "envelope_type":       { "value": "fabric tent", "status": "known", "definition": "Thermal envelope; poor insulation, air-leaky." },
     "shading":             { "value": "shaded (not in direct sun)", "status": "known", "definition": "Already out of direct sun — the single biggest load reducer." },
     "added_insulation":    { "value": "none (parked)", "status": "known", "definition": "Reflective tarp/insulation are parked efficiency add-ons (docs/efficiency-backlog.md); not assumed here." },
@@ -25,10 +25,10 @@
   },
 
   "thermal_conditions": {
-    "target_indoor_temp":  { "value": 75, "unit": "degF", "status": "assumption", "definition": "Comfort setpoint while sleeping." },
-    "envelope_ua":         { "value": 50, "unit": "W/degF", "status": "assumption", "definition": "Overall heat-transfer coefficient of the shaded tent (conduction + infiltration). ROUGH for a tent — calibrate from a measured AC duty/power. Load = envelope_ua x (outside_temp_day - target_indoor_temp) + gains." },
-    "solar_gain":          { "value": 150, "unit": "W", "status": "assumption", "definition": "Residual solar heat gain through the shade (low because shaded)." },
-    "occupancy_gain":      { "value": 100, "unit": "W", "status": "assumption", "definition": "Heat added per occupant x occupancy_count (~100 W each)." }
+    "target_indoor_temp":  { "value": 24, "unit": "degC", "status": "assumption", "definition": "Comfort setpoint while sleeping." },
+    "envelope_ua":         { "value": 120, "unit": "W/degC", "status": "assumption", "definition": "CONSERVATIVE (high) heat-transfer coefficient of the leaky shaded tent (conduction + infiltration). Deliberately over-estimates the load so the solution is over-sized; calibrate DOWN from a measured AC duty/power. Load = envelope_ua x (outside_temp_day - target_indoor_temp) + gains." },
+    "solar_gain":          { "value": 200, "unit": "W", "status": "assumption", "definition": "Conservative residual solar heat gain through the shade." },
+    "occupancy_gain":      { "value": 120, "unit": "W", "status": "assumption", "definition": "Conservative heat added per occupant x occupancy_count (sensible + latent)." }
   },
 
   "cooling_schedule": {

@@ -1,0 +1,13 @@
+{
+  "description": "Cost inputs NOT captured in per-part price_usd. Total system cost for a combination = sum(part.price_usd x quantity) + these adders, x contingency. Quantities come from the solved metrics (panels_needed, battery_blocks_needed). All USD, approximate — verify. Parts with no price_usd (e.g. quote-only) make a combination's cost unknown, and it is excluded from ranking.",
+  "adders": {
+    "balance_of_system": { "value": 150, "unit": "USD", "status": "assumption", "definition": "Fuses (Class-T + string), DC breakers, disconnects, busbars." },
+    "wiring":            { "value": 100, "unit": "USD", "status": "assumption", "definition": "Battery cables, PV wire, MC4, lugs." },
+    "mounting":          { "value": 100, "unit": "USD", "status": "assumption", "definition": "Racking / ground mounts, stakes/ballast." },
+    "dust_enclosure":    { "value": 80,  "unit": "USD", "status": "assumption", "definition": "Sealed dust-proof case + cable glands (playa)." }
+  },
+  "rules": {
+    "bms_per_battery_string": { "value": 25, "unit": "USD", "status": "assumption", "definition": "Added per series string for DIY cells, or per module whose bms field is 'needed'. Packs with integrated BMS add nothing." },
+    "contingency_factor":     { "value": 1.1, "unit": "factor", "status": "assumption", "definition": "Multiplier on (parts + adders) for misc/small parts/overage." }
+  }
+}
