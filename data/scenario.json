@@ -1,16 +1,16 @@
 {
-  "description": "Scenario / conditions that set up the power solution — the machine-readable companion to docs/requirements.md. Every field has a value, unit, definition, and status (known | assumption | open | derived). 'derived' fields are computed from the others via docs/sizing-methodology.md and should be recomputed if inputs change. Edit here to retarget; keep in sync with docs/requirements.md.",
+  "description": "Scenario / conditions ONLY — the inputs that set up the power solution (companion to docs/requirements.md). Contains NO derived values: AC running power, duty cycle, daily energy, array/battery/inverter sizing, etc. are all computed per part combination by scripts/solve.py using data/metrics.json. Every field has value, unit, definition, and status (known | assumption | open). Edit here to retarget.",
   "meta": {
     "last_updated": "2026-07-08",
     "use_case": "Cool a shaded desert tent while sleeping during the day, off a DIY solar + LiFePO4 system.",
-    "references": ["docs/requirements.md", "docs/sizing-methodology.md", "data/configs.json"]
+    "references": ["docs/requirements.md", "data/metrics.json", "docs/sizing-methodology.md"]
   },
 
   "site": {
     "location":            { "value": "Nevada desert (Black Rock-style playa)", "status": "known", "definition": "Install location; drives sun and cooling demand." },
     "month":               { "value": "August", "status": "known", "definition": "Season of use." },
     "peak_sun_hours":      { "value": 7.0, "unit": "h/day", "status": "assumption", "definition": "Equivalent full-sun hours; design around the worst usable value." },
-    "outside_temp_day":    { "value": 105, "unit": "degF", "status": "assumption", "definition": "Design daytime high (range ~100-110)." },
+    "outside_temp_day":    { "value": 105, "unit": "degF", "status": "assumption", "definition": "Design daytime high (range ~100-110); the temperature the AC works against." },
     "outside_temp_night":  { "value": 65, "unit": "degF", "status": "assumption", "definition": "Typical overnight low (big desert diurnal swing)." },
     "relative_humidity":   { "value": "very low (dry)", "status": "known", "definition": "Dry air — refrigerant AC dehumidifies; evaporative would add humidity." },
     "dust_exposure":       { "value": "high (alkaline playa dust)", "status": "known", "definition": "Drives sealed enclosure + filter cleaning needs." }
@@ -20,17 +20,15 @@
     "floor_area":          { "value": 65, "unit": "sqft", "status": "known", "definition": "Tent footprint (~two queen mattresses, ~60-70 sqft)." },
     "envelope_type":       { "value": "fabric tent", "status": "known", "definition": "Thermal envelope; poor insulation, air-leaky." },
     "shading":             { "value": "shaded (not in direct sun)", "status": "known", "definition": "Already out of direct sun — the single biggest load reducer." },
-    "added_insulation":    { "value": "none (parked)", "status": "known", "definition": "Reflective tarp/insulation are parked efficiency add-ons (docs/efficiency-backlog.md); not assumed in sizing." },
-    "air_leakage":         { "value": "high", "status": "assumption", "definition": "Tent leaks; keeps duty cycle high, so don't count on the low end." },
-    "occupancy":           { "value": 1, "unit": "people", "status": "assumption", "definition": "Occupant sensible/latent heat load (~100 W each)." }
+    "added_insulation":    { "value": "none (parked)", "status": "known", "definition": "Reflective tarp/insulation are parked efficiency add-ons (docs/efficiency-backlog.md); not assumed here." },
+    "occupancy_count":     { "value": 1, "unit": "people", "status": "assumption", "definition": "Number of occupants (each adds sensible+latent heat)." }
   },
 
-  "thermal_load": {
+  "thermal_conditions": {
     "target_indoor_temp":  { "value": 75, "unit": "degF", "status": "assumption", "definition": "Comfort setpoint while sleeping." },
-    "ac_cooling_capacity": { "value": 9000, "unit": "BTU/h", "status": "assumption", "definition": "Target AC size; oversized for a shaded tent but keeps a reliability margin (decisions/0004)." },
-    "ac_running_power":    { "value": 500, "unit": "W", "status": "assumption", "definition": "Typical AC draw while cooling; MEASURE with a clamp meter to confirm — this drives array size." },
-    "ac_duty_cycle":       { "value": 0.9, "unit": "fraction", "status": "assumption", "definition": "Fraction of the cooling window the compressor actually runs (leaky tent + heat -> high)." },
-    "cooling_required":    { "value": true, "status": "known", "definition": "Active refrigerant AC is the required core; must hit comfort + low humidity on its own." }
+    "envelope_ua":         { "value": 50, "unit": "W/degF", "status": "assumption", "definition": "Overall heat-transfer coefficient of the shaded tent (conduction + infiltration). ROUGH for a tent — calibrate from a measured AC duty/power. Load = envelope_ua x (outside_temp_day - target_indoor_temp) + gains." },
+    "solar_gain":          { "value": 150, "unit": "W", "status": "assumption", "definition": "Residual solar heat gain through the shade (low because shaded)." },
+    "occupancy_gain":      { "value": 100, "unit": "W", "status": "assumption", "definition": "Heat added per occupant x occupancy_count (~100 W each)." }
   },
 
   "cooling_schedule": {
@@ -40,39 +38,30 @@
   },
 
   "non_ac_loads": {
-    "total_daily_energy":  { "value": 0.5, "unit": "kWh/day", "status": "assumption", "definition": "Sum of all non-AC loads; keep the AC dominant." },
+    "definition": "Itemized non-AC loads; the daily total is derived (sum of watts x hours), not stored here.",
     "items": [
-      { "name": "circulation fans", "watts": 30, "hours_per_day": 12, "status": "assumption" },
-      { "name": "LED lighting",     "watts": 15, "hours_per_day": 5,  "status": "assumption" },
-      { "name": "phone/device charging", "watts": 20, "hours_per_day": 4, "status": "assumption" },
-      { "name": "AC controls / phantom", "watts": 5, "hours_per_day": 24, "status": "assumption" }
+      { "name": "circulation fans",       "watts": 30, "hours_per_day": 12, "status": "assumption" },
+      { "name": "LED lighting",           "watts": 15, "hours_per_day": 5,  "status": "assumption" },
+      { "name": "phone/device charging",  "watts": 20, "hours_per_day": 4,  "status": "assumption" },
+      { "name": "AC controls / phantom",  "watts": 5,  "hours_per_day": 24, "status": "assumption" }
     ]
   },
 
   "resilience": {
-    "cloudy_day_bridge":       { "value": 0.0, "unit": "days", "status": "open", "definition": "Days of reduced-solar (overcast) operation the battery should carry beyond the daily buffer. 0 = daytime solar-direct only; raising this is the main lever that grows the battery." },
-    "battery_buffer_runtime":  { "value": 4.5, "unit": "h", "status": "assumption", "definition": "AC-only runtime the buffer battery must cover (surge + passing clouds + shoulders of solar noon)." },
-    "cloudy_derate":           { "value": 0.35, "unit": "fraction", "status": "assumption", "definition": "Fraction of nameplate solar yield on a heavily overcast day (for bridge sizing)." },
+    "cloudy_day_bridge":         { "value": 0.0, "unit": "days", "status": "open", "definition": "Days of reduced-solar (overcast) operation the battery must carry beyond the daily buffer. 0 = daytime solar-direct only; raising this is the main lever that grows the battery." },
+    "battery_buffer_runtime":    { "value": 4.5, "unit": "h", "status": "assumption", "definition": "AC-only runtime the buffer battery must cover (surge + passing clouds + shoulders of solar noon)." },
+    "cloudy_derate":             { "value": 0.35, "unit": "fraction", "status": "assumption", "definition": "Fraction of nameplate solar yield on a heavily overcast day (for bridge sizing)." },
     "usable_depth_of_discharge": { "value": 0.8, "unit": "fraction", "status": "assumption", "definition": "LiFePO4 daily DoD used to convert usable Wh to nominal battery kWh." }
   },
 
   "system_constraints": {
-    "system_voltage":      { "value": null, "options": [12, 24, 48], "unit": "V", "status": "open", "definition": "Battery bus voltage — still undecided (decisions/0002); ties AC unit, cells, panels, inverter together." },
+    "system_voltage":      { "value": null, "options": [12, 24, 48], "unit": "V", "status": "open", "definition": "Battery bus voltage — undecided globally (each config in configs.json targets a specific bus)." },
     "architecture":        { "value": null, "options": ["dc-direct", "dc-converter", "ac-inverter"], "status": "open", "definition": "DC-direct vs AC-inverter-mini-split vs DC+converter." },
     "battery_chemistry":   { "value": "LFP", "status": "known", "definition": "LiFePO4 only (safety, cycle life, deep DoD)." },
     "battery_assembly":    { "value": "no-weld (bolt/stud terminals only)", "status": "known", "definition": "Hand-tool assembly; weld-only cells excluded." },
-    "inverter_waveform":   { "value": "pure sine", "status": "known", "definition": "Required on the AC-inverter path (AC compressors need pure sine)." },
+    "inverter_waveform":   { "value": "pure sine", "status": "known", "definition": "Required on the AC-inverter path." },
+    "cooling_required":    { "value": true, "status": "known", "definition": "Active refrigerant AC is the required core; must hit comfort + low humidity on its own (decisions/0004)." },
     "portability":         { "value": "portable, ~1-week trip", "status": "known", "definition": "Packs down, quick setup/teardown, wind- & dust-hardened." },
     "budget_ceiling":      { "value": null, "unit": "USD", "status": "open", "definition": "Total parts budget cap — set to constrain part choices." }
-  },
-
-  "derived_targets": {
-    "note": "Computed from the inputs above via docs/sizing-methodology.md. Recompute if inputs change.",
-    "ac_daily_energy":     { "value": 4.0, "unit": "kWh/day", "status": "derived", "definition": "ac_running_power x cooling_hours x ac_duty_cycle (~500 W x 8 h x 0.9)." },
-    "design_daily_energy": { "value": 4.5, "unit": "kWh/day", "status": "derived", "definition": "(ac_daily_energy + non_ac_loads) with margin." },
-    "array_size":          { "value": 1000, "unit": "W", "status": "derived", "definition": "Sized to run the AC live through the solar window + recover the buffer (~design_daily_energy / (PSH x ~0.72), rounded up)." },
-    "battery_buffer":      { "value": 2.5, "unit": "kWh", "status": "derived", "definition": "Buffer for surge/clouds/shoulders at 80% DoD; grows if cloudy_day_bridge > 0." },
-    "inverter_size":       { "value": 2000, "unit": "W", "status": "derived", "definition": "AC-inverter path only: >= peak simultaneous running W x 1.25 (soft-start AC unit -> mild surge)." },
-    "mppt_current":        { "value": 60, "unit": "A", "status": "derived", "definition": "array_W / system_voltage x 1.25 (recompute once system_voltage is chosen)." }
   }
 }

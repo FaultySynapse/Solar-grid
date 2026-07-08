@@ -7,12 +7,36 @@ combinations each config has.
 
 ```
 data/
-  scenario.json           # the conditions that set up the power solution (inputs to size against)
+  scenario.json           # CONDITIONS only — inputs. No derived values.
+  metrics.json            # derived-parameter DEFINITIONS (formulas, inputs, feasibility) + constants
   parts/<category>.json   # per-category: spec definitions + the parts list
-  configs.json            # the config table (rows=configs, cols=part categories)
+  configs.json            # the config table (rows=configs, cols=part categories; each row tags bus_voltage + architecture)
 scripts/
-  run_combinations.py     # loads it all and runs the combinations
+  run_combinations.py     # filters parts against config constraints (which parts qualify)
+  solve.py                # computes the derived metrics for a part combination (sizing + feasibility)
 ```
+
+## Conditions vs. derived (important split)
+- **`scenario.json` holds only conditions/inputs** — site, space, thermal
+  envelope, cooling schedule, non-AC loads, resilience targets, system
+  constraints. It contains **no derived values**. In particular, **AC running
+  power and duty cycle are NOT stored here** — they are computed from the chosen
+  AC part (`running_w`, `cooling_btu`) and the thermal load.
+- **`metrics.json` defines the derived parameters** — each with a formula, the
+  inputs it consumes, and (where relevant) a feasibility condition. Plus shared
+  constants (system efficiency, margins, cold-Voc factor, headrooms).
+- **`solve.py` solves those metrics for a part combination.** Because the derived
+  values depend on which parts are picked, they are computed per combination, not
+  stored.
+
+```bash
+python3 scripts/solve.py                 # representative combo (first qualifying part) for every config
+python3 scripts/solve.py --config C6     # full metrics + feasibility for C6's representative combo
+python3 scripts/solve.py --config C2 --set battery=eve-lf280k --set solar_panel=canadian-400w
+python3 scripts/solve.py --list-metrics  # the derived-parameter definitions + constants
+```
+Verdict per combination is PASS / WARN / FAIL from the feasibility checks (e.g. AC
+can hold setpoint, controller PV-voltage/current fits, inverter power headroom).
 
 ## Scenario — `data/scenario.json`
 The machine-readable **conditions** that drive a power solution (the companion to

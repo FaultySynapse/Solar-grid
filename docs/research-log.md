@@ -55,6 +55,12 @@ against each config to list qualifying parts + count valid combinations
 catalog was removed). `configurations/candidates.md` stays as the human-readable
 config view alongside `data/configs.json`.
 
+Conditions vs. derived split: `data/scenario.json` holds only inputs (no derived
+values; AC power/duty are NOT stored — they come from the AC part + thermal load).
+`data/metrics.json` defines the derived parameters + formulas, and
+`scripts/solve.py` computes them per part combination with PASS/WARN/FAIL
+feasibility. Run `python3 scripts/solve.py` (or `--config Cx`).
+
 ## Candidate threads not yet researched
 - [ ] Charge controllers matched to the final bus voltage + surplus-panel Voc.
 - [ ] Portable/dust-proof mounting & enclosure specifics for playa.
