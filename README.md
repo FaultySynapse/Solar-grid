@@ -21,12 +21,14 @@ bigger AC unit, or trade cost for autonomy, without losing the trail.
 | [`docs/requirements.md`](docs/requirements.md) | The design target — the AC load, location, runtime, and priorities everything is sized against. **Start here / edit here to retarget.** |
 | [`docs/sizing-methodology.md`](docs/sizing-methodology.md) | How we turn "run this AC" into panel watts, battery kWh, inverter size, and controller amps. Worked example included. |
 | [`docs/glossary.md`](docs/glossary.md) | Terms and units (PSH, DoD, EER/SEER2, Voc, etc.). |
+| [`data/scenario.json`](data/scenario.json) | **Conditions** (inputs only) — site, tent, thermal load, non-AC loads, resilience, constraints. No derived values. |
 | [`data/parts/`](data/parts/) | **Parts data (JSON)** — one file per component category, each with a spec-definition block plus the parts. |
 | [`data/configs.json`](data/configs.json) | The config constraint table (rows = configs, columns = part categories). |
-| [`scripts/run_combinations.py`](scripts/run_combinations.py) | Filters the parts against each config's constraints — lists qualifying parts and counts valid combinations. See [`data/README.md`](data/README.md). |
-| [`configurations/`](configurations/) | Human-readable build write-ups + the candidate list. [`configurations/README.md`](configurations/README.md) has the side-by-side comparison. |
+| [`data/metrics.json`](data/metrics.json) | Derived-parameter definitions (formulas, inputs, feasibility) + constants. |
+| [`data/costs.json`](data/costs.json) | Cost adders not in per-part price (BoS, wiring, mounting, dust box, BMS, contingency). |
+| [`scripts/`](scripts/) | `run_combinations.py` (engine: constraints + metrics + cost), `solve.py` (detail one combo), `rank.py` (top-N cheapest). See [`data/README.md`](data/README.md). |
+| [`configurations/`](configurations/) | Human-readable candidate list + shared fundamentals. Machine source is `data/configs.json`. |
 | [`decisions/`](decisions/) | Lightweight decision records (ADR-style). One file per pivot. |
-| [`templates/`](templates/) | Copy-paste templates for adding a new component or a new configuration. |
 
 ## Current target (edit in `docs/requirements.md`)
 

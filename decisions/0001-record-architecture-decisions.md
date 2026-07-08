@@ -13,9 +13,8 @@ Keep everything version-controlled:
 - `docs/` — the requirements target + sizing methodology (the shared math).
 - `data/parts/` — datasheet-level part specs per category (JSON + spec definitions).
 - `data/configs.json` + `scripts/run_combinations.py` — the config constraint table and solver.
-- `configurations/` — human-readable build write-ups referencing the part data.
+- `configurations/` — human-readable candidate list + shared fundamentals.
 - `decisions/` — this ADR log for choices/pivots.
-- `templates/` — to add parts and configs consistently.
 
 > Update: parts began as Markdown catalog tables and were later migrated to JSON
 > in `data/parts/` (the markdown catalog was removed) so a script can solve the

@@ -145,14 +145,17 @@ See [`data/parts/balance-of-system.json`](../data/parts/balance-of-system.json).
 
 ---
 
-## Worked baseline summary
+## Where the numbers actually come from
 
-| Item | Result |
-|------|--------|
-| Design daily energy | ~6.0 kWh/day |
-| Battery (48 V, LiFePO4, 1-day autonomy) | ~7.5 kWh min → **10.24 kWh** (2 × 48 V 100 Ah) |
-| Solar array (5 PSH) | ~1,670 W min → **~2,000 W** |
-| Inverter | **3,000 W** 48 V pure-sine (or 6 kW all-in-one) |
-| Charge controller | **60 A** MPPT (or integrated in all-in-one) |
+This page is the **narrative** behind the math. The canonical formulas, constants,
+and feasibility checks live in [`../data/metrics.json`](../data/metrics.json), and
+they are solved **per part combination** (in metric units) by the engine:
 
-These feed directly into the three starter builds in `configurations/`.
+```bash
+python3 scripts/solve.py --config Cx     # thermal load, AC power/duty, array, battery, autonomy, feasibility
+python3 scripts/run_combinations.py --metrics
+python3 scripts/rank.py                  # cheapest feasible builds
+```
+
+Conditions (site, tent, loads, resilience) are in
+[`../data/scenario.json`](../data/scenario.json); nothing derived is stored there.
