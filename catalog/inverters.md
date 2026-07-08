@@ -29,39 +29,47 @@ Options, not a pick.)*
 48 V. So 12 V inverters are cheap but cap ~2–3 kW and run hot/hungry; the best
 2–3 kW and all-in-one units are **24 V or 48 V**. Decide the inverter and bus together.
 
-### 12 V input (budget / small; heavy DC current at 2 kW+)
-| Model | Cont./Surge W | Idle | Eff. | MPPT? | ~Price | Notes |
-|-------|---------------|------|------|-------|--------|-------|
-| Victron Phoenix 12/1200 | 1000 / 2400 | **~8–10 W** (search <2 W) | ~92% | No | ~$350–450 | Best idle; only ~1 kW at 12 V. |
-| Renogy 2000/3000 W 12 V (Pro EcoSleep) | 2000–3000 / 4–6k | <10 W (Pro) | >90% | No | ~$249–415 | 3 kW @12 V ≈ 250 A — very heavy cable. |
-| Giandel 2000 W / Ampeak 2000 W | 2000 / 4–6k | ~15–20 W~ | ~90–93% | No | ~$180–270 | Budget; idle unpublished. |
+There are **two classes** — pick the class first, then the model:
 
-### 24 V input (sweet spot for 2–3 kW; half the current of 12 V)
-| Model | Cont./Surge W | Idle | Eff. | MPPT? | ~Price | Notes |
-|-------|---------------|------|------|-------|--------|-------|
-| Victron Phoenix Smart 24/2000 (120 V) | ~1600 / 4000 | **~8–15 W** | ~92–94% | No | ~$700–900 | Frugal standalone; add separate MPPT. |
-| Victron MultiPlus-II 24/3000 120 V | ~2400 / 6000 | ~13 W | 94% | Charger, no PV MPPT | ~$900–1,100 | Inverter/charger; needs external MPPT. |
-| **LVYUAN SHP3024 all-in-one** | 3000 / 6000 | ~20–40 W~ | ~90% | **Yes, 60 A MPPT (~1.4 kW PV) + charger** | ~$400–550 | One box; modest PV window; budget brand. |
-| **Sungold 3000 W 24 V all-in-one** | 3000 / 6000 | ~25–40 W~ | ~90% | **Yes, 60 A MPPT + charger** | ~$400–500 | One box; UL1741; low-V PV window. |
-| Renogy 2000 W 24 V | 2000 / 4000 | ~15–20 W~ | >90% | No | ~$250–300 | Budget standalone. |
+## Class 1 — All-in-one (inverter + MPPT + charger in one box)
+One purchase covers DC→AC **and** solar charging **and** grid/gen charging. Simplest
+wiring, lowest summed cost. Trade: **higher idle** (the controller/display run all
+day) and a **fixed PV window** you can't upgrade. Almost all are 24 V or 48 V.
 
-### 48 V input (lowest current & idle %; best for hybrids + high-Voc panels)
-| Model | Cont./Surge W | Idle | Eff. | MPPT? | ~Price | Notes |
-|-------|---------------|------|------|-------|--------|-------|
-| **EG4 3000EHV-48 all-in-one** | 3000 / 6000 | <70 W op / <15 W standby | 97% PV→AC | **Yes, 500 V / 5 kW PV MPPT + charger** | ~$650–800 | High-V PV = long panel strings (pairs w/ surplus 72-cell). Mature/supported. |
-| **Growatt SPF 3000TL LVM-48 all-in-one** | 3000 / 6000 | ~25–50 W~ | ~93% | **Yes, 80 A MPPT + charger** | ~$580–720 | Stackable; two PV-voltage variants. |
-| Victron Phoenix Smart 48/3000 120 V | ~2400 / 6000 | **~8–15 W** | ~92–94% | No | ~$800–1,100 | Superb idle; standalone + separate MPPT. |
-| Victron MultiPlus-II 48/3000 120 V | ~2400 / 6000 | ~13 W | 94% | Charger, no PV MPPT | ~$900–1,100 | Inverter/charger; external MPPT. |
+| Model | Bus | Cont./Surge W | Idle | Built-in PV MPPT | **~System $** (inverter+MPPT+charger) |
+|-------|-----|---------------|------|------------------|----------------------------------------|
+| LVYUAN SHP3024 | 24 V | 3000 / 6000 | ~20–40 W~ | 60 A, ~1.4 kW PV (30–90 V) | **~$400–550** |
+| Sungold 3000 W 24 V | 24 V | 3000 / 6000 | ~25–40 W~ | 60 A, low-V PV window | **~$400–500** |
+| Growatt SPF 3000TL LVM-48 | 48 V | 3000 / 6000 | ~25–50 W~ | 80 A; 60–250 V PV (variant) | **~$580–720** |
+| **EG4 3000EHV-48** | 48 V | 3000 / 6000 | <70 W op / <15 W standby | **500 V / 5 kW PV** | **~$650–800** |
 
-**Standalone vs all-in-one (tradeoff, not a verdict):** a bare Victron Phoenix
-idles ~8–13 W but needs a separate MPPT (more boxes, more cost summed). An all-in-one
-(EG4/Growatt/LVYUAN/Sungold) bundles inverter+MPPT+charger for ~$580–800 but idles
-higher (~40–70 W all day) — a real penalty on a solar-direct daytime build, partly
-offset by a load-sensing eco/search mode when the compressor cycles off.
+## Class 2 — Standalone inverter (+ add a separate MPPT ~$250–280)
+Just DC→AC; you buy a solar charge controller separately. Trade: **more boxes and a
+higher summed cost**, but you get the **lowest idle** and **free choice of MPPT**
+(e.g. a 500 V Victron for long surplus-panel strings). Modular — replace one piece
+at a time. *(Victron MultiPlus adds a grid/gen charger but still no PV MPPT.)*
 
-**Idle-draw ranking:** frugal = Victron Phoenix / MultiPlus (~8–13 W), Renogy Pro
-EcoSleep (<10 W); middle = budget standalones (~15–30 W, mostly unpublished);
-hungry = all-in-ones + AIMS (~25–70 W).
+| Model | Bus | Cont./Surge W | Idle | Inverter $ | **~System $** (+ MPPT) |
+|-------|-----|---------------|------|-----------|------------------------|
+| Giandel / Ampeak 2000 W | 12 V | 2000 / 4–6k | ~15–20 W~ | ~$180–270 | **~$410–520** |
+| Renogy 2000 W 24 V | 24 V | 2000 / 4000 | ~15–20 W~ | ~$250–300 | **~$480–580** |
+| WZRELB RBP-3000 | 24/48 V | 3000 / 6000 | <30 W | ~$349–449 | **~$600–730** |
+| **Victron Phoenix Smart 24/2000** | 24 V | ~1600 / 4000 | **~8–15 W** | ~$700–900 | **~$980–1,180** |
+| **Victron Phoenix Smart 48/3000** | 48 V | ~2400 / 6000 | **~8–15 W** | ~$800–1,100 | **~$1,080–1,380** |
+| Victron MultiPlus-II 24 or 48/3000 | 24/48 V | ~2400 / 6000 | ~13 W | ~$900–1,100 | **~$1,180–1,380** |
+
+## Which class?
+- **All-in-one** if you want the **cheapest, simplest** build (one box ~$400–800) and
+  can accept ~25–70 W idle. The **EG4 3000EHV** is the exception on PV — its 500 V
+  input strings cheap 72-cell surplus panels the way a good standalone MPPT would.
+- **Standalone + MPPT** if you want **frugal idle** (Victron ~8–15 W → saves ~0.3–0.5
+  kWh/day vs a hungry all-in-one) and **full control of the charge controller**, and
+  don't mind more wiring and ~$500–1,400 summed. Budget standalones (~$480–730 system)
+  sit between the two on both cost and idle.
+
+**Idle-draw ranking** (matters — it runs all day): frugal = Victron Phoenix/MultiPlus
+(~8–15 W); middle = budget standalones (~15–30 W, mostly unpublished); hungry =
+all-in-ones + AIMS (~25–70 W). Every 10 W idle ≈ 80 Wh/day.
 
 > **Reminder:** this whole inverter cost + idle loss only applies to the AC-mini-
 > split path. A **native DC AC unit** ([`ac-units.md`](ac-units.md)) skips the
