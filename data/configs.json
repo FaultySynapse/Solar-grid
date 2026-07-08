@@ -1,0 +1,105 @@
+{
+  "description": "Config table: rows are configurations (combinations), columns are part categories. Each cell is either null (part NOT used in this config = 'none') or a constraint object. A part QUALIFIES for a slot only if it satisfies every constraint; anything else disqualifies it. Constraint value forms: scalar (equality, or list-membership if the part field is a list), or an operator object {min,max,eq,ne,in,contains}. 'contains' checks that a list-valued part field includes the value.",
+  "part_categories": ["ac_unit", "inverter", "dc_dc_converter", "charge_controller", "battery", "solar_panel"],
+  "configs": [
+    {
+      "id": "C1", "group": "DC-direct", "label": "DC-direct · 12V · cooler",
+      "constraints": {
+        "ac_unit": { "supply_type": "DC", "supply_voltage": 12 },
+        "inverter": null,
+        "dc_dc_converter": null,
+        "charge_controller": { "type": "MPPT", "max_battery_v": { "contains": 12 } },
+        "battery": { "chemistry": "LFP", "bus_voltage": { "contains": 12 }, "terminal_type": { "ne": "weld-only" } },
+        "solar_panel": {}
+      }
+    },
+    {
+      "id": "C2", "group": "DC-direct", "label": "DC-direct · 24V · DC mini-split",
+      "constraints": {
+        "ac_unit": { "supply_type": "DC", "supply_voltage": 24 },
+        "inverter": null,
+        "dc_dc_converter": null,
+        "charge_controller": { "type": "MPPT", "max_battery_v": { "contains": 24 } },
+        "battery": { "chemistry": "LFP", "bus_voltage": { "contains": 24 }, "terminal_type": { "ne": "weld-only" } },
+        "solar_panel": {}
+      }
+    },
+    {
+      "id": "C3", "group": "DC-direct", "label": "DC-direct · 48V · DC mini-split",
+      "constraints": {
+        "ac_unit": { "supply_type": "DC", "supply_voltage": 48 },
+        "inverter": null,
+        "dc_dc_converter": null,
+        "charge_controller": { "type": "MPPT", "max_battery_v": { "contains": 48 } },
+        "battery": { "chemistry": "LFP", "bus_voltage": { "contains": 48 }, "terminal_type": { "ne": "weld-only" } },
+        "solar_panel": {}
+      }
+    },
+    {
+      "id": "C4", "group": "DC + converter", "label": "48V bus · 12V cooler via DC-DC",
+      "constraints": {
+        "ac_unit": { "supply_type": "DC", "supply_voltage": 12 },
+        "inverter": null,
+        "dc_dc_converter": { "input_voltage": { "contains": 48 }, "output_voltage": 12, "continuous_a": { "min": 60 } },
+        "charge_controller": { "type": "MPPT", "max_battery_v": { "contains": 48 } },
+        "battery": { "chemistry": "LFP", "bus_voltage": { "contains": 48 }, "terminal_type": { "ne": "weld-only" } },
+        "solar_panel": {}
+      }
+    },
+    {
+      "id": "C5", "group": "AC-inverter · Combined", "label": "AC · all-in-one · 24V",
+      "constraints": {
+        "ac_unit": { "supply_type": "AC", "supply_voltage": 115, "inverter_compressor": true },
+        "inverter": { "class": "all-in-one", "input_voltage": 24, "waveform": "pure sine" },
+        "dc_dc_converter": null,
+        "charge_controller": null,
+        "battery": { "chemistry": "LFP", "bus_voltage": { "contains": 24 }, "terminal_type": { "ne": "weld-only" } },
+        "solar_panel": {}
+      }
+    },
+    {
+      "id": "C6", "group": "AC-inverter · Combined", "label": "AC · all-in-one · 48V (EG4)",
+      "constraints": {
+        "ac_unit": { "supply_type": "AC", "supply_voltage": 115, "inverter_compressor": true },
+        "inverter": { "class": "all-in-one", "input_voltage": 48, "waveform": "pure sine" },
+        "dc_dc_converter": null,
+        "charge_controller": null,
+        "battery": { "chemistry": "LFP", "bus_voltage": { "contains": 48 }, "terminal_type": { "ne": "weld-only" } },
+        "solar_panel": {}
+      }
+    },
+    {
+      "id": "C7", "group": "AC-inverter · Standalone", "label": "AC · standalone+MPPT · 12V",
+      "constraints": {
+        "ac_unit": { "supply_type": "AC", "supply_voltage": 115, "inverter_compressor": true },
+        "inverter": { "class": "standalone", "input_voltage": 12, "waveform": "pure sine" },
+        "dc_dc_converter": null,
+        "charge_controller": { "type": "MPPT", "max_battery_v": { "contains": 12 } },
+        "battery": { "chemistry": "LFP", "bus_voltage": { "contains": 12 }, "terminal_type": { "ne": "weld-only" } },
+        "solar_panel": {}
+      }
+    },
+    {
+      "id": "C8", "group": "AC-inverter · Standalone", "label": "AC · standalone+MPPT · 24V",
+      "constraints": {
+        "ac_unit": { "supply_type": "AC", "supply_voltage": 115, "inverter_compressor": true },
+        "inverter": { "class": "standalone", "input_voltage": 24, "waveform": "pure sine" },
+        "dc_dc_converter": null,
+        "charge_controller": { "type": "MPPT", "max_battery_v": { "contains": 24 } },
+        "battery": { "chemistry": "LFP", "bus_voltage": { "contains": 24 }, "terminal_type": { "ne": "weld-only" } },
+        "solar_panel": {}
+      }
+    },
+    {
+      "id": "C9", "group": "AC-inverter · Standalone", "label": "AC · standalone+MPPT · 48V",
+      "constraints": {
+        "ac_unit": { "supply_type": "AC", "supply_voltage": 115, "inverter_compressor": true },
+        "inverter": { "class": "standalone", "input_voltage": 48, "waveform": "pure sine" },
+        "dc_dc_converter": null,
+        "charge_controller": { "type": "MPPT", "max_battery_v": { "contains": 48 } },
+        "battery": { "chemistry": "LFP", "bus_voltage": { "contains": 48 }, "terminal_type": { "ne": "weld-only" } },
+        "solar_panel": {}
+      }
+    }
+  ]
+}

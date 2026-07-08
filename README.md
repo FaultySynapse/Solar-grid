@@ -24,6 +24,8 @@ bigger AC unit, or trade cost for autonomy, without losing the trail.
 | [`configurations/`](configurations/) | Complete builds. [`configurations/README.md`](configurations/README.md) has the side-by-side comparison. |
 | [`decisions/`](decisions/) | Lightweight decision records (ADR-style). One file per pivot. |
 | [`templates/`](templates/) | Copy-paste templates for adding a new component or a new configuration. |
+| [`data/`](data/) | **Machine-readable** parts (JSON + spec definitions) and the config constraint table. |
+| [`scripts/run_combinations.py`](scripts/run_combinations.py) | Filters the parts against each config's constraints — lists qualifying parts and counts valid combinations. See [`data/README.md`](data/README.md). |
 
 ## Current target (edit in `docs/requirements.md`)
 

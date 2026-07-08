@@ -1,0 +1,18 @@
+{
+  "category": "charge_controller",
+  "specs": {
+    "type": { "definition": "Controller type (MPPT preferred over PWM at this scale)", "type": "enum", "values": ["MPPT", "PWM"] },
+    "rated_a": { "definition": "Rated charge current", "unit": "A", "type": "number" },
+    "max_battery_v": { "definition": "Battery voltages the controller supports (list)", "unit": "V", "type": "list" },
+    "max_pv_voc": { "definition": "Max PV open-circuit voltage (stringing ceiling)", "unit": "V", "type": "number" },
+    "price_usd": { "definition": "Approximate street price (verify)", "unit": "USD", "type": "number" },
+    "source": { "definition": "Reference URL", "type": "string" }
+  },
+  "parts": [
+    { "id": "victron-150-60", "name": "Victron SmartSolar MPPT 150/60", "type": "MPPT", "rated_a": 60, "max_battery_v": [12, 24, 48], "max_pv_voc": 150, "price_usd": 430, "source": "" },
+    { "id": "victron-250-100", "name": "Victron SmartSolar MPPT 250/100", "type": "MPPT", "rated_a": 100, "max_battery_v": [12, 24, 48], "max_pv_voc": 250, "price_usd": 720, "source": "" },
+    { "id": "victron-100-50", "name": "Victron SmartSolar MPPT 100/50", "type": "MPPT", "rated_a": 50, "max_battery_v": [12, 24, 48], "max_pv_voc": 100, "price_usd": 330, "source": "" },
+    { "id": "epever-6415an", "name": "EPEver Tracer 6415AN", "type": "MPPT", "rated_a": 60, "max_battery_v": [12, 24, 48], "max_pv_voc": 150, "price_usd": 230, "source": "" },
+    { "id": "renogy-rover-60", "name": "Renogy Rover 60A", "type": "MPPT", "rated_a": 60, "max_battery_v": [12, 24, 48], "max_pv_voc": 100, "price_usd": 260, "source": "" }
+  ]
+}

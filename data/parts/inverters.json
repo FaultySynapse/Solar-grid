@@ -1,0 +1,29 @@
+{
+  "category": "inverter",
+  "specs": {
+    "class": { "definition": "Combined = inverter+MPPT+charger in one box; Standalone = inverter only (needs a separate charge controller)", "type": "enum", "values": ["all-in-one", "standalone"] },
+    "input_voltage": { "definition": "Battery/bus input voltage(s). A list means multi-voltage capable.", "unit": "V", "type": "number|list" },
+    "continuous_w": { "definition": "Continuous output power", "unit": "W", "type": "number" },
+    "surge_w": { "definition": "Peak/surge output power", "unit": "W", "type": "number" },
+    "idle_w": { "definition": "No-load self-consumption (runs all day on a solar-direct build)", "unit": "W", "type": "number" },
+    "mppt_builtin": { "definition": "Includes a solar MPPT charge controller", "type": "bool" },
+    "pv_max_voltage": { "definition": "Max PV input voltage of the built-in MPPT (all-in-one only)", "unit": "V", "type": "number" },
+    "output_ac_v": { "definition": "AC output voltage", "unit": "V", "type": "number" },
+    "waveform": { "definition": "Output waveform (must be pure sine for AC compressors)", "type": "string" },
+    "price_usd": { "definition": "Approximate street price (verify)", "unit": "USD", "type": "number" },
+    "source": { "definition": "Reference URL", "type": "string" }
+  },
+  "parts": [
+    { "id": "lvyuan-shp3024", "name": "LVYUAN SHP3024 all-in-one", "class": "all-in-one", "input_voltage": 24, "continuous_w": 3000, "surge_w": 6000, "idle_w": 30, "mppt_builtin": true, "pv_max_voltage": 90, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 450, "source": "https://lvyuan.com/products/lvyuan-shp3024cc60-solar-hybrid-inverter" },
+    { "id": "sungold-3000-24", "name": "Sungold Power 3000W 24V all-in-one", "class": "all-in-one", "input_voltage": 24, "continuous_w": 3000, "surge_w": 6000, "idle_w": 30, "mppt_builtin": true, "pv_max_voltage": 90, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 450, "source": "https://www.amazon.com/dp/B0FM7N4GQ4" },
+    { "id": "eg4-3000ehv-48", "name": "EG4 3000EHV-48 all-in-one", "class": "all-in-one", "input_voltage": 48, "continuous_w": 3000, "surge_w": 6000, "idle_w": 70, "mppt_builtin": true, "pv_max_voltage": 500, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 700, "source": "https://www.currentconnected.com/product/eg4-3000-ehv-48v-inverter-charger/" },
+    { "id": "growatt-spf3000tl-48", "name": "Growatt SPF 3000TL LVM-48 all-in-one", "class": "all-in-one", "input_voltage": 48, "continuous_w": 3000, "surge_w": 6000, "idle_w": 40, "mppt_builtin": true, "pv_max_voltage": 250, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 650, "source": "https://signaturesolar.com/growatt-48v-3kw-250vdc-stackable-off-grid-inverter/" },
+    { "id": "victron-phoenix-24-2000", "name": "Victron Phoenix Smart 24/2000 120V", "class": "standalone", "input_voltage": 24, "continuous_w": 1600, "surge_w": 4000, "idle_w": 12, "mppt_builtin": false, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 800, "source": "https://www.victronenergy.com/inverters/phoenix-inverter-12v-24v-48v-800va-3kva" },
+    { "id": "victron-phoenix-48-3000", "name": "Victron Phoenix Smart 48/3000 120V", "class": "standalone", "input_voltage": 48, "continuous_w": 2400, "surge_w": 6000, "idle_w": 12, "mppt_builtin": false, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 950, "source": "https://www.victronenergy.com/inverters/phoenix-inverter-12v-24v-48v-800va-3kva" },
+    { "id": "victron-multiplusii-24-3000", "name": "Victron MultiPlus-II 24/3000 120V", "class": "standalone", "input_voltage": 24, "continuous_w": 2400, "surge_w": 6000, "idle_w": 13, "mppt_builtin": false, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 1000, "source": "https://www.currentconnected.com/product/victron-24v-multiplus2-3000va/" },
+    { "id": "victron-multiplusii-48-3000", "name": "Victron MultiPlus-II 48/3000 120V", "class": "standalone", "input_voltage": 48, "continuous_w": 2400, "surge_w": 6000, "idle_w": 13, "mppt_builtin": false, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 1000, "source": "https://invertersrus.com/product/victron-pmp482305100/" },
+    { "id": "giandel-2000-12", "name": "Giandel 2000W 12V pure sine", "class": "standalone", "input_voltage": 12, "continuous_w": 2000, "surge_w": 4000, "idle_w": 18, "mppt_builtin": false, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 230, "source": "https://www.giandel.com/products/gs-2000sar" },
+    { "id": "renogy-2000-24", "name": "Renogy 2000W 24V pure sine", "class": "standalone", "input_voltage": 24, "continuous_w": 2000, "surge_w": 4000, "idle_w": 18, "mppt_builtin": false, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 275, "source": "https://www.renogy.com/products/2000w-24v-pure-sine-wave-inverter" },
+    { "id": "wzrelb-rbp-3000", "name": "WZRELB RBP-3000 (24/48V)", "class": "standalone", "input_voltage": [24, 48], "continuous_w": 3000, "surge_w": 6000, "idle_w": 30, "mppt_builtin": false, "output_ac_v": 120, "waveform": "pure sine", "price_usd": 400, "source": "https://reliableinverters.com/products/3000w-power-inverter-pure-sine-wave-inverter" }
+  ]
+}

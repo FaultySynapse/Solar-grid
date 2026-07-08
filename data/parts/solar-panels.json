@@ -1,0 +1,18 @@
+{
+  "category": "solar_panel",
+  "specs": {
+    "watt": { "definition": "Rated power at STC", "unit": "W", "type": "number" },
+    "voc": { "definition": "Open-circuit voltage (stringing input to the controller)", "unit": "V", "type": "number" },
+    "cells": { "definition": "Cell count / class", "type": "number" },
+    "form": { "definition": "Physical type", "type": "enum", "values": ["rigid", "foldable"] },
+    "dollars_per_w": { "definition": "Approximate price per watt", "unit": "USD/W", "type": "number" },
+    "price_usd": { "definition": "Approximate price per panel/unit (verify)", "unit": "USD", "type": "number" },
+    "source": { "definition": "Reference URL", "type": "string" }
+  },
+  "parts": [
+    { "id": "used-300w-72cell", "name": "Used 300W 72-cell residential (Craigslist)", "watt": 300, "voc": 40, "cells": 72, "form": "rigid", "dollars_per_w": 0.15, "price_usd": 45, "source": "https://sfbay.craigslist.org" },
+    { "id": "used-175w", "name": "Used 175W panel (Craigslist)", "watt": 175, "voc": 22, "cells": 36, "form": "rigid", "dollars_per_w": 0.14, "price_usd": 25, "source": "https://sfbay.craigslist.org" },
+    { "id": "canadian-400w", "name": "Canadian Solar 400W mono", "watt": 400, "voc": 45, "cells": 108, "form": "rigid", "dollars_per_w": 0.30, "price_usd": 120, "source": "" },
+    { "id": "renogy-400-suitcase", "name": "Renogy 400W foldable suitcase", "watt": 400, "voc": 24, "form": "foldable", "dollars_per_w": 0.49, "price_usd": 195, "source": "https://www.renogy.com" }
+  ]
+}

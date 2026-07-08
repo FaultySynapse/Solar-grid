@@ -1,0 +1,33 @@
+{
+  "category": "ac_unit",
+  "specs": {
+    "supply_type": { "definition": "Electrical input type the unit requires", "type": "enum", "values": ["AC", "DC"] },
+    "supply_voltage": { "definition": "Nominal supply voltage(s). A list means multi-voltage capable.", "unit": "V", "type": "number|list" },
+    "cooling_btu": { "definition": "Rated cooling capacity", "unit": "BTU/h", "type": "number" },
+    "running_w": { "definition": "Typical power draw while cooling (not nameplate max)", "unit": "W", "type": "number" },
+    "running_a": { "definition": "Typical current draw while cooling", "unit": "A", "type": "number" },
+    "inverter_compressor": { "definition": "Variable-speed (soft-start, modulating) compressor", "type": "bool" },
+    "eer": { "definition": "Energy Efficiency Ratio (BTU/h per W); higher is better off-grid", "type": "number" },
+    "form_factor": { "definition": "Physical type", "type": "enum", "values": ["split", "split-vehicle", "window", "self-contained"] },
+    "refrigerant": { "definition": "Refrigerant type", "type": "string" },
+    "price_usd": { "definition": "Approximate street price (verify)", "unit": "USD", "type": "number" },
+    "source": { "definition": "Reference URL", "type": "string" }
+  },
+  "parts": [
+    { "id": "jay-12v-cooler", "name": "\"Jay\" 12V truck split AC (eBay 366514149055)", "supply_type": "DC", "supply_voltage": 12, "cooling_btu": 11000, "running_w": 500, "running_a": 70, "inverter_compressor": true, "form_factor": "split-vehicle", "price_usd": 335, "source": "https://www.ebay.com/itm/366514149055" },
+    { "id": "outequippro-skyeline-12v", "name": "OutEquipPro Skyeline 12V mini split", "supply_type": "DC", "supply_voltage": 12, "cooling_btu": 12500, "running_w": 500, "running_a": 62, "inverter_compressor": true, "form_factor": "split-vehicle", "price_usd": 895, "source": "https://outequippro.com/products/12v-air-conditioner-unit-mini-split-12500-btu-dual-fan-quiet-ac" },
+    { "id": "fullbattery-24v-6k", "name": "Full Battery 24V Mini Split 6k", "supply_type": "DC", "supply_voltage": 24, "cooling_btu": 6000, "running_w": 350, "running_a": 14, "inverter_compressor": true, "form_factor": "split", "price_usd": 2030, "source": "https://fullbattery.com/products/24v-mini-split" },
+    { "id": "fullbattery-24v-9k", "name": "Full Battery 24V Mini Split 9k", "supply_type": "DC", "supply_voltage": 24, "cooling_btu": 9000, "running_w": 500, "running_a": 19, "inverter_compressor": true, "form_factor": "split", "price_usd": 2030, "source": "https://fullbattery.com/products/24v-mini-split" },
+    { "id": "fullbattery-24v-12k", "name": "Full Battery 24V Mini Split 12k", "supply_type": "DC", "supply_voltage": 24, "cooling_btu": 12000, "running_w": 750, "running_a": 32, "inverter_compressor": true, "form_factor": "split", "price_usd": 2030, "source": "https://fullbattery.com/products/24v-mini-split" },
+    { "id": "inclusive-24-48-dc", "name": "Inclusive Inc 48V/24V DC-Direct mini-split", "supply_type": "DC", "supply_voltage": [24, 48], "cooling_btu": 12000, "running_w": 700, "inverter_compressor": true, "form_factor": "split", "price_usd": 1990, "source": "https://inclusiveinc.org/products/dc-direct-mini-split" },
+    { "id": "hotspot-dc4812vrf", "name": "HotSpot Energy DC4812VRF (48V)", "supply_type": "DC", "supply_voltage": 48, "cooling_btu": 12000, "running_w": 544, "running_a": 20, "inverter_compressor": true, "form_factor": "split", "price_usd": 2195, "source": "https://www.hotspotenergy.com/DC-air-conditioner/" },
+    { "id": "fullbattery-48v-9k", "name": "Full Battery 48V Mini Split 9k", "supply_type": "DC", "supply_voltage": 48, "cooling_btu": 9000, "running_w": 500, "running_a": 10, "inverter_compressor": true, "form_factor": "split", "price_usd": 2030, "source": "https://fullbattery.com/products/48v-hvac" },
+    { "id": "midea-u-8k", "name": "Midea U 8k window inverter", "supply_type": "AC", "supply_voltage": 115, "cooling_btu": 8000, "running_w": 500, "inverter_compressor": true, "eer": 11, "form_factor": "window", "refrigerant": "R32", "price_usd": 350, "source": "https://www.homedepot.com/p/336424813" },
+    { "id": "ch-mia-6k", "name": "Cooper & Hunter MIA 6k mini-split", "supply_type": "AC", "supply_voltage": 115, "cooling_btu": 6000, "running_w": 400, "inverter_compressor": true, "eer": 11.5, "form_factor": "split", "refrigerant": "R454B", "price_usd": 760, "source": "https://cooperandhunter.us" },
+    { "id": "mrcool-diy-9k", "name": "MRCOOL DIY 5th Gen 9k", "supply_type": "AC", "supply_voltage": 115, "cooling_btu": 9000, "running_w": 700, "inverter_compressor": true, "eer": 14, "form_factor": "split", "refrigerant": "R454B", "price_usd": 1300, "source": "https://www.homedepot.com/p/335524169" },
+    { "id": "pioneer-quantum-9k", "name": "Pioneer Quantum Ultra 9k", "supply_type": "AC", "supply_voltage": 115, "cooling_btu": 9000, "running_w": 500, "inverter_compressor": true, "eer": 13, "form_factor": "split", "refrigerant": "R454B", "price_usd": 900, "source": "https://www.pioneerminisplit.com/products/pioneer-quantum-ultra-series-9000-btu" },
+    { "id": "della-vita-9k", "name": "Della Vita 9k", "supply_type": "AC", "supply_voltage": 115, "cooling_btu": 9000, "running_w": 600, "inverter_compressor": true, "eer": 12, "form_factor": "split", "price_usd": 550, "source": "https://www.amazon.com/dp/B0H28KMF69" },
+    { "id": "gree-sapphire-9k", "name": "Gree Sapphire 9k (230V)", "supply_type": "AC", "supply_voltage": 230, "cooling_btu": 9000, "inverter_compressor": true, "eer": 13.5, "form_factor": "split", "refrigerant": "R32", "price_usd": 1700, "source": "https://hvacdirect.com/9-000-btu-gree-sapphire-30-seer2-single-zone-wall-mount-mini-split-heat-pump-system-r32-230v.html" },
+    { "id": "generic-noninverter-window-12k", "name": "Generic non-inverter window 12k", "supply_type": "AC", "supply_voltage": 115, "cooling_btu": 12000, "running_w": 1050, "inverter_compressor": false, "eer": 11, "form_factor": "window", "price_usd": 300, "source": "" }
+  ]
+}

@@ -5,6 +5,12 @@ the design axes — **architecture × bus voltage × AC unit × inverter class**
 are options to compare and pivot between — **no pick yet**. (Costs aren't listed
 here; per-part pricing lives in [`../catalog/`](../catalog/).)
 
+> **This page is the human-readable view. The machine-readable version is
+> [`../data/configs.json`](../data/configs.json), and
+> [`../scripts/run_combinations.py`](../scripts/run_combinations.py) filters the
+> parts data against each config's constraints to list qualifying parts and count
+> valid combinations.** See [`../data/README.md`](../data/README.md).
+
 All share the tent target and the **solar-direct daytime** approach, sizing, Step-0
 shade, and playa/dust notes in [`config-d-tent-solar-direct.md`](config-d-tent-solar-direct.md).
 

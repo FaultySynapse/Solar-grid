@@ -1,0 +1,18 @@
+{
+  "category": "dc_dc_converter",
+  "specs": {
+    "input_voltage": { "definition": "Input bus voltage(s) supported (list)", "unit": "V", "type": "list" },
+    "output_voltage": { "definition": "Regulated output voltage", "unit": "V", "type": "number" },
+    "continuous_a": { "definition": "Continuous output current", "unit": "A", "type": "number" },
+    "efficiency": { "definition": "Peak conversion efficiency", "unit": "fraction", "type": "number" },
+    "isolated": { "definition": "Galvanically isolated input/output", "type": "bool" },
+    "price_usd": { "definition": "Approximate price (verify)", "unit": "USD", "type": "number" },
+    "source": { "definition": "Reference URL", "type": "string" }
+  },
+  "parts": [
+    { "id": "daygreen-a4d12c100", "name": "Daygreen A4D12C100 48->12V 100A", "input_voltage": [48], "output_voltage": 12, "continuous_a": 100, "efficiency": 0.95, "isolated": false, "price_usd": 180, "source": "https://daygreen.com/products/36v-48v-to-12v-100a-1200w-dc-dc-step-down-converter-voltage-regulator" },
+    { "id": "sigsolar-60a-48-12", "name": "Signature Solar 60A 48->12V", "input_voltage": [48], "output_voltage": 12, "continuous_a": 60, "efficiency": 0.96, "isolated": false, "price_usd": 62, "source": "https://signaturesolar.com/60-amp-step-down-dc-converter/" },
+    { "id": "daygreen-a2d12c60", "name": "Daygreen A2D12C60 24->12V 60A", "input_voltage": [24], "output_voltage": 12, "continuous_a": 60, "efficiency": 0.95, "isolated": false, "price_usd": 70, "source": "https://daygreen.com/products/24v-to-12v-60a-720w-dc-dc-step-down-converter-voltage-regulator" },
+    { "id": "meanwell-sd1000l-12", "name": "Meanwell SD-1000L-12 (24/48->12V)", "input_voltage": [24, 48], "output_voltage": 12, "continuous_a": 60, "efficiency": 0.87, "isolated": true, "price_usd": 290, "source": "https://trcelectronics.com/products/mean-well-sd-1000l-12" }
+  ]
+}

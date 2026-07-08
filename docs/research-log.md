@@ -44,6 +44,16 @@ everything together.
 - No-weld packs are cleanest at **12 V/24 V from EVE cells** or **48 V from a
   pre-built rack module**.
 
+## Data-driven config solver (2026-07-08)
+Parts are now structured JSON in [`../data/parts/`](../data/parts/) (each with a
+spec-definition block), configs are a constraint table in
+[`../data/configs.json`](../data/configs.json), and
+[`../scripts/run_combinations.py`](../scripts/run_combinations.py) filters parts
+against each config to list qualifying parts + count valid combinations
+(`--table`, `--config`, `--enumerate`, `--check`). See [`../data/README.md`](../data/README.md).
+The markdown catalog/configs remain the human-readable view; keep the two in sync
+when adding parts.
+
 ## Candidate threads not yet researched
 - [ ] Charge controllers matched to the final bus voltage + surplus-panel Voc.
 - [ ] Portable/dust-proof mounting & enclosure specifics for playa.

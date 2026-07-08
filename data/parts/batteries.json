@@ -1,0 +1,22 @@
+{
+  "category": "battery",
+  "specs": {
+    "chemistry": { "definition": "Cell chemistry (LFP preferred)", "type": "enum", "values": ["LFP", "NMC", "LTO"] },
+    "form": { "definition": "Building block type", "type": "enum", "values": ["cell", "module", "pack"] },
+    "cell_voltage": { "definition": "Nominal voltage of one cell (for DIY series builds)", "unit": "V", "type": "number" },
+    "nominal_voltage": { "definition": "Nominal voltage of a finished pack/module", "unit": "V", "type": "number" },
+    "bus_voltage": { "definition": "Bus voltages this block can build (cells are series-configurable to 12/24/48)", "unit": "V", "type": "list" },
+    "terminal_type": { "definition": "How it connects; 'weld-only' requires laser/spot welding and is excluded by the no-weld rule", "type": "enum", "values": ["bolt", "stud", "lug", "weld-only"] },
+    "capacity_kwh": { "definition": "Energy capacity of one cell/module/pack", "unit": "kWh", "type": "number" },
+    "price_usd": { "definition": "Approximate price for the listed unit (verify)", "unit": "USD", "type": "number" },
+    "source": { "definition": "Reference URL", "type": "string" }
+  },
+  "parts": [
+    { "id": "eve-lf206", "name": "EVE LF206 206Ah cell", "chemistry": "LFP", "form": "cell", "cell_voltage": 3.22, "bus_voltage": [12, 24, 48], "terminal_type": "bolt", "capacity_kwh": 0.663, "price_usd": 51, "source": "https://batteryhookup.com/products/new-4x-eve-lf206-3-22v-206ah-lifepo4-cells-with-thick-welded-terminal-blocks-m6-bolts" },
+    { "id": "eve-lf280k", "name": "EVE LF280K 280Ah cell", "chemistry": "LFP", "form": "cell", "cell_voltage": 3.2, "bus_voltage": [12, 24, 48], "terminal_type": "bolt", "capacity_kwh": 0.896, "price_usd": 62, "source": "https://batteryhookup.com/products/new-4x-eve-lf280k-3-2v-280ah-lifepo4-cells-with-thick-busbars-m6-bolts" },
+    { "id": "sunwoda-lf314", "name": "Sunwoda LF314 314Ah cell (flat-terminal)", "chemistry": "LFP", "form": "cell", "cell_voltage": 3.2, "bus_voltage": [12, 24, 48], "terminal_type": "weld-only", "capacity_kwh": 1.005, "price_usd": 40, "source": "https://batteryhookup.com/products/2x-sunwoda-lf314-314ah-lfp-prismatic-cells-grade-a-qualified-rohs-certified-ultra-long-life-10-000-cycles" },
+    { "id": "litime-12v-100ah", "name": "LiTime 12V 100Ah pack", "chemistry": "LFP", "form": "pack", "nominal_voltage": 12.8, "bus_voltage": [12], "terminal_type": "stud", "capacity_kwh": 1.28, "price_usd": 260, "source": "" },
+    { "id": "turnkey-24v-100ah", "name": "Turnkey 24V 100Ah pack", "chemistry": "LFP", "form": "pack", "nominal_voltage": 25.6, "bus_voltage": [24], "terminal_type": "lug", "capacity_kwh": 2.56, "price_usd": 520, "source": "" },
+    { "id": "rack-48v-100ah", "name": "48V 100Ah rack module (needs BMS)", "chemistry": "LFP", "form": "module", "nominal_voltage": 51.2, "bus_voltage": [48], "terminal_type": "lug", "capacity_kwh": 5.12, "price_usd": 384, "source": "https://batteryhookup.com/collections/more-featured-products" }
+  ]
+}
