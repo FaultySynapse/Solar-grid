@@ -4,6 +4,11 @@ This is the **single source of truth** for what the system must do. Every
 configuration and every sizing calculation references the numbers here. Edit
 this file to retarget the whole project.
 
+> **Machine-readable companion:** [`../data/scenario.json`](../data/scenario.json)
+> holds these conditions as structured data (site, space, thermal load, non-AC
+> loads, cloudy-day bridge, system constraints, and derived sizing targets), each
+> field tagged `known` / `assumption` / `open` / `derived`. Keep the two in sync.
+
 > Status: **Retargeted to the real use case — a shaded desert tent, daytime
 > solar-direct cooling** (confirmed 2026-07-08). See `decisions/0003` for the
 > pivot from the earlier residential-dwelling baseline. Earlier configs A/B/C are

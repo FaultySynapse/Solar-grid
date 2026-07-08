@@ -7,11 +7,22 @@ combinations each config has.
 
 ```
 data/
+  scenario.json           # the conditions that set up the power solution (inputs to size against)
   parts/<category>.json   # per-category: spec definitions + the parts list
   configs.json            # the config table (rows=configs, cols=part categories)
 scripts/
   run_combinations.py     # loads it all and runs the combinations
 ```
+
+## Scenario — `data/scenario.json`
+The machine-readable **conditions** that drive a power solution (the companion to
+`docs/requirements.md`): site (location, peak sun hours, outside temps, humidity,
+dust), space (tent area, envelope, shading, occupancy), thermal load (AC size,
+running watts, duty cycle), cooling schedule, non-AC loads, resilience
+(**cloudy-day bridge**, buffer runtime, DoD), system constraints (bus voltage,
+chemistry, no-weld, budget), and **derived_targets** computed from those via
+`docs/sizing-methodology.md`. Every field carries `value`, `unit`, `definition`,
+and a `status` of `known` / `assumption` / `open` / `derived`.
 
 ## Part files — `data/parts/<category>.json`
 Each file has two blocks:
