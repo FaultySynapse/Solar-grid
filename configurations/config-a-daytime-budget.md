@@ -28,11 +28,11 @@ Serves a **cost-first** variant of [`../docs/requirements.md`](../docs/requireme
 
 | Qty | Part | From catalog | ~Unit | ~Subtotal |
 |-----|------|--------------|-------|-----------|
-| 1 | 12k BTU inverter mini-split | [ac-units](../catalog/ac-units.md) | $700 | $700 |
-| 3 | Canadian Solar 400 W panel | [solar-panels](../catalog/solar-panels.md) | $120 | $360 |
-| 1 | EG4 LifePower4 48 V 100 Ah (5.12 kWh) | [batteries](../catalog/batteries.md) | $1,300 | $1,300 |
-| 1 | Growatt SPF 3000TL / EG4 3000EHV all-in-one | [inverters](../catalog/inverters.md) | $550 | $550 |
-| — | BoS + racking | [balance-of-system](../catalog/balance-of-system.md) | — | ~$450 |
+| 1 | 12k BTU inverter mini-split | [ac-units](../data/parts/ac-units.json) | $700 | $700 |
+| 3 | Canadian Solar 400 W panel | [solar-panels](../data/parts/solar-panels.json) | $120 | $360 |
+| 1 | EG4 LifePower4 48 V 100 Ah (5.12 kWh) | [batteries](../data/parts/batteries.json) | $1,300 | $1,300 |
+| 1 | Growatt SPF 3000TL / EG4 3000EHV all-in-one | [inverters](../data/parts/inverters.json) | $550 | $550 |
+| — | BoS + racking | [balance-of-system](../data/parts/balance-of-system.json) | — | ~$450 |
 | **Total (parts, no labor)** | | | | **~$3,000** |
 
 ## Wiring & protection highlights

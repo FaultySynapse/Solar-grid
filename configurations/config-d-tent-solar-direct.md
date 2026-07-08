@@ -68,12 +68,12 @@ At 24 V the ~19 A draw also makes wiring/fusing easy. *Cost is the tradeoff vs 1
 
 | Qty | Part | From catalog | ~Unit | ~Subtotal |
 |-----|------|--------------|-------|-----------|
-| 1 | **Full Battery 24V Mini Split, 9k BTU** (~500 W / 19 A) | [ac-units](../catalog/ac-units.md) | $2,030 | $2,030 |
-| 1 | 24 V 100 Ah LiFePO4 (2.56 kWh) *(or 2× 12 V 100 Ah in series)* | [batteries](../catalog/batteries.md) | $520 | $520 |
-| 5 | 200 W rigid panel (~1,000 W) *(or 2× 400 W)* | [solar-panels](../catalog/solar-panels.md) | $110 | $550 |
-| 1 | 60 A MPPT (Victron 100/50 or EPEver 6415AN) | [charge-controllers](../catalog/charge-controllers.md) | $280 | $280 |
-| — | BoS: ANL fuse, DC breaker, PV fuses, cables, MC4, busbar | [balance-of-system](../catalog/balance-of-system.md) | — | ~$180 |
-| — | Dust box (sealed tote/case + cable glands), panel stakes/ballast | [balance-of-system](../catalog/balance-of-system.md) | — | ~$120 |
+| 1 | **Full Battery 24V Mini Split, 9k BTU** (~500 W / 19 A) | [ac-units](../data/parts/ac-units.json) | $2,030 | $2,030 |
+| 1 | 24 V 100 Ah LiFePO4 (2.56 kWh) *(or 2× 12 V 100 Ah in series)* | [batteries](../data/parts/batteries.json) | $520 | $520 |
+| 5 | 200 W rigid panel (~1,000 W) *(or 2× 400 W)* | [solar-panels](../data/parts/solar-panels.json) | $110 | $550 |
+| 1 | 60 A MPPT (Victron 100/50 or EPEver 6415AN) | [charge-controllers](../data/parts/charge-controllers.json) | $280 | $280 |
+| — | BoS: ANL fuse, DC breaker, PV fuses, cables, MC4, busbar | [balance-of-system](../data/parts/balance-of-system.json) | — | ~$180 |
+| — | Dust box (sealed tote/case + cable glands), panel stakes/ballast | [balance-of-system](../data/parts/balance-of-system.json) | — | ~$120 |
 | **Total (parts)** | | | | **~$3,680** |
 
 > Availability: cross-shop [fullbattery.com](https://fullbattery.com/products/24v-mini-split)
@@ -89,12 +89,12 @@ full 1 kW array, an ~80–100 A MPPT. Keeping the array at ~600–750 W lets you
 
 | Qty | Part | From catalog | ~Unit | ~Subtotal |
 |-----|------|--------------|-------|-----------|
-| 1 | 12 V 11k BTU DC split AC ([eBay 366514149055](https://www.ebay.com/itm/366514149055)) | [ac-units](../catalog/ac-units.md) | $335 | $335 |
-| 1 | 12 V 200 Ah LiFePO4 (2.56 kWh) *(or 2× 100 Ah parallel)* | [batteries](../catalog/batteries.md) | $520 | $520 |
-| 3–4 | 200 W rigid panel (~600–750 W) | [solar-panels](../catalog/solar-panels.md) | $110 | $330–440 |
-| 1 | 60 A MPPT *(100 A if you push to ~1 kW array)* | [charge-controllers](../catalog/charge-controllers.md) | $250 | $250 |
-| — | BoS: **Class-T fuse (high current!)**, heavy 2–4 AWG AC-feed cable, DC breaker, PV fuses | [balance-of-system](../catalog/balance-of-system.md) | — | ~$200 |
-| — | Dust box + panel stakes/ballast | [balance-of-system](../catalog/balance-of-system.md) | — | ~$120 |
+| 1 | 12 V 11k BTU DC split AC ([eBay 366514149055](https://www.ebay.com/itm/366514149055)) | [ac-units](../data/parts/ac-units.json) | $335 | $335 |
+| 1 | 12 V 200 Ah LiFePO4 (2.56 kWh) *(or 2× 100 Ah parallel)* | [batteries](../data/parts/batteries.json) | $520 | $520 |
+| 3–4 | 200 W rigid panel (~600–750 W) | [solar-panels](../data/parts/solar-panels.json) | $110 | $330–440 |
+| 1 | 60 A MPPT *(100 A if you push to ~1 kW array)* | [charge-controllers](../data/parts/charge-controllers.json) | $250 | $250 |
+| — | BoS: **Class-T fuse (high current!)**, heavy 2–4 AWG AC-feed cable, DC breaker, PV fuses | [balance-of-system](../data/parts/balance-of-system.json) | — | ~$200 |
+| — | Dust box + panel stakes/ballast | [balance-of-system](../data/parts/balance-of-system.json) | — | ~$120 |
 | **Total (parts)** | | | | **~$1,750** |
 
 ## Wiring & protection highlights

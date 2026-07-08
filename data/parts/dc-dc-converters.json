@@ -6,13 +6,26 @@
     "continuous_a": { "definition": "Continuous output current", "unit": "A", "type": "number" },
     "efficiency": { "definition": "Peak conversion efficiency", "unit": "fraction", "type": "number" },
     "isolated": { "definition": "Galvanically isolated input/output", "type": "bool" },
-    "price_usd": { "definition": "Approximate price (verify)", "unit": "USD", "type": "number" },
+    "cooling": { "definition": "Thermal management", "type": "string" },
+    "price_usd": { "definition": "Approximate price (verify; some estimates)", "unit": "USD", "type": "number" },
     "source": { "definition": "Reference URL", "type": "string" }
   },
+  "guidance": [
+    "Only needed to run a 12 V DC AC unit off a 24 V or 48 V bank. Size for the unit's continuous current (aim 60 A, ideally ~100 A margin).",
+    "Choosing the bus voltage to match the AC unit can delete the converter entirely — saving cost, ~5-15% loss, and a failure point.",
+    "24->12 V at 60-80 A is easy and cheap ($60-290). 48->12 V high-current is a thinner, pricier market (mostly generic OEM or isolated Meanwell).",
+    "Victron makes no high-current 48->12 unit (isolated 48/12 tops ~15-20 A), so a Victron-only 48->12 80 A build means impractical paralleling.",
+    "Converter loss dumps ~40-110 W of heat continuously into the space you're cooling or the battery box; it's a series failure point carrying full AC current."
+  ],
   "parts": [
-    { "id": "daygreen-a4d12c100", "name": "Daygreen A4D12C100 48->12V 100A", "input_voltage": [48], "output_voltage": 12, "continuous_a": 100, "efficiency": 0.95, "isolated": false, "price_usd": 180, "source": "https://daygreen.com/products/36v-48v-to-12v-100a-1200w-dc-dc-step-down-converter-voltage-regulator" },
-    { "id": "sigsolar-60a-48-12", "name": "Signature Solar 60A 48->12V", "input_voltage": [48], "output_voltage": 12, "continuous_a": 60, "efficiency": 0.96, "isolated": false, "price_usd": 62, "source": "https://signaturesolar.com/60-amp-step-down-dc-converter/" },
-    { "id": "daygreen-a2d12c60", "name": "Daygreen A2D12C60 24->12V 60A", "input_voltage": [24], "output_voltage": 12, "continuous_a": 60, "efficiency": 0.95, "isolated": false, "price_usd": 70, "source": "https://daygreen.com/products/24v-to-12v-60a-720w-dc-dc-step-down-converter-voltage-regulator" },
-    { "id": "meanwell-sd1000l-12", "name": "Meanwell SD-1000L-12 (24/48->12V)", "input_voltage": [24, 48], "output_voltage": 12, "continuous_a": 60, "efficiency": 0.87, "isolated": true, "price_usd": 290, "source": "https://trcelectronics.com/products/mean-well-sd-1000l-12" }
+    { "id": "daygreen-a2d12c60", "name": "Daygreen A2D12C60 24->12V 60A", "input_voltage": [24], "output_voltage": 12, "continuous_a": 60, "efficiency": 0.95, "isolated": false, "cooling": "fanless IP68", "price_usd": 70, "source": "https://daygreen.com/products/24v-to-12v-60a-720w-dc-dc-step-down-converter-voltage-regulator" },
+    { "id": "victron-orion-24-12-70a", "name": "Victron Orion 24/12-70A", "input_voltage": [24], "output_voltage": 12, "continuous_a": 70, "efficiency": 0.92, "isolated": false, "cooling": "fanless", "price_usd": 230, "source": "https://www.solar-electric.com/victron-energy-orion-24-12-70a-dc-dc.html" },
+    { "id": "victron-orion-tr-24-12-iso", "name": "Victron Orion-Tr 24/12 isolated", "input_voltage": [24], "output_voltage": 12, "continuous_a": 30, "efficiency": 0.87, "isolated": true, "cooling": "fanless", "price_usd": 200, "source": "https://www.victronenergy.com/dc-dc-converters/orion-tr-dc-dc-converters-isolated" },
+    { "id": "renogy-12v-60a-dcdc", "name": "Renogy 12V 60A DC-DC charger", "input_voltage": [12, 24], "output_voltage": 12, "continuous_a": 60, "efficiency": 0.9, "isolated": false, "cooling": "fan", "price_usd": 225, "source": "https://www.renogy.com/12v-60a-dc-to-dc-battery-charger/" },
+    { "id": "daygreen-a4d12c100", "name": "Daygreen A4D12C100 48->12V 100A", "input_voltage": [48], "output_voltage": 12, "continuous_a": 100, "efficiency": 0.95, "isolated": false, "cooling": "fanless", "price_usd": 180, "source": "https://daygreen.com/products/36v-48v-to-12v-100a-1200w-dc-dc-step-down-converter-voltage-regulator" },
+    { "id": "sigsolar-60a-48-12", "name": "Signature Solar 60A 48->12V", "input_voltage": [48], "output_voltage": 12, "continuous_a": 60, "efficiency": 0.96, "isolated": false, "cooling": "fanless IP68", "price_usd": 62, "source": "https://signaturesolar.com/60-amp-step-down-dc-converter/" },
+    { "id": "foryon-48-12-100a", "name": "FORYON 48->12V 80/100A", "input_voltage": [48], "output_voltage": 12, "continuous_a": 100, "efficiency": 0.95, "isolated": false, "cooling": "fan/heatsink", "price_usd": 120, "source": "https://www.amazon.com/FORYON-Step-Down-Converter-48V-12V-Regulator/dp/B0DKRNQC65" },
+    { "id": "meanwell-sd1000l-12", "name": "Meanwell SD-1000L-12 (24/48->12V)", "input_voltage": [24, 48], "output_voltage": 12, "continuous_a": 60, "efficiency": 0.87, "isolated": true, "cooling": "fan", "price_usd": 290, "source": "https://trcelectronics.com/products/mean-well-sd-1000l-12" },
+    { "id": "meanwell-rsd-500c-12", "name": "Meanwell RSD-500C-12 (48->12V, isolated)", "input_voltage": [48], "output_voltage": 12, "continuous_a": 35, "efficiency": 0.88, "isolated": true, "cooling": "fanless", "price_usd": 300, "source": "https://www.simplypowersupply.com/RSD-500C-12" }
   ]
 }

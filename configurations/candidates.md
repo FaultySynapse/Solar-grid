@@ -3,7 +3,7 @@
 Complete candidate builds, each defined by its **key parameter combination** across
 the design axes — **architecture × bus voltage × AC unit × inverter class**. These
 are options to compare and pivot between — **no pick yet**. (Costs aren't listed
-here; per-part pricing lives in [`../catalog/`](../catalog/).)
+here; per-part pricing lives in [`../data/parts/`](../data/parts/).)
 
 > **This page is the human-readable view. The machine-readable version is
 > [`../data/configs.json`](../data/configs.json), and
@@ -49,7 +49,7 @@ includes it. See [`config-d-tent-solar-direct.md`](config-d-tent-solar-direct.md
 |-----------|-------|
 | Architecture | DC-direct (no inverter, no converter) |
 | Bus voltage | 12 V |
-| AC unit | 12 V "parking cooler" ([ac-units](../catalog/ac-units.md)) |
+| AC unit | 12 V "parking cooler" ([ac-units](../data/parts/ac-units.json)) |
 | Charge controller | separate 60 A MPPT (cap array ~600 W) |
 | Battery | 4S LiFePO4 (e.g. 4× EVE LF206) |
 
@@ -90,7 +90,7 @@ includes it. See [`config-d-tent-solar-direct.md`](config-d-tent-solar-direct.md
 | Architecture | DC + 48→12 V DC-DC converter |
 | Bus voltage | 48 V (12 V at the AC unit) |
 | AC unit | 12 V "parking cooler" |
-| Converter | 48→12 V, ~100 A ([dc-dc-converters](../catalog/dc-dc-converters.md)) |
+| Converter | 48→12 V, ~100 A ([dc-dc-converters](../data/parts/dc-dc-converters.json)) |
 | Charge controller | separate 30–60 A MPPT |
 | Battery | 16S LiFePO4 |
 
@@ -109,7 +109,7 @@ includes it. See [`config-d-tent-solar-direct.md`](config-d-tent-solar-direct.md
 | Architecture | AC-inverter mini-split |
 | Inverter class | Combined all-in-one (LVYUAN / Sungold 24 V) |
 | Bus voltage | 24 V |
-| AC unit | 115 V inverter mini-split or Midea U window ([ac-units](../catalog/ac-units.md)) |
+| AC unit | 115 V inverter mini-split or Midea U window ([ac-units](../data/parts/ac-units.json)) |
 | Charge controller | built into the all-in-one (~1.4 kW PV window) |
 | Battery | 8S LiFePO4 |
 

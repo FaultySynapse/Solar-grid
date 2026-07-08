@@ -1,6 +1,6 @@
 # Component row template
 
-Copy the relevant row shape into the matching `catalog/*.md` table. Keep values at
+Copy the relevant row shape into the matching `data/parts/*.json` file. Keep values at
 datasheet level so sizing math stays trustworthy. Mark fit: ✅ good · ⚖️ tradeoff · 🚫 avoid.
 
 ## AC unit

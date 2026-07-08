@@ -31,12 +31,12 @@ Serves a **reliability-first** variant of [`../docs/requirements.md`](../docs/re
 
 | Qty | Part | From catalog | ~Unit | ~Subtotal |
 |-----|------|--------------|-------|-----------|
-| 1 | 12k BTU inverter mini-split | [ac-units](../catalog/ac-units.md) | $900 | $900 |
-| 8 | Canadian Solar 400 W panel | [solar-panels](../catalog/solar-panels.md) | $120 | $960 |
-| 4 | EG4 LifePower4 48 V 100 Ah (20.48 kWh) | [batteries](../catalog/batteries.md) | $1,300 | $5,200 |
-| 1 | EG4 6000XP all-in-one | [inverters](../catalog/inverters.md) | $1,500 | $1,500 |
-| — | BoS: Class-T, busbars, per-string fuses, PV combiner, cables | [balance-of-system](../catalog/balance-of-system.md) | — | ~$700 |
-| — | Racking (ground/tilt) + grounding | [balance-of-system](../catalog/balance-of-system.md) | — | ~$600 |
+| 1 | 12k BTU inverter mini-split | [ac-units](../data/parts/ac-units.json) | $900 | $900 |
+| 8 | Canadian Solar 400 W panel | [solar-panels](../data/parts/solar-panels.json) | $120 | $960 |
+| 4 | EG4 LifePower4 48 V 100 Ah (20.48 kWh) | [batteries](../data/parts/batteries.json) | $1,300 | $5,200 |
+| 1 | EG4 6000XP all-in-one | [inverters](../data/parts/inverters.json) | $1,500 | $1,500 |
+| — | BoS: Class-T, busbars, per-string fuses, PV combiner, cables | [balance-of-system](../data/parts/balance-of-system.json) | — | ~$700 |
+| — | Racking (ground/tilt) + grounding | [balance-of-system](../data/parts/balance-of-system.json) | — | ~$600 |
 | **Total (parts, no labor)** | | | | **~$9,000+** |
 
 ## Wiring & protection highlights

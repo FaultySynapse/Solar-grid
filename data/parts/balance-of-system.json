@@ -1,0 +1,33 @@
+{
+  "category": "balance_of_system",
+  "note": "Reference data — not a single-select config slot, so it is not listed in configs.json part_categories. These items apply to every build for safety/code.",
+  "specs": {
+    "item_type": { "definition": "What the BoS item is", "type": "enum", "values": ["overcurrent", "disconnect", "conductor", "busbar", "grounding", "mounting", "monitoring"] },
+    "spec": { "definition": "Representative rating/spec for the tent-scale baseline", "type": "string" },
+    "purpose": { "definition": "Why it's required", "type": "string" },
+    "price_usd": { "definition": "Approximate price (verify)", "unit": "USD", "type": "number" },
+    "notes": { "definition": "Sizing/selection notes", "type": "string" }
+  },
+  "guidance": [
+    "Do not skip overcurrent protection — a 48 V lithium bank can push thousands of amps into a fault. Follow NEC Article 690 (PV) / 705 and local code.",
+    "Class-T fuse on the battery main (high AIC for lithium fault current), sized just above max inverter/AC DC current.",
+    "Size conductors for ampacity AND <2-3% voltage drop over the actual run length; 12 V systems need much heavier cable than 24/48 V.",
+    "For a 1-week desert trip: house the battery + electronics in a sealed dust-proof tote/case with cable glands, keep it shaded, and stake/ballast the array against wind.",
+    "Per-config checklist: Class-T battery main fuse; per-string battery fuses if parallel; DC disconnects battery<->inverter and array<->controller; PV overcurrent if >=3 parallel strings; conductors sized for ampacity + voltage drop; grounding/bonding per NEC 690/705; AC branch breaker for the mini-split."
+  ],
+  "parts": [
+    { "id": "battery-main-fuse-classt", "name": "Battery main fuse (Class-T)", "item_type": "overcurrent", "spec": "Class-T, 125-200 A, 48 V DC (size per bus/load)", "purpose": "Interrupts lithium's high fault current on the battery main", "price_usd": 60, "notes": "High AIC rating; size just above max inverter/AC DC current." },
+    { "id": "battery-dc-breaker", "name": "Battery-to-inverter DC breaker/disconnect", "item_type": "disconnect", "spec": "48 V DC breaker, ~125-150 A (scale to bus)", "purpose": "Service disconnect + protection", "price_usd": 50, "notes": "Or a fused DC disconnect." },
+    { "id": "per-string-battery-fuse", "name": "Per-battery-string fuse", "item_type": "overcurrent", "spec": "100-125 A each", "purpose": "Protects each parallel battery string", "price_usd": 20, "notes": "Every parallel string gets its own." },
+    { "id": "pv-string-fuse-combiner", "name": "PV string fuse / combiner", "item_type": "overcurrent", "spec": "15-20 A per string, PV-rated DC", "purpose": "Protects PV strings on parallel arrays", "price_usd": 50, "notes": "Needed when >=3 strings parallel; use PV-rated (not AC) fuses." },
+    { "id": "pv-dc-disconnect", "name": "PV DC disconnect", "item_type": "disconnect", "spec": ">= string Voc & Isc x 1.25", "purpose": "Isolate array from controller", "price_usd": 45, "notes": "Required for service/safety." },
+    { "id": "ac-output-breaker", "name": "AC output breaker", "item_type": "overcurrent", "spec": "15-20 A, 120 VAC", "purpose": "Protects the AC branch to the mini-split", "price_usd": 10, "notes": "In a small load center/subpanel (AC path only)." },
+    { "id": "battery-cables", "name": "Battery cables", "item_type": "conductor", "spec": "2-4/0 AWG (size to current + length)", "purpose": "Low-loss battery <-> inverter/AC", "price_usd": 60, "notes": "12 V @60-80 A needs 2-4 AWG short runs; 24 V halves current." },
+    { "id": "pv-wire-mc4", "name": "PV wire + MC4 connectors", "item_type": "conductor", "spec": "10 AWG UV-rated PV wire, MC4", "purpose": "Array <-> controller", "price_usd": 40, "notes": "Keep string current in mind." },
+    { "id": "busbars", "name": "Positive/negative busbars", "item_type": "busbar", "spec": "~250 A busbars", "purpose": "Common tie point for battery/inverter/loads", "price_usd": 40, "notes": "Simplifies parallel connections." },
+    { "id": "grounding-bonding", "name": "Grounding & bonding kit", "item_type": "grounding", "spec": "Grounding electrode + equipment ground per NEC 690", "purpose": "Safety", "price_usd": 40, "notes": "Bond frames, disconnects, and negative per system requirements." },
+    { "id": "racking-mounts", "name": "Racking / ground mounts + stakes/ballast", "item_type": "mounting", "spec": "Rated for panel size + wind load", "purpose": "Hold the array at tilt; survive playa wind", "price_usd": 150, "notes": "Ground/tilt mounts ease cleaning; low + staked for desert wind." },
+    { "id": "dust-box-enclosure", "name": "Sealed dust-proof enclosure + cable glands", "item_type": "mounting", "spec": "Tote/Pelican-style case, shaded", "purpose": "Protect battery + electronics from playa dust & heat", "price_usd": 80, "notes": "Keep shaded; heat derates battery and electronics." },
+    { "id": "battery-monitor-shunt", "name": "Shunt battery monitor (Victron SmartShunt)", "item_type": "monitoring", "spec": "500 A shunt or BMS SoC", "purpose": "True state-of-charge, energy in/out", "price_usd": 120, "notes": "Optional but invaluable for tuning duty cycle vs battery." }
+  ]
+}

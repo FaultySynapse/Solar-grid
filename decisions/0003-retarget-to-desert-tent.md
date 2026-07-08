@@ -52,4 +52,4 @@ radically lighter kit.
 - `../docs/requirements.md` (fully retargeted)
 - `../configurations/config-d-tent-solar-direct.md` (new primary)
 - `../configurations/README.md` (A/B/C demoted to reference)
-- `../catalog/ac-units.md` (DC vehicle-unit section is the active class)
+- `../data/parts/ac-units.json` (DC vehicle-unit section is the active class)

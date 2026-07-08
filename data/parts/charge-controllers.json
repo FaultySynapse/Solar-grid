@@ -4,10 +4,16 @@
     "type": { "definition": "Controller type (MPPT preferred over PWM at this scale)", "type": "enum", "values": ["MPPT", "PWM"] },
     "rated_a": { "definition": "Rated charge current", "unit": "A", "type": "number" },
     "max_battery_v": { "definition": "Battery voltages the controller supports (list)", "unit": "V", "type": "list" },
-    "max_pv_voc": { "definition": "Max PV open-circuit voltage (stringing ceiling)", "unit": "V", "type": "number" },
+    "max_pv_voc": { "definition": "Max PV open-circuit voltage (the stringing ceiling)", "unit": "V", "type": "number" },
     "price_usd": { "definition": "Approximate street price (verify)", "unit": "USD", "type": "number" },
     "source": { "definition": "Reference URL", "type": "string" }
   },
+  "guidance": [
+    "Use MPPT (not PWM) at this scale — 15-30% more harvest and lets panel string voltage exceed battery voltage.",
+    "Size for array_W / battery_V x 1.25 (e.g. ~1 kW at 48 V ~= 21 A -> 30 A; at 12 V ~= 83 A -> needs a big controller).",
+    "The stringing ceiling is the controller's max_pv_voc, NOT the battery bus. 72-cell surplus panels are ~40 V Voc each and Voc rises in cold (x~1.15-1.25).",
+    "Not needed as a standalone part if the inverter is an all-in-one (MPPT is built in)."
+  ],
   "parts": [
     { "id": "victron-150-60", "name": "Victron SmartSolar MPPT 150/60", "type": "MPPT", "rated_a": 60, "max_battery_v": [12, 24, 48], "max_pv_voc": 150, "price_usd": 430, "source": "" },
     { "id": "victron-250-100", "name": "Victron SmartSolar MPPT 250/100", "type": "MPPT", "rated_a": 100, "max_battery_v": [12, 24, 48], "max_pv_voc": 250, "price_usd": 720, "source": "" },

@@ -1,7 +1,7 @@
 # Configurations
 
 Complete, costed system builds. Each file is a self-contained design that picks
-parts from [`../catalog/`](../catalog/) and runs the numbers from
+parts from [`../data/parts/`](../data/parts/) and runs the numbers from
 [`../docs/sizing-methodology.md`](../docs/sizing-methodology.md) against the target
 in [`../docs/requirements.md`](../docs/requirements.md).
 

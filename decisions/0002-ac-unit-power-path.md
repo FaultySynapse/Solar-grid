@@ -85,6 +85,6 @@ Once answered, record the choice here and (for Option C) add a `config-d-dc-dire
 build with a 12/24 V battery and no inverter.
 
 ## Affected
-- `../catalog/ac-units.md` (all three unit classes listed)
+- `../data/parts/ac-units.json` (all three unit classes listed)
 - `../configurations/` (A/B/C assume Option A today; Option C would add a new config)
 - `../docs/requirements.md` (system voltage + "space to cool" open question)

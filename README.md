@@ -3,8 +3,9 @@
 A working knowledge base for designing an **off-grid solar power system whose
 primary job is running an air-conditioner (AC)**. It holds:
 
-- **Component spec catalogs** — datasheet-level specs for panels, batteries,
-  inverters, charge controllers, AC units, and balance-of-system parts.
+- **Structured part data (JSON)** — datasheet-level specs for panels, batteries,
+  inverters, charge controllers, AC units, DC-DC converters, and balance-of-system
+  parts, each file with a spec-definition block. In [`data/parts/`](data/parts/).
 - **Full system configurations** — complete, costed builds that combine parts
   into a working design, each documented so they can be compared.
 - **A decision log** — a running record of ideas we explored and why we pivoted,
@@ -20,12 +21,12 @@ bigger AC unit, or trade cost for autonomy, without losing the trail.
 | [`docs/requirements.md`](docs/requirements.md) | The design target — the AC load, location, runtime, and priorities everything is sized against. **Start here / edit here to retarget.** |
 | [`docs/sizing-methodology.md`](docs/sizing-methodology.md) | How we turn "run this AC" into panel watts, battery kWh, inverter size, and controller amps. Worked example included. |
 | [`docs/glossary.md`](docs/glossary.md) | Terms and units (PSH, DoD, EER/SEER2, Voc, etc.). |
-| [`catalog/`](catalog/) | Spec sheets per component category. One table per category, real representative parts. |
-| [`configurations/`](configurations/) | Complete builds. [`configurations/README.md`](configurations/README.md) has the side-by-side comparison. |
+| [`data/parts/`](data/parts/) | **Parts data (JSON)** — one file per component category, each with a spec-definition block plus the parts. |
+| [`data/configs.json`](data/configs.json) | The config constraint table (rows = configs, columns = part categories). |
+| [`scripts/run_combinations.py`](scripts/run_combinations.py) | Filters the parts against each config's constraints — lists qualifying parts and counts valid combinations. See [`data/README.md`](data/README.md). |
+| [`configurations/`](configurations/) | Human-readable build write-ups + the candidate list. [`configurations/README.md`](configurations/README.md) has the side-by-side comparison. |
 | [`decisions/`](decisions/) | Lightweight decision records (ADR-style). One file per pivot. |
 | [`templates/`](templates/) | Copy-paste templates for adding a new component or a new configuration. |
-| [`data/`](data/) | **Machine-readable** parts (JSON + spec definitions) and the config constraint table. |
-| [`scripts/run_combinations.py`](scripts/run_combinations.py) | Filters the parts against each config's constraints — lists qualifying parts and counts valid combinations. See [`data/README.md`](data/README.md). |
 
 ## Current target (edit in `docs/requirements.md`)
 
@@ -49,20 +50,21 @@ Open decisions and research threads are tracked in [`docs/research-log.md`](docs
 
 1. **Set the target.** Edit `docs/requirements.md` with your real AC unit,
    location (peak sun hours), runtime, and autonomy needs.
-2. **Add candidate parts.** Drop products into the relevant `catalog/*.md`
-   table using [`templates/component-template.md`](templates/component-template.md).
-   Keep specs at datasheet level so sizing math is trustworthy.
-3. **Build a configuration.** Copy [`templates/configuration-template.md`](templates/configuration-template.md)
-   into `configurations/`, pick parts from the catalog, and run the numbers using
-   `docs/sizing-methodology.md`.
-4. **Compare.** Update the table in `configurations/README.md`.
+2. **Add candidate parts.** Add objects to the relevant `data/parts/*.json` file
+   (match the category's `specs` keys). Keep specs at datasheet level so sizing
+   math is trustworthy.
+3. **Build/adjust a configuration.** Add or edit a row in `data/configs.json` —
+   each cell is `null` (part not used) or a constraint. Run
+   `python3 scripts/run_combinations.py` to see qualifying parts and combinations.
+4. **Compare.** The human-readable view is [`configurations/candidates.md`](configurations/candidates.md);
+   size builds with `docs/sizing-methodology.md`.
 5. **When you pivot,** write a short note in `decisions/` so the "why" survives.
 
 ## Important caveats
 
 - **Verify every spec and price against the current manufacturer datasheet
-  and a live retailer.** Prices and even model specs drift; catalog values here
-  are representative starting points, not quotes.
+  and a live retailer.** Prices and even model specs drift; the values in
+  `data/parts/` are representative starting points, not quotes.
 - Electrical work on battery/inverter systems is genuinely hazardous (DC arc
   flash, lithium fire risk, code compliance). This repo is a **planning aid**,
   not an installation authority. Follow NEC/local code and manufacturer manuals,

@@ -31,12 +31,12 @@ This is the reference build; A and C are the budget and heavy-duty variants.
 
 | Qty | Part | From catalog | ~Unit | ~Subtotal |
 |-----|------|--------------|-------|-----------|
-| 1 | 12k BTU inverter mini-split (Pioneer/MRCOOL class) | [ac-units](../catalog/ac-units.md) | $800 | $800 |
-| 5 | Canadian Solar 400 W panel | [solar-panels](../catalog/solar-panels.md) | $120 | $600 |
-| 2 | EG4 LifePower4 48 V 100 Ah (10.24 kWh) | [batteries](../catalog/batteries.md) | $1,300 | $2,600 |
-| 1 | EG4 6000XP all-in-one (inverter + MPPT + charger) | [inverters](../catalog/inverters.md) | $1,500 | $1,500 |
-| — | BoS: Class-T fuse, DC breakers, busbars, cables, PV wire, disconnects | [balance-of-system](../catalog/balance-of-system.md) | — | ~$500 |
-| — | Racking + grounding | [balance-of-system](../catalog/balance-of-system.md) | — | ~$300 |
+| 1 | 12k BTU inverter mini-split (Pioneer/MRCOOL class) | [ac-units](../data/parts/ac-units.json) | $800 | $800 |
+| 5 | Canadian Solar 400 W panel | [solar-panels](../data/parts/solar-panels.json) | $120 | $600 |
+| 2 | EG4 LifePower4 48 V 100 Ah (10.24 kWh) | [batteries](../data/parts/batteries.json) | $1,300 | $2,600 |
+| 1 | EG4 6000XP all-in-one (inverter + MPPT + charger) | [inverters](../data/parts/inverters.json) | $1,500 | $1,500 |
+| — | BoS: Class-T fuse, DC breakers, busbars, cables, PV wire, disconnects | [balance-of-system](../data/parts/balance-of-system.json) | — | ~$500 |
+| — | Racking + grounding | [balance-of-system](../data/parts/balance-of-system.json) | — | ~$300 |
 | **Total (parts, no labor)** | | | | **~$5,500 (rounded ~$6,300 with mounting/BoS high side)** |
 
 ## Wiring & protection highlights

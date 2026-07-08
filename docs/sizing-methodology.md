@@ -141,7 +141,7 @@ one unnecessary — see configs.)
   battery and inverter.
 - **Grounding & bonding** per NEC Article 690/710.
 
-See [`catalog/balance-of-system.md`](../catalog/balance-of-system.md).
+See [`data/parts/balance-of-system.json`](../data/parts/balance-of-system.json).
 
 ---
 
