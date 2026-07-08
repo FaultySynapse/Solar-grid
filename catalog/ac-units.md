@@ -7,16 +7,39 @@ far less surge and average power than fixed-speed window/portable units.
 > Representative specs — verify against the current datasheet. Running watts are
 > *typical while cooling*; nameplate max is higher. Last touched: baseline seed.
 
-## Standard-AC (run through a pure-sine inverter)
+## AC-inverter mini-splits & window units (run through a pure-sine inverter)
 
-| Model | Type | BTU/h | SEER2 / EER | Running W (typ) | Startup surge | Supply V | ~Price | Fit | Notes |
-|-------|------|-------|-------------|-----------------|---------------|----------|--------|-----|-------|
-| MRCOOL DIY 4th Gen 12k | Inverter mini-split | 12,000 | SEER2 ~20 / EER ~10 | ~500–900 | Low (soft start) | 115 VAC | ~$1,100 | ✅ | DIY pre-charged lineset; very off-grid friendly. |
-| Pioneer WYS012 12k | Inverter mini-split | 12,000 | SEER2 ~19 | ~450–850 | Low | 115 VAC | ~$700 | ✅ | Popular budget inverter mini-split; needs vacuum/charge. |
-| Senville LETO 12k | Inverter mini-split | 12,000 | SEER2 ~19 | ~500–900 | Low | 115 VAC | ~$800 | ✅ | Similar class to Pioneer. |
-| Midea U-Shaped 12k | Inverter window | 12,000 | SEER2 ~15 / CEER 15 | ~700–1,000 | Low–moderate | 115 VAC | ~$450 | ⚖️ | Window unit but *inverter* — quiet, no lineset, easy install. |
-| Generic non-inverter window 12k | Fixed-speed window | 12,000 | EER ~11 | ~1,050 | **High (LRA 3–5×)** | 115 VAC | ~$300 | 🚫 | Cheap but hard surge; needs soft-start kit + big inverter. Avoid if possible. |
-| Pioneer 24k mini-split | Inverter mini-split | 24,000 | SEER2 ~19 | ~1,100–1,900 | Low | 230 VAC | ~$1,300 | ⚖️ | If you retarget to 2 tons — roughly doubles array/battery. |
+Cheap, efficient, everywhere, and (some) DIY-installable — but they need a **pure-
+sine inverter** in the loop (see `inverters.md`) and a place to mount. **Prefer
+115 V** (drives off a common 120 V inverter; 230 V needs a split-phase/230 V
+inverter for no benefit at this size). **Pick on EER, not SEER2** — at desert
+daytime temps the compressor runs hard, so steady-state EER predicts battery draw
+better than the seasonal SEER2 headline. All inverter units **soft-start** (no big
+surge). *(Researched July 2026 — running-W figures marked ~ are estimates; verify.
+New stock is R454B/R32; R410A is being phased out.)*
+
+| Model | Type | BTU/h | SEER2 / EER | Running W (typ) | Supply V | DIY install? | ~Price | Fit | Notes / source |
+|-------|------|-------|-------------|-----------------|----------|--------------|--------|-----|----------------|
+| **Midea U** MAW08V1QWT | Inverter **window** | 8,000 | — / EER ~11 | ~350–600 | 115 VAC | ✅ one box, **no lineset/vacuum** | **~$350** | ✅ | Lowest-friction mount (no condenser to hang). Needs a rigid sealable opening (~44 lb). [HomeDepot](https://www.homedepot.com/p/336424813) |
+| **Cooper & Hunter MIA 6k** | Inverter mini-split | **6,000** | 21.5 / ~11–12 | ~300–500 | 115 VAC | Pre-flared kit; needs vacuum | ~$700–820 | ✅ | Smallest true split — best-matched to a tiny tent. |
+| **MRCOOL DIY 5th Gen 9k** | Inverter mini-split | 9,000 | 23.6 / **~14 EER** | ~400–700 (max ~900) | 115 VAC | ✅ **TRUE DIY** QuickConnect, no vacuum/EPA | ~$1,300–1,900 | ✅ | Only real no-vacuum split; best EER; priciest. [HomeDepot](https://www.homedepot.com/p/335524169) |
+| **Pioneer Quantum Ultra 9k** | Inverter mini-split | 9,000 | 23 / **13 EER2** | ~350–650 | 115 VAC | Needs vacuum/KWIK-E-VAC | ~$800–1,000 | ✅ | Best-in-class efficiency among cheaper splits. |
+| **Della Vita 9k** | Inverter mini-split | 9,000 | 20 / ~12 EER | ~450–700 (6.7 A) | 115 VAC | Pre-charged condenser; usually still vacuum | ~$500–650 | ✅ | Cheapest 9k split with a confirmed ~770 W nameplate. |
+| Senville LETO / Klimaire KSIV 9k | Inverter mini-split | 9,000 | 21.5 / ~12–12.5 | ~450–700 | 115 VAC | Pre-flared; needs vacuum | ~$650–750 | ⚖️ | Solid mid-budget 9k options. |
+| Pioneer WYT/Diamante 9k | Inverter mini-split | 9,000 | 19 / **10 EER2** | ~500–750 | 115 VAC | Needs vacuum | ~$590–900 | ⚖️ | Cheap but **worst off-grid draw** (low EER). |
+| Gree Sapphire 9k | Inverter mini-split | 9,000 | 30 / ~13–14 | lowest of group | **230 VAC** | Needs vacuum | ~$1,600–1,900 | ⚖️ | Most efficient, but 230 V (needs split-phase inverter) + premium price. |
+| Generic non-inverter window 12k | Fixed-speed window | 12,000 | ~11 EER | ~1,050 | 115 VAC | window | ~$300 | 🚫 | Hard LRA surge (3–5×) → needs soft-start kit + big inverter. Avoid. |
+
+**Notes for this project:**
+- For a tiny shaded tent, a **9k (or 6k) unit is heavily oversized** → it'll idle at
+  minimum modulation and draw at the low end (~2–4 kWh over an 8 h day), *if* the
+  tent isn't too leaky. The **Midea U 8k window ($350)** is the simplest to mount;
+  a **6k C&H split** is the smallest true split.
+- Split install on fabric is the real friction (indoor head + outdoor condenser +
+  lineset, usually a vacuum pump). **MRCOOL DIY** avoids the vacuum step; a **window
+  unit** avoids the split entirely but needs a rigid framed port.
+- This whole path costs the AC **+ a pure-sine inverter + its idle draw** — compare
+  against the DC-direct path (below) which skips the inverter.
 
 ## 24 V DC split / mini-split — no inverter, no DC-DC converter ✅ (active class)
 

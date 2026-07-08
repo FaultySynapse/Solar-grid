@@ -10,6 +10,7 @@ parts into these tables using [`../templates/component-template.md`](../template
 | Batteries | [`batteries.md`](batteries.md) | Chemistry, V, Ah, kWh, DoD, BMS, cycles |
 | Inverters | [`inverters.md`](inverters.md) | Continuous/surge W, V, waveform, MPPT built-in? |
 | Charge controllers | [`charge-controllers.md`](charge-controllers.md) | Type, A, max PV V, max PV W |
+| DC-DC converters | [`dc-dc-converters.md`](dc-dc-converters.md) | 24→12 / 48→12 V, cont. A, efficiency (for a 12 V AC on a higher bank) |
 | Balance of system | [`balance-of-system.md`](balance-of-system.md) | Fuses, breakers, wire, disconnects, mounts |
 
 ## Conventions
