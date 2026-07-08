@@ -1,0 +1,38 @@
+# Catalog — Solar Panels
+
+Monocrystalline is the default (best efficiency/area). Choose panel voltage class
+to string cleanly under your charge controller's max PV voltage. For a ~2,000 W
+48 V system, larger (60/72-cell or "residential") panels give the best $/W; small
+12 V-nominal panels are convenient for tiny/RV builds but cost more per watt.
+
+> Representative specs at STC — verify against datasheet. Last touched: baseline seed.
+
+| Model | W (STC) | Voc | Vmp | Imp | Isc | Cells | Dimensions (approx) | ~$/W | ~Price | Fit | Notes |
+|-------|---------|-----|-----|-----|-----|-------|--------------------|------|--------|-----|-------|
+| Renogy 100 W 12 V mono | 100 | ~24.3 | ~20.4 | ~4.9 | ~5.2 | 36 | 42×20×1.4 in | ~$1.00 | ~$100 | ⚖️ | Convenient/rigid, but pricey per watt; good for small/RV. |
+| Renogy 200 W 12 V mono | 200 | ~27.5 | ~22.3 | ~9.0 | ~9.5 | — | 59×27×1.4 in | ~$0.65 | ~$130 | ⚖️ | Better $/W than 100 W. |
+| Newpowa 240 W 24 V mono | 240 | ~37 | ~30 | ~8.0 | ~8.6 | 60 | 65×26×1.4 in | ~$0.50 | ~$120 | ✅ | Good value mid-size. |
+| Canadian Solar 400 W mono | 400 | ~45 | ~37 | ~10.8 | ~11.4 | 108 half-cell | 68×45×1.4 in | ~$0.30 | ~$120 | ✅ | **Baseline pick.** 5×400 W = 2 kW at great $/W. |
+| Trina/Jinko 550 W bifacial | 550 | ~50 | ~42 | ~13.1 | ~13.9 | 144 half-cell | 90×45×1.4 in | ~$0.25 | ~$140 | ✅ | Cheapest $/W; large/heavy, needs bigger racking. |
+| "Used/blemished" 370 W (SanTan-style) | 370 | ~47 | ~39 | ~9.5 | ~10 | 72 | 77×39×1.4 in | ~$0.15 | ~$55 | ⚖️ | Cheapest of all if available; verify condition/warranty. |
+
+## Stringing notes
+
+- **Baseline array:** 5 × 400 W = **2,000 W**. Two strings of... depends on
+  controller. Keep **cold-adjusted Voc** under the controller/all-in-one PV max
+  (e.g. 6000XP MPPT ~500 VDC max → several in series is fine; a 100 V controller
+  needs mostly parallel).
+- Cold-Voc rule: `Voc_cold = Voc_STC × (1 + (T_min − 25) × −0.003)`. In freezing
+  climates a 45 V-Voc panel can hit ~52 V; multiply by string length.
+- Higher string voltage (more panels in series) = lower current = thinner PV wire
+  and less voltage drop over long roof-to-controller runs.
+- Match physical space: 5×400 W ≈ 5 × (68×45 in) ≈ **~100 ft²** of array area.
+
+## Selecting for this project
+
+- **Baseline:** 5 × **Canadian Solar 400 W** (2 kW). Great $/W, manageable panel
+  size, easy to string into a 48 V all-in-one.
+- **Cheapest $/W:** 550 W bifacials or used 370 W panels — save money, but plan
+  racking for larger/heavier modules.
+- Add panels in the same model/string configuration when you expand; mixing
+  mismatched panels on one string drags the string to the weakest panel.
