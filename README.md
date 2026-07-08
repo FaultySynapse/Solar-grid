@@ -25,17 +25,21 @@ bigger AC unit, or trade cost for autonomy, without losing the trail.
 | [`decisions/`](decisions/) | Lightweight decision records (ADR-style). One file per pivot. |
 | [`templates/`](templates/) | Copy-paste templates for adding a new component or a new configuration. |
 
-## Current baseline (edit in `docs/requirements.md`)
+## Current target (edit in `docs/requirements.md`)
 
-| Parameter | Baseline assumption |
-|-----------|--------------------|
-| AC load | 12,000 BTU (1-ton) **inverter** mini-split |
-| Location / solar | ~5 peak sun hours/day (placeholder) |
-| Runtime | ~8–10 h/day cooling, ~1 day battery autonomy |
-| Priority | Balanced cost/performance |
+| Parameter | Value |
+|-----------|-------|
+| Space | Shaded **tent**, ~60–70 sq ft (two-queen footprint) |
+| Location / solar | Nevada desert, August · ~7 peak sun hours · very dry · ~100–110 °F |
+| AC load | Small **DC split AC** (vehicle class), ~9–11k BTU, ~500 W — no inverter |
+| Cooling window | **Daytime, while sleeping** → run the AC **live off solar** |
+| Battery | Small buffer (~2.5 kWh) — no overnight bank needed |
+| Build / duration | DIY 12 V/24 V battery+solar+MPPT · one-off ~1-week trip · portable, dust-hardened |
 
-> These are placeholders chosen to make the starter catalog and configs concrete.
-> Change them in `docs/requirements.md` and the configs/sizing follow.
+**Active build:** [`configurations/config-d-tent-solar-direct.md`](configurations/config-d-tent-solar-direct.md)
+(~$1,750 at 12 V / ~$2,250 at 24 V). Configs A/B/C are kept as *reference for a
+room/dwelling* — oversized for a tent. The pivot from the original dwelling
+baseline is recorded in [`decisions/0003`](decisions/0003-retarget-to-desert-tent.md).
 
 ## Workflow: how to use this repo
 

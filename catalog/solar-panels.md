@@ -16,6 +16,23 @@ to string cleanly under your charge controller's max PV voltage. For a ~2,000 W
 | Trina/Jinko 550 W bifacial | 550 | ~50 | ~42 | ~13.1 | ~13.9 | 144 half-cell | 90×45×1.4 in | ~$0.25 | ~$140 | ✅ | Cheapest $/W; large/heavy, needs bigger racking. |
 | "Used/blemished" 370 W (SanTan-style) | 370 | ~47 | ~39 | ~9.5 | ~10 | 72 | 77×39×1.4 in | ~$0.15 | ~$55 | ⚖️ | Cheapest of all if available; verify condition/warranty. |
 
+## Portable / folding panels (for the tent trip)
+
+For a one-week trip you can use rigid panels (cheapest $/W, bulky) or folding
+"briefcase" / blanket panels (pack small, set up fast, cost more per watt). On
+playa, whatever you pick must be **staked/ballasted against wind** and **wiped of
+dust daily**.
+
+| Model | W | Type | Voc | ~$/W | ~Price | Fit | Notes |
+|-------|---|------|-----|------|--------|-----|-------|
+| Rigid 200 W mono (generic) | 200 | Rigid | ~24 | ~0.55 | ~$110 | ✅ | Best $/W for ~1 kW array; bulky to haul. |
+| Renogy 200 W folding suitcase | 200 | Folding + legs | ~24 | ~1.5 | ~$300 | ⚖️ | Fast setup, built-in tilt legs; pricey per watt. |
+| EF/generic 220 W folding blanket | 220 | Fold-out blanket | ~26 | ~1.4 | ~$300 | ⚖️ | Packs flat; secure against wind. |
+
+> For Config D's ~1 kW: **5× rigid 200 W** (~$550, bulkier) or **2–3× folding
+> 200–220 W** (~$600–900, easiest transport/setup). Match the array voltage to
+> your MPPT and system (12 V vs 24 V).
+
 ## Stringing notes
 
 - **Baseline array:** 5 × 400 W = **2,000 W**. Two strings of... depends on

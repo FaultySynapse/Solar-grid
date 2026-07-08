@@ -9,6 +9,14 @@ comparable. Values in ⟨brackets⟩ come from [`requirements.md`](requirements.
 > also make sure the inverter can carry the compressor's real running + startup
 > draw.
 
+> **Special case — solar-direct daytime cooling (the current tent build):** if
+> you only cool *while the sun is up*, the array runs the AC **live** and the
+> battery is just a **buffer** (surge + clouds + shoulders), not an overnight
+> bank. Then flip the logic in Steps 2–3: size the **array to carry the running
+> load at midday** (Step 3, treating `design_daily_Wh ≈ running_W × sun-window
+> hours`), and size the **battery small** (a few hours of run-time at 80% DoD),
+> because you are not storing a full day. See `../configurations/config-d-tent-solar-direct.md`.
+
 ---
 
 ## Step 1 — Daily energy (the anchor number)

@@ -4,63 +4,78 @@ This is the **single source of truth** for what the system must do. Every
 configuration and every sizing calculation references the numbers here. Edit
 this file to retarget the whole project.
 
-> Status: **Baseline / placeholder values.** Replace the ⟨bracketed⟩ items and
-> the "Baseline value" column with your real numbers.
+> Status: **Retargeted to the real use case — a shaded desert tent, daytime
+> solar-direct cooling** (confirmed 2026-07-08). See `decisions/0003` for the
+> pivot from the earlier residential-dwelling baseline. Earlier configs A/B/C are
+> kept as *reference for a room/dwelling* but are oversized for this target.
+
+## Use case in one line
+
+Cool a **shaded ~60–70 sq ft tent** (two-queen footprint) in the **Nevada desert
+in August**, **while sleeping during the day**, for a **~1-week trip**, using a
+**DIY 12/24 V DC refrigerant AC + solar + battery** system. Because cooling
+happens in the daytime, the array runs the AC **live off the sun** and the
+battery is only a small buffer.
 
 ## 1. Primary load — the AC unit
 
-| Parameter | Baseline value | Notes / how to fill in |
-|-----------|---------------|------------------------|
-| AC type | Inverter mini-split (ductless) | Inverter compressors soft-start and modulate → far kinder to off-grid than non-inverter window units. |
-| Cooling capacity | 12,000 BTU/h (1 ton) | From the unit's nameplate. |
-| Efficiency (SEER2 / EER) | ~SEER2 20, EER ~12 | Higher = less energy per BTU. Modern mini-splits: SEER2 18–24. |
-| Rated running power | ~700 W nominal (range ~300–1,100 W) | Inverter units modulate; nameplate max is higher than typical draw. |
-| Startup surge | Low (soft start) | Inverter units avoid the hard LRA surge of non-inverter compressors. |
-| Supply voltage | 115 VAC (or 230 VAC) | Determines inverter output. Some off-grid units are native 48 VDC (see catalog). |
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| AC type | **DC refrigerant split AC** (vehicle/RV "parking cooler" class) | Runs straight off the battery bus — no inverter. Chosen over a mini-split because the space is tiny and DIY-DC is simplest. |
+| Cooling capacity | ~9,000–11,000 BTU/h | *Oversized* for a shaded tent this size (5–6k would do), but cheap and gives margin against a leaky envelope + desert heat. |
+| Running power | **~400–650 W** while cooling | The linked 12 V unit: ~400–600 W. A right-sized 5–6k unit would be ~300–400 W. |
+| Supply voltage | **12 VDC (linked unit)** or **24 VDC (recommended variant)** | 24 V halves the current (~30 A vs ~60–80 A) → lighter wiring. See `decisions/0002`. |
+| Startup surge | Moderate DC inrush | Battery buffer absorbs it so panels aren't slammed. |
 
 ## 2. Site / environment
 
-| Parameter | Baseline value | Notes |
-|-----------|---------------|-------|
-| Location | ⟨your location⟩ | Drives peak sun hours and cooling demand. |
-| Space to cool | ⟨area / room / van / dwelling⟩ | **Deciding factor for the AC power path** (see `decisions/0002`). Small van/room favors a cheap 12/24 V DC unit; a real room/dwelling favors a residential mini-split. |
-| Peak sun hours (PSH) | **5.0 PSH/day** (placeholder) | Look up your location's PSH; design around the **worst-usable month**, not the annual average. |
-| Design ambient temp | ⟨°F/°C⟩ | Hotter = higher AC duty cycle = more kWh/day. |
-| Mounting | ⟨roof / ground / pole⟩ | Affects panel count, tilt, wiring runs. |
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| Location | **Nevada desert, August** (Black Rock–style playa) | Very hot, very bright, **very dry**, big day/night temperature swing. |
+| Space to cool | **Tent, ~60–70 sq ft** (two queens), fabric envelope | Poor insulation & air-leaky → can't hold cold like a sealed room; **shade is the biggest lever**. |
+| Shading | **Not in direct sun** ✅ | Already shaded — huge win. Add a reflective tarp/space-blanket over the tent with an air gap to cut radiant load further (free "component"). |
+| Peak sun hours (PSH) | **~7.0 PSH/day** | Nevada August is near best-case solar; midday irradiance is intense. |
+| Design ambient temp | ~100–110 °F day / ~60–70 °F night | Days are brutal; nights cool off (matters only if you ever cool at night). |
+| Mounting | **Ground, portable, wind- & dust-secured** | One-week trip: stake/ballast the panels low, protect electronics from playa dust. |
 
 ## 3. Load profile & autonomy
 
-| Parameter | Baseline value | Notes |
-|-----------|---------------|-------|
-| Cooling runtime | ~8–10 h/day | When the AC actually runs. |
-| Average AC power while running | ~600 W (duty-cycled) | Real average is below nameplate because the compressor modulates. |
-| **AC energy/day** | **~5.0 kWh/day** | See sizing methodology for how this is derived. |
-| Other loads | ~0.5 kWh/day (controls, fans, phantom) | Keep the AC the dominant load; budget small extras here. |
-| **Total energy/day (design)** | **~5.5 kWh/day** | The number configs are sized to. |
-| Autonomy | **1 day** | Days the battery alone can carry the load with no sun. |
-| System voltage | **48 V** nominal | 48 V is the sweet spot at this power (lower current, thinner wire, more inverter choice). |
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| Cooling window | **Daytime, while sleeping (~8 h)** | Aligns with peak sun → run the AC **directly off the array**. |
+| Average AC power while running | ~500 W | Assume near-continuous in a hot leaky tent. |
+| **AC energy per sleep session** | **~4 kWh** | Most delivered **live from panels**; only a fraction comes from the battery. |
+| Battery-backed portion | **~1.5 kWh** | Covers surge, passing clouds, and the shoulders before/after solar noon. |
+| Autonomy | **Buffer only (~4–5 h AC-only)** | No need for overnight/multi-day autonomy — cooling is a daytime activity. |
+| System voltage | **12 V (as-linked)** or **24 V (recommended)** | 24 V is meaningfully better for wiring/MPPT; 12 V is fine if you use the exact linked unit and keep runs short. |
 
 ## 4. Priorities (ranked)
 
-1. **Balanced cost/performance** — reasonable off-the-shelf parts, good value.
-2. Reliability adequate for daily use (LiFePO4 battery, pure-sine inverter).
-3. Expandability — leave room to add panels/battery later.
-
-> To change priority (e.g. "lowest upfront cost" or "max reliability"), note it
-> here and add/adjust a configuration in `configurations/`.
+1. **Lowest cost + portability** — cheap parts, packs down, quick setup/teardown for a one-week trip.
+2. **Dust & heat survivability** — playa dust and 110 °F sun are the real enemies of the gear.
+3. **Reliable daytime cooling for sleep** — enough panel to run the AC live through the sleep window.
 
 ## 5. Constraints & preferences
 
-- Budget target: ⟨$ ceiling⟩ — *set this; it decides many part choices.*
-- Battery chemistry: **LiFePO4** (safety, cycle life, depth of discharge).
-- Inverter waveform: **pure sine** (required — AC compressors dislike modified sine).
-- Code/permitting: ⟨grid-tied backfeed? permit required? RV/marine?⟩
-- Physical space for array: ⟨m²/ft² available⟩.
+- Budget target: ⟨set a $ ceiling⟩ — DIY tent build lands roughly **$1,500–2,400**.
+- Battery chemistry: **LiFePO4** (safe, deep cycling, light) — small pack (~2.5 kWh).
+- No inverter in the AC path (DC unit) → skip the pure-sine inverter entirely.
+- Cooling type: **refrigerant AC** (chosen over evaporative — see `decisions/0003`).
+- Dust protection: sealed tote/case for battery+MPPT, cable glands, filters cleanable.
+- Physical space for array: portable ground array (~1 kW ≈ ~55 sq ft of panel).
 
-## 6. Open questions to resolve
+## 6. Resolved / open questions
 
-- [ ] Confirm the exact AC model and pull its real datasheet power/energy figures.
-- [ ] Confirm location → real peak sun hours (worst-usable month).
-- [ ] Confirm runtime pattern (daytime-only vs into the evening vs 24/7).
+Resolved (2026-07-08):
+- [x] Space = shaded tent (~60–70 sq ft) → small DC unit, not a mini-split.
+- [x] Cooling window = daytime while sleeping → **solar-direct**, small battery.
+- [x] Cooling type = refrigerant AC (not evaporative).
+- [x] Build style = DIY battery + solar + MPPT.
+- [x] Duration = one-off ~1-week trip → portable, dust-hardened.
+- [x] Location = Nevada desert August → ~7 PSH.
+
+Still open:
+- [ ] **12 V (exact linked unit) vs 24 V (recommended)** — final call. See `decisions/0002`.
+- [ ] Confirm the chosen unit's **real running watts + duty cycle** (measure with a clamp meter if possible) — drives array size.
 - [ ] Set a budget ceiling.
-- [ ] AC power path: AC-inverter mini-split vs native 48 V DC vs 12/24 V DC vehicle unit? (big architecture fork — see `decisions/0002-ac-unit-power-path.md`). Depends on the "space to cool" answer above.
+- [ ] Confirm array is rigid panels vs folding "briefcase" kits (portability vs $/W).

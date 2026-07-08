@@ -1,6 +1,13 @@
 # 0002 — AC unit power path: AC-inverter vs 48 V DC vs 12/24 V DC
 
-**Status:** **Open — needs input** · 2026-07-08
+**Status:** **Resolved → Option C (12/24 V DC vehicle unit)** · 2026-07-08
+
+> **Resolution:** The space is a shaded ~60–70 sq ft tent → **Option C**. A
+> residential mini-split (A/B) is oversized and impractical (no wall, outdoor
+> condenser, lineset). We use a DC "parking cooler" split AC, no inverter.
+> **Sub-decision still open: 12 V (the exact linked unit) vs 24 V (recommended,
+> half the current).** Full build in `../configurations/config-d-tent-solar-direct.md`;
+> broader tent retarget in `0003`.
 
 ## Context
 The AC unit's power type dictates the whole system architecture: system voltage,
