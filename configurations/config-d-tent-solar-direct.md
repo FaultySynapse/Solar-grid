@@ -13,11 +13,15 @@ You cool **during the day, when the sun is strongest.** So the panels run the AC
 clouds, and the hour or two on either side of solar noon. That means a **~1 kW
 array + a tiny ~2.5 kWh battery** — not a big overnight bank.
 
-## Step 0 — free cooling first (do this regardless)
-- Keep the tent **fully shaded** (you already are ✅). Add a **reflective tarp /
-  space blanket over the tent with a 2–6" air gap** — cuts radiant load a lot.
-- Seal the tent as much as possible where the AC blows; every open flap is load.
-- These do more per dollar than any component below.
+The **refrigerant AC is the required core**: it's sized to reach a comfortable
+temperature — and keep humidity down — **on its own**, without depending on any
+shade/insulation upgrades ([`../decisions/0004`](../decisions/0004-active-ac-is-the-required-baseline.md)).
+That's why we keep the ~9–11k BTU unit's capacity margin rather than downsizing.
+
+> **Efficiency add-ons (reflective tarp, insulation, evaporative pre-cooling) are
+> parked** in [`../docs/efficiency-backlog.md`](../docs/efficiency-backlog.md).
+> They'd cut power use later, but the build does **not** rely on them for comfort.
+> If you add and measure them, trim the array/battery via a new decision record.
 
 ## Target
 | Parameter | Value |
@@ -93,11 +97,15 @@ array at ~600–750 W lets you use a 60 A MPPT.
 - Overnight: not cooled (by design) — desert nights are cool.
 
 ## Tradeoffs / when to switch
-- **Want it lighter/cheaper?** Right-size to a **5–6k BTU** DC unit (~300–400 W) →
-  drop array to ~600 W and battery to ~1.5 kWh.
+- **Want it lighter/cheaper?** You *could* right-size to a **5–6k BTU** DC unit
+  (~300–400 W) → drop array to ~600 W and battery to ~1.5 kWh — but this trades
+  away reliability margin, so [`../decisions/0004`](../decisions/0004-active-ac-is-the-required-baseline.md)
+  keeps the larger unit. Only downsize if you've measured that a smaller unit holds
+  comfort in your tent.
 - **Want plug-and-play over DIY?** A portable power station + folding panels +
-  small AC is easier but pricier and adds inverter loss (noted in `../decisions/0002`, Option path).
-- **Power/weight becomes critical?** Reconsider an **evaporative cooler** — dry
-  desert makes it ~5–10× lower power (see `../decisions/0003`).
+  small AC is easier but pricier and adds inverter loss (noted in `../decisions/0002`).
+- **Want lower power later?** Add efficiency measures from
+  [`../docs/efficiency-backlog.md`](../docs/efficiency-backlog.md) (shade, insulation,
+  evaporative pre-cooling) *after* the active AC build works — parked for now on purpose.
 - Cooling a real room/dwelling instead → the reference builds
   [A](config-a-daytime-budget.md)/[B](config-b-balanced-evening.md)/[C](config-c-24-7-reliable.md).

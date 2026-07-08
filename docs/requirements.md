@@ -51,9 +51,16 @@ battery is only a small buffer.
 
 ## 4. Priorities (ranked)
 
-1. **Lowest cost + portability** — cheap parts, packs down, quick setup/teardown for a one-week trip.
-2. **Dust & heat survivability** — playa dust and 110 °F sun are the real enemies of the gear.
-3. **Reliable daytime cooling for sleep** — enough panel to run the AC live through the sleep window.
+1. **Reliable comfort from the active AC** — the refrigerant AC must reach a
+   comfortable temperature **and keep humidity low on its own**, sized for a leaky
+   fabric tent at 100–110 °F with **no reliance on shade/insulation or evaporative
+   add-ons**. Keep the unit's capacity margin. See `decisions/0004`.
+2. **Lowest cost + portability** — cheap parts, packs down, quick setup/teardown for a one-week trip.
+3. **Dust & heat survivability** — playa dust and 110 °F sun are the real enemies of the gear.
+
+> Efficiency add-ons (shade/insulation, evaporative cooling) are **parked** in
+> `docs/efficiency-backlog.md` — desirable later, but explicitly *not* counted in
+> sizing.
 
 ## 5. Constraints & preferences
 
