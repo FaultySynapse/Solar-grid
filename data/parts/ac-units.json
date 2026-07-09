@@ -144,36 +144,6 @@
       "mass_kg": 25
     },
     {
-      "id": "fullbattery-24v-9k",
-      "name": "Full Battery 24V Mini Split 9k",
-      "supply_type": "DC",
-      "supply_voltage": 24,
-      "cooling_btu": 9000,
-      "running_w": 500,
-      "running_a": 19,
-      "inverter_compressor": true,
-      "form_factor": "split",
-      "fit": "good",
-      "price_usd": 2030,
-      "source": "https://fullbattery.com/products/24v-mini-split",
-      "mass_kg": 30
-    },
-    {
-      "id": "fullbattery-24v-12k",
-      "name": "Full Battery 24V Mini Split 12k",
-      "supply_type": "DC",
-      "supply_voltage": 24,
-      "cooling_btu": 12000,
-      "running_w": 750,
-      "running_a": 32,
-      "inverter_compressor": true,
-      "form_factor": "split",
-      "fit": "tradeoff",
-      "price_usd": 2030,
-      "source": "https://fullbattery.com/products/24v-mini-split",
-      "mass_kg": 35
-    },
-    {
       "id": "inclusive-24-48-dc",
       "name": "Inclusive Inc 48V/24V DC-Direct mini-split",
       "supply_type": "DC",
@@ -190,21 +160,6 @@
       "price_usd": 1990,
       "source": "https://inclusiveinc.org/products/dc-direct-mini-split",
       "mass_kg": 35
-    },
-    {
-      "id": "undermountac-24v",
-      "name": "UndermountAC 24V (specs unpublished)",
-      "supply_type": "DC",
-      "supply_voltage": [
-        12,
-        24,
-        48
-      ],
-      "form_factor": "split-vehicle",
-      "fit": "avoid",
-      "price_usd": 3799,
-      "source": "https://undermountac.com/",
-      "mass_kg": 30
     },
     {
       "id": "hotspot-dc4812vrf",
@@ -272,24 +227,6 @@
       "mass_kg": 25
     },
     {
-      "id": "mrcool-diy-9k",
-      "name": "MRCOOL DIY 5th Gen 9k",
-      "supply_type": "AC",
-      "supply_voltage": 115,
-      "cooling_btu": 9000,
-      "running_w": 700,
-      "inverter_compressor": true,
-      "eer": 14,
-      "seer2": 23.6,
-      "form_factor": "split",
-      "diy_install": true,
-      "refrigerant": "R454B",
-      "fit": "good",
-      "price_usd": 1300,
-      "source": "https://www.homedepot.com/p/335524169",
-      "mass_kg": 35
-    },
-    {
       "id": "mrcool-diy-12k",
       "name": "MRCOOL DIY 12k",
       "supply_type": "AC",
@@ -326,23 +263,6 @@
       "mass_kg": 30
     },
     {
-      "id": "pioneer-wyt-9k",
-      "name": "Pioneer WYT/Diamante 9k",
-      "supply_type": "AC",
-      "supply_voltage": 115,
-      "cooling_btu": 9000,
-      "running_w": 600,
-      "inverter_compressor": true,
-      "eer": 10,
-      "seer2": 19,
-      "form_factor": "split",
-      "diy_install": false,
-      "fit": "tradeoff",
-      "price_usd": 700,
-      "source": "https://www.pioneerminisplit.com",
-      "mass_kg": 30
-    },
-    {
       "id": "della-vita-9k",
       "name": "Della Vita 9k",
       "supply_type": "AC",
@@ -357,40 +277,6 @@
       "fit": "good",
       "price_usd": 550,
       "source": "https://www.amazon.com/dp/B0H28KMF69",
-      "mass_kg": 30
-    },
-    {
-      "id": "senville-leto-9k",
-      "name": "Senville LETO 9k",
-      "supply_type": "AC",
-      "supply_voltage": 115,
-      "cooling_btu": 9000,
-      "running_w": 600,
-      "inverter_compressor": true,
-      "eer": 12,
-      "seer2": 21.5,
-      "form_factor": "split",
-      "diy_install": false,
-      "fit": "tradeoff",
-      "price_usd": 700,
-      "source": "https://senville.com/9000-btu-mini-split-air-conditioner-senl-09cd/",
-      "mass_kg": 30
-    },
-    {
-      "id": "klimaire-ksiv-9k",
-      "name": "Klimaire KSIV 9k",
-      "supply_type": "AC",
-      "supply_voltage": 115,
-      "cooling_btu": 9000,
-      "running_w": 600,
-      "inverter_compressor": true,
-      "eer": 12.5,
-      "seer2": 21.5,
-      "form_factor": "split",
-      "diy_install": false,
-      "fit": "tradeoff",
-      "price_usd": 700,
-      "source": "https://heatandcool.com/9-000-btu-21-5-seer2-klimaire-wall-mounted-ductless-mini-split-inverter-air-conditioner-heat-pump-system-115v.html",
       "mass_kg": 30
     },
     {
@@ -440,24 +326,6 @@
       "price_usd": 300,
       "source": "",
       "mass_kg": 28
-    },
-    {
-      "id": "velit-3000r",
-      "name": "Velit 3000R rooftop DC AC",
-      "supply_type": "DC",
-      "supply_voltage": [
-        24,
-        48
-      ],
-      "cooling_btu": 12000,
-      "running_w": 700,
-      "running_a": 14,
-      "inverter_compressor": true,
-      "form_factor": "self-contained",
-      "fit": "tradeoff",
-      "price_usd": 2155,
-      "mass_kg": 40,
-      "source": "https://velitcamping.com/products/velit-3000r-rooftop-air-conditioner-24-48v"
     },
     {
       "id": "velit-2000r",
@@ -552,54 +420,6 @@
       "price_usd": 3805,
       "mass_kg": 25,
       "source": "https://nomadicinnovations.com/products/x3-12v-24v-48v-off-grid-rooftop-air-conditioner"
-    },
-    {
-      "id": "dometic-rtx-2000",
-      "name": "Dometic CoolAir RTX 2000 DC AC",
-      "supply_type": "DC",
-      "supply_voltage": 12,
-      "cooling_btu": 6824,
-      "running_w": 2000,
-      "running_a": 58,
-      "inverter_compressor": true,
-      "form_factor": "self-contained",
-      "fit": "tradeoff",
-      "price_usd": 2800,
-      "mass_kg": 32,
-      "source": "https://www.dometic.com/en/product/dometic-coolair-rtx-2000-12v-9620001310"
-    },
-    {
-      "id": "mabru-sc12dc",
-      "name": "Mabru SC12DC marine DC AC",
-      "supply_type": "DC",
-      "supply_voltage": 12,
-      "cooling_btu": 12000,
-      "running_w": 1050,
-      "running_a": 85,
-      "inverter_compressor": true,
-      "form_factor": "self-contained",
-      "fit": "tradeoff",
-      "price_usd": 5800,
-      "mass_kg": 30,
-      "source": "https://mabrustore.com/products/mps-12dc-btu-12v-with-pump-heating-and-cooling"
-    },
-    {
-      "id": "guchen-ecooler-2600",
-      "name": "Guchen Ecooler 2600 DC split AC",
-      "supply_type": "DC",
-      "supply_voltage": [
-        12,
-        24
-      ],
-      "cooling_btu": 8870,
-      "running_w": 750,
-      "running_a": 30,
-      "inverter_compressor": true,
-      "form_factor": "split-vehicle",
-      "fit": "tradeoff",
-      "price_usd": 1000,
-      "mass_kg": 21,
-      "source": "https://www.guchen.com/electrical-truck-air-conditioner/ecooler-2600-battery-powered-truck-parking-coolers.html"
     },
     {
       "id": "kingtec-48v-split",

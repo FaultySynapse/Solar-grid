@@ -211,25 +211,6 @@
       "bms_included": true
     },
     {
-      "id": "battleborn-12v-100ah",
-      "name": "Battle Born 12V 100Ah pack",
-      "chemistry": "LFP",
-      "form": "pack",
-      "nominal_voltage": 12.8,
-      "bus_voltage": [
-        12
-      ],
-      "capacity_ah": 100,
-      "capacity_kwh": 1.28,
-      "terminal_type": "stud",
-      "bms": "100A",
-      "condition": "new",
-      "price_usd": 900,
-      "source": "",
-      "mass_kg": 14,
-      "bms_included": true
-    },
-    {
       "id": "sok-12v-206ah",
       "name": "SOK 12V 206Ah pack",
       "chemistry": "LFP",
@@ -302,63 +283,6 @@
       "condition": "new",
       "price_usd": 1300,
       "source": "https://eg4electronics.com",
-      "mass_kg": 40,
-      "bms_included": true
-    },
-    {
-      "id": "eg4-lls-48v",
-      "name": "EG4 LL-S 48V 100Ah",
-      "chemistry": "LFP",
-      "form": "pack",
-      "nominal_voltage": 51.2,
-      "bus_voltage": [
-        48
-      ],
-      "capacity_ah": 100,
-      "capacity_kwh": 5.12,
-      "terminal_type": "lug",
-      "bms": "100A heated option",
-      "condition": "new",
-      "price_usd": 1700,
-      "source": "https://eg4electronics.com",
-      "mass_kg": 45,
-      "bms_included": true
-    },
-    {
-      "id": "sok-48v-100ah",
-      "name": "SOK 48V 100Ah rack",
-      "chemistry": "LFP",
-      "form": "pack",
-      "nominal_voltage": 51.2,
-      "bus_voltage": [
-        48
-      ],
-      "capacity_ah": 100,
-      "capacity_kwh": 5.12,
-      "terminal_type": "lug",
-      "bms": "100A",
-      "condition": "new",
-      "price_usd": 1400,
-      "source": "",
-      "mass_kg": 42,
-      "bms_included": true
-    },
-    {
-      "id": "pytes-48v-100ah",
-      "name": "Pytes / Ruixu 48V 100Ah rack",
-      "chemistry": "LFP",
-      "form": "pack",
-      "nominal_voltage": 51.2,
-      "bus_voltage": [
-        48
-      ],
-      "capacity_ah": 100,
-      "capacity_kwh": 5.12,
-      "terminal_type": "lug",
-      "bms": "100A comms",
-      "condition": "new",
-      "price_usd": 1500,
-      "source": "",
       "mass_kg": 40,
       "bms_included": true
     },
@@ -459,26 +383,6 @@
       "bms_included": false
     },
     {
-      "id": "eve-lf334-334ah",
-      "name": "EVE LF334 334Ah cell",
-      "chemistry": "LFP",
-      "form": "cell",
-      "cell_voltage": 3.2,
-      "bus_voltage": [
-        12,
-        24,
-        48
-      ],
-      "capacity_ah": 334,
-      "capacity_kwh": 1.069,
-      "terminal_type": "stud",
-      "condition": "new",
-      "price_usd": 88.75,
-      "source": "https://www.cneelbattery.com/collections/lifepo4-cells",
-      "mass_kg": 5.9,
-      "bms_included": false
-    },
-    {
       "id": "eve-230ah",
       "name": "EVE 230Ah cell",
       "chemistry": "LFP",
@@ -539,86 +443,6 @@
       "bms_included": false
     },
     {
-      "id": "rept-280ah",
-      "name": "REPT 280Ah ESS cell",
-      "chemistry": "LFP",
-      "form": "cell",
-      "cell_voltage": 3.2,
-      "bus_voltage": [
-        12,
-        24,
-        48
-      ],
-      "capacity_ah": 280,
-      "capacity_kwh": 0.896,
-      "terminal_type": "stud",
-      "condition": "new",
-      "price_usd": 81.0,
-      "source": "https://www.docanpower.com/rept-280ah-raw-cell-usa",
-      "mass_kg": 5.44,
-      "bms_included": false
-    },
-    {
-      "id": "rept-battero-345ah",
-      "name": "REPT Battero 345Ah cell",
-      "chemistry": "LFP",
-      "form": "cell",
-      "cell_voltage": 3.2,
-      "bus_voltage": [
-        12,
-        24,
-        48
-      ],
-      "capacity_ah": 345,
-      "capacity_kwh": 1.104,
-      "terminal_type": "stud",
-      "condition": "new",
-      "price_usd": 100.0,
-      "source": "https://www.docanpower.com/usa-stock/lifepo4-battery",
-      "mass_kg": 5.9,
-      "bms_included": false
-    },
-    {
-      "id": "catl-314ah",
-      "name": "CATL 314Ah cell",
-      "chemistry": "LFP",
-      "form": "cell",
-      "cell_voltage": 3.2,
-      "bus_voltage": [
-        12,
-        24,
-        48
-      ],
-      "capacity_ah": 314,
-      "capacity_kwh": 1.005,
-      "terminal_type": "stud",
-      "condition": "new",
-      "price_usd": 88.0,
-      "source": "https://www.docanpower.com/usa-stock/lifepo4-battery",
-      "mass_kg": 5.5,
-      "bms_included": false
-    },
-    {
-      "id": "cornex-314ah",
-      "name": "Cornex 314Ah cell",
-      "chemistry": "LFP",
-      "form": "cell",
-      "cell_voltage": 3.2,
-      "bus_voltage": [
-        12,
-        24,
-        48
-      ],
-      "capacity_ah": 314,
-      "capacity_kwh": 1.005,
-      "terminal_type": "stud",
-      "condition": "new",
-      "price_usd": 87.0,
-      "source": "https://www.docanpower.com/usa-stock/lifepo4-battery",
-      "mass_kg": 5.6,
-      "bms_included": false
-    },
-    {
       "id": "gotion-lf314-340ah",
       "name": "Gotion LF314 340Ah cell",
       "chemistry": "LFP",
@@ -656,46 +480,6 @@
       "price_usd": 77.5,
       "source": "https://www.cneelbattery.com/collections/lifepo4-cells",
       "mass_kg": 5.5,
-      "bms_included": false
-    },
-    {
-      "id": "hthium-280ah",
-      "name": "HTHIUM 280Ah cell",
-      "chemistry": "LFP",
-      "form": "cell",
-      "cell_voltage": 3.2,
-      "bus_voltage": [
-        12,
-        24,
-        48
-      ],
-      "capacity_ah": 280,
-      "capacity_kwh": 0.896,
-      "terminal_type": "stud",
-      "condition": "new",
-      "price_usd": 72.25,
-      "source": "https://www.cneelbattery.com/collections/lifepo4-cells",
-      "mass_kg": 5.4,
-      "bms_included": false
-    },
-    {
-      "id": "catl-280ah",
-      "name": "CATL 280Ah cell",
-      "chemistry": "LFP",
-      "form": "cell",
-      "cell_voltage": 3.2,
-      "bus_voltage": [
-        12,
-        24,
-        48
-      ],
-      "capacity_ah": 280,
-      "capacity_kwh": 0.896,
-      "terminal_type": "stud",
-      "condition": "new",
-      "price_usd": 75.0,
-      "source": "https://www.cneelbattery.com/collections/lifepo4-cells",
-      "mass_kg": 5.4,
       "bms_included": false
     },
     {

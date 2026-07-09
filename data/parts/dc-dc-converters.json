@@ -114,21 +114,6 @@
       "mass_kg": 1.2
     },
     {
-      "id": "daygreen-a4d12c100",
-      "name": "Daygreen A4D12C100 48->12V 100A",
-      "input_voltage": [
-        48
-      ],
-      "output_voltage": 12,
-      "continuous_a": 100,
-      "efficiency": 0.95,
-      "isolated": false,
-      "cooling": "fanless",
-      "price_usd": 180,
-      "source": "https://daygreen.com/products/36v-48v-to-12v-100a-1200w-dc-dc-step-down-converter-voltage-regulator",
-      "mass_kg": 2.4
-    },
-    {
       "id": "sigsolar-60a-48-12",
       "name": "Signature Solar 60A 48->12V",
       "input_voltage": [
@@ -173,21 +158,6 @@
       "price_usd": 290,
       "source": "https://trcelectronics.com/products/mean-well-sd-1000l-12",
       "mass_kg": 2.5
-    },
-    {
-      "id": "meanwell-rsd-500c-12",
-      "name": "Meanwell RSD-500C-12 (48->12V, isolated)",
-      "input_voltage": [
-        48
-      ],
-      "output_voltage": 12,
-      "continuous_a": 35,
-      "efficiency": 0.88,
-      "isolated": true,
-      "cooling": "fanless",
-      "price_usd": 300,
-      "source": "https://www.simplypowersupply.com/RSD-500C-12",
-      "mass_kg": 1.5
     }
   ]
 }

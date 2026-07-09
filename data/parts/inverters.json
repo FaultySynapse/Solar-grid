@@ -247,23 +247,6 @@
       "efficiency": 0.92
     },
     {
-      "id": "giandel-2000-12",
-      "name": "Giandel 2000W 12V pure sine",
-      "class": "standalone",
-      "input_voltage": 12,
-      "continuous_w": 2000,
-      "surge_w": 4000,
-      "idle_w": 18,
-      "mppt_builtin": false,
-      "output_ac_v": 120,
-      "waveform": "pure sine",
-      "scale": "tent",
-      "price_usd": 230,
-      "source": "https://www.giandel.com/products/gs-2000sar",
-      "mass_kg": 4,
-      "efficiency": 0.9
-    },
-    {
       "id": "ampeak-2000-12",
       "name": "Ampeak 2000W 12V pure sine",
       "class": "standalone",
@@ -381,24 +364,6 @@
       "price_usd": 950,
       "source": "https://www.victronenergy.com/inverters/phoenix-inverter-12v-24v-48v-800va-3kva",
       "mass_kg": 8,
-      "efficiency": 0.95
-    },
-    {
-      "id": "victron-multiplusii-48-3000",
-      "name": "Victron MultiPlus-II 48/3000 120V",
-      "class": "standalone",
-      "input_voltage": 48,
-      "continuous_w": 2400,
-      "surge_w": 6000,
-      "idle_w": 13,
-      "mppt_builtin": false,
-      "output_ac_v": 120,
-      "split_phase": true,
-      "waveform": "pure sine",
-      "scale": "tent",
-      "price_usd": 1000,
-      "source": "https://invertersrus.com/product/victron-pmp482305100/",
-      "mass_kg": 18,
       "efficiency": 0.95
     },
     {
@@ -553,26 +518,6 @@
       "price_usd": 330,
       "mass_kg": 8,
       "source": "https://www.amazon.com/dp/B0D12RGFP1"
-    },
-    {
-      "id": "eco-worthy-3000-24v",
-      "name": "ECO-WORTHY 3000W 24V all-in-one",
-      "class": "all-in-one",
-      "input_voltage": 24,
-      "continuous_w": 3000,
-      "surge_w": 6000,
-      "idle_w": 50,
-      "mppt_builtin": true,
-      "pv_max_voltage": 108,
-      "output_ac_v": 120,
-      "split_phase": false,
-      "waveform": "pure sine",
-      "scale": "tent",
-      "efficiency": 0.9,
-      "mppt_efficiency": 0.98,
-      "price_usd": 500,
-      "mass_kg": 7,
-      "source": "https://www.amazon.com/dp/B087JNXND8"
     },
     {
       "id": "eco-worthy-1500-24v",

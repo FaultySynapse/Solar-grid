@@ -183,8 +183,18 @@ def main():
     print(f"\nTotal strictly-worse parts: {total}")
 
     if args.apply and to_remove:
+        # part files are irregularly named (ac-units.json, batteries.json, ...), so map each
+        # category to its file by the "category" field inside, not by munging the category name.
+        cat_file = {}
+        for f in DATA.glob("*.json"):
+            obj = json.loads(f.read_text())
+            if "category" in obj:
+                cat_file[obj["category"]] = f
         for cat, ids in to_remove.items():
-            f = DATA / (cat.replace("_", "-") + ".json")
+            f = cat_file.get(cat)
+            if f is None:
+                print(f"  ! no data file for category {cat}; skipped")
+                continue
             d = json.loads(f.read_text())
             before = len(d["parts"])
             d["parts"] = [p for p in d["parts"] if p["id"] not in ids]

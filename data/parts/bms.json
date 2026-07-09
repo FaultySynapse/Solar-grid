@@ -1,15 +1,51 @@
 {
   "category": "bms",
   "specs": {
-    "bus_voltage": { "definition": "Bus voltage(s) this BMS supports (by series count). A list means configurable across buses.", "unit": "V", "type": "list" },
-    "series_count": { "definition": "Cell series count(s) supported", "type": "number|list" },
-    "continuous_a": { "definition": "Continuous discharge current rating", "unit": "A", "type": "number" },
-    "comms": { "definition": "Has a data link (Bluetooth and/or CAN/RS485). CAN/RS485 closed-loop is only useful with a matching inverter.", "type": "bool" },
-    "balance": { "definition": "Cell balancing type", "type": "enum", "values": ["passive", "active", "external"] },
-    "price_usd": { "definition": "Approximate price (verify; ranges fluctuate)", "unit": "USD", "type": "number" },
-    "mass_kg": { "definition": "Mass (feeds system_mass_kg); many are estimates +/-30%", "unit": "kg", "type": "number" },
-    "notes": { "definition": "Fit / caveats", "type": "string" },
-    "source": { "definition": "Reference URL", "type": "string" }
+    "bus_voltage": {
+      "definition": "Bus voltage(s) this BMS supports (by series count). A list means configurable across buses.",
+      "unit": "V",
+      "type": "list"
+    },
+    "series_count": {
+      "definition": "Cell series count(s) supported",
+      "type": "number|list"
+    },
+    "continuous_a": {
+      "definition": "Continuous discharge current rating",
+      "unit": "A",
+      "type": "number"
+    },
+    "comms": {
+      "definition": "Has a data link (Bluetooth and/or CAN/RS485). CAN/RS485 closed-loop is only useful with a matching inverter.",
+      "type": "bool"
+    },
+    "balance": {
+      "definition": "Cell balancing type",
+      "type": "enum",
+      "values": [
+        "passive",
+        "active",
+        "external"
+      ]
+    },
+    "price_usd": {
+      "definition": "Approximate price (verify; ranges fluctuate)",
+      "unit": "USD",
+      "type": "number"
+    },
+    "mass_kg": {
+      "definition": "Mass (feeds system_mass_kg); many are estimates +/-30%",
+      "unit": "kg",
+      "type": "number"
+    },
+    "notes": {
+      "definition": "Fit / caveats",
+      "type": "string"
+    },
+    "source": {
+      "definition": "Reference URL",
+      "type": "string"
+    }
   },
   "guidance": [
     "One BMS per series string of bare cells, sized to the bus (series count) and the pack's discharge current. Loads here are small (~10-80 A depending on bus), so a 100 A board is 2-5x margin.",
@@ -21,17 +57,88 @@
     "Considered and excluded from this list (don't fit the single-part FET model): Chargery (drives an external contactor you size yourself) and Batrium (industrial distributed, ~$650, multi-kg) - both overkill/ill-fitting for a portable tent kit."
   ],
   "parts": [
-    { "id": "daly-standard-4s-100a", "name": "Daly Standard 4S 12V 100A (no BT)", "bus_voltage": [12], "series_count": 4, "continuous_a": 100, "comms": false, "balance": "passive", "price_usd": 48, "mass_kg": 0.5, "notes": "Cheapest real option; no cell visibility - weak for new unmatched cells.", "source": "https://www.amazon.com/DALY-LiFePO4-Battery-Protection-Balance/dp/B08JBV1X28" },
-    { "id": "daly-smart-4s-100a-bt", "name": "Daly Smart 4S 12V 100A (Bluetooth)", "bus_voltage": [12], "series_count": 4, "continuous_a": 100, "comms": true, "balance": "passive", "price_usd": 85, "mass_kg": 0.5, "notes": "Common-port; functional app.", "source": "https://www.amazon.com/Lifepo-Common-Balance-Version-Bluetooth/dp/B09K7H2582" },
-    { "id": "jbd-overkill-4s-120a", "name": "JBD/Overkill Solar 4S 120A", "bus_voltage": [12], "series_count": 4, "continuous_a": 120, "comms": true, "balance": "passive", "price_usd": 142, "mass_kg": 0.45, "notes": "Best app/support in class; low-temp cutoff. Being discontinued (stock-only).", "source": "https://overkillsolar.com/product/4s-bms-120a-lifepo4-threaded/" },
-    { "id": "daly-smart-8s-100a-bt", "name": "Daly Smart 8S 24V 100A (Bluetooth)", "bus_voltage": [24], "series_count": 8, "continuous_a": 100, "comms": true, "balance": "passive", "price_usd": 90, "mass_kg": 0.6, "notes": "Common-port.", "source": "https://www.amazon.com/DALY-LiFePo4-Programmable-Bluetooth-Module/dp/B0979914C4" },
-    { "id": "jbd-overkill-8s-100a", "name": "JBD/Overkill Solar 8S 100A", "bus_voltage": [24], "series_count": 8, "continuous_a": 100, "comms": true, "balance": "passive", "price_usd": 130, "mass_kg": 0.5, "notes": "Same family/app as 4S; discontinued/stock-only.", "source": "https://overkillsolar.com/product/8s-bms-100a-lifepo4-no-wires/" },
-    { "id": "jbd-overkill-16s-100a", "name": "JBD/Overkill Solar 16S 100A", "bus_voltage": [48], "series_count": 16, "continuous_a": 100, "comms": true, "balance": "passive", "price_usd": 130, "mass_kg": 0.6, "notes": "Simple well-supported 48V option; discontinued/stock-only.", "source": "https://overkillsolar.com/product/bms-100a-16s-lifepo4-no-wires/" },
-    { "id": "jk-pb2a16s10p", "name": "JKBMS JK-PB2A16S10P inverter BMS 16S 100A 2A active", "bus_voltage": [48], "series_count": 16, "continuous_a": 100, "comms": true, "balance": "active", "price_usd": 105, "mass_kg": 1.2, "notes": "2A active balancer + BT/RS485/CAN; heavy aluminum body; CAN wasted without matching inverter.", "source": "https://www.shop.jkbms.com/product/jk-pb2a16s10p-smart-ess-bms-16s-100a-2a-active-balance/" },
-    { "id": "jk-pb2a16s20p", "name": "JKBMS JK-PB2A16S20P inverter BMS 16S 200A 2A active", "bus_voltage": [48], "series_count": 16, "continuous_a": 200, "comms": true, "balance": "active", "price_usd": 110, "mass_kg": 1.3, "notes": "Higher-current PB2A; GobelPower lists ~$99.", "source": "https://www.gobelpower.com/jk-ess-inverter-bms-16s150a-16s200a-2a-active-balance-bluetooth_p138.html" },
-    { "id": "jk-bd6a24s10p", "name": "JKBMS JK-BD6A24S10P smart 8-24S 100A 0.6A active", "bus_voltage": [24, 48], "series_count": [8, 16], "continuous_a": 100, "comms": true, "balance": "active", "price_usd": 65, "mass_kg": 0.6, "notes": "Best value multi-S: one light board covers 24V & 48V with active balance + BT. Confirm series count.", "source": "https://www.amazon.com/JKBMS-Balance-Bluetooth-Protection-JK-BD6A24S10P/dp/B0D83FRJYN" },
-    { "id": "daly-active-8-24s-100a-can", "name": "Daly Smart 8-24S 100A 1A active (BT+RS485+CAN)", "bus_voltage": [24, 48], "series_count": [8, 16], "continuous_a": 100, "comms": true, "balance": "active", "price_usd": 100, "mass_kg": 0.7, "notes": "One part covers 8S & 16S; CAN only useful with matching inverter.", "source": "https://www.amazon.com/DALY-24V-84V-Balancer-Bluetooth-Lithium/dp/B0DL31XGMP" },
-    { "id": "ant-smart-8-22s", "name": "ANT Smart BMS 8-22S 220A", "bus_voltage": [24, 48], "series_count": [8, 16], "continuous_a": 220, "comms": true, "balance": "active", "price_usd": 75, "mass_kg": 0.7, "notes": "Very flexible/high-current; app/firmware least polished, thin docs (tinkerers).", "source": "https://www.amazon.com/Lifepo4-Battery-Balance-Continuous-Bluetooth/dp/B0FL1135YP" },
-    { "id": "seplos-10e-16s-200a", "name": "Seplos 10E / BMS 3.0 8-16S 200A", "bus_voltage": [24, 48], "series_count": 16, "continuous_a": 200, "comms": true, "balance": "external", "price_usd": 140, "mass_kg": 0.9, "notes": "Powerwall-grade: LCD, BT/CAN/RS485, drives external active balancer; overkill for a tent but robust.", "source": "https://www.amazon.com/Seplos-Management-Bluetooth-Discharge-Protection/dp/B0D61TXPQC" }
+    {
+      "id": "daly-standard-4s-100a",
+      "name": "Daly Standard 4S 12V 100A (no BT)",
+      "bus_voltage": [
+        12
+      ],
+      "series_count": 4,
+      "continuous_a": 100,
+      "comms": false,
+      "balance": "passive",
+      "price_usd": 48,
+      "mass_kg": 0.5,
+      "notes": "Cheapest real option; no cell visibility - weak for new unmatched cells.",
+      "source": "https://www.amazon.com/DALY-LiFePO4-Battery-Protection-Balance/dp/B08JBV1X28"
+    },
+    {
+      "id": "jbd-overkill-4s-120a",
+      "name": "JBD/Overkill Solar 4S 120A",
+      "bus_voltage": [
+        12
+      ],
+      "series_count": 4,
+      "continuous_a": 120,
+      "comms": true,
+      "balance": "passive",
+      "price_usd": 142,
+      "mass_kg": 0.45,
+      "notes": "Best app/support in class; low-temp cutoff. Being discontinued (stock-only).",
+      "source": "https://overkillsolar.com/product/4s-bms-120a-lifepo4-threaded/"
+    },
+    {
+      "id": "jbd-overkill-8s-100a",
+      "name": "JBD/Overkill Solar 8S 100A",
+      "bus_voltage": [
+        24
+      ],
+      "series_count": 8,
+      "continuous_a": 100,
+      "comms": true,
+      "balance": "passive",
+      "price_usd": 130,
+      "mass_kg": 0.5,
+      "notes": "Same family/app as 4S; discontinued/stock-only.",
+      "source": "https://overkillsolar.com/product/8s-bms-100a-lifepo4-no-wires/"
+    },
+    {
+      "id": "jk-bd6a24s10p",
+      "name": "JKBMS JK-BD6A24S10P smart 8-24S 100A 0.6A active",
+      "bus_voltage": [
+        24,
+        48
+      ],
+      "series_count": [
+        8,
+        16
+      ],
+      "continuous_a": 100,
+      "comms": true,
+      "balance": "active",
+      "price_usd": 65,
+      "mass_kg": 0.6,
+      "notes": "Best value multi-S: one light board covers 24V & 48V with active balance + BT. Confirm series count.",
+      "source": "https://www.amazon.com/JKBMS-Balance-Bluetooth-Protection-JK-BD6A24S10P/dp/B0D83FRJYN"
+    },
+    {
+      "id": "ant-smart-8-22s",
+      "name": "ANT Smart BMS 8-22S 220A",
+      "bus_voltage": [
+        24,
+        48
+      ],
+      "series_count": [
+        8,
+        16
+      ],
+      "continuous_a": 220,
+      "comms": true,
+      "balance": "active",
+      "price_usd": 75,
+      "mass_kg": 0.7,
+      "notes": "Very flexible/high-current; app/firmware least polished, thin docs (tinkerers).",
+      "source": "https://www.amazon.com/Lifepo4-Battery-Balance-Continuous-Bluetooth/dp/B0FL1135YP"
+    }
   ]
 }
