@@ -209,8 +209,9 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
     m["panel_voc_cold"] = pan["voc"] * K["cold_voc_factor"]
 
     dod = g("resilience.usable_depth_of_discharge")
+    derate = g("resilience.cloudy_derate")
     usable_need = (m["ac_avg_power_w"] * g("resilience.battery_buffer_runtime")
-                   + m["design_daily_energy_wh"] * g("resilience.cloudy_day_bridge"))
+                   + m["design_daily_energy_wh"] * g("resilience.cloudy_day_bridge") * (1 - derate))
     m["battery_usable_needed_wh"] = usable_need
     m["battery_nominal_needed_wh"] = usable_need / dod
     need_kwh = m["battery_nominal_needed_wh"] / 1000

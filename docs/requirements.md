@@ -51,7 +51,7 @@ battery is only a small buffer.
 | Average AC power while running | ~500 W | Assume near-continuous in a hot leaky tent. |
 | **AC energy per sleep session** | **~4 kWh** | Most delivered **live from panels**; only a fraction comes from the battery. |
 | Battery-backed portion | **~1.5 kWh** | Covers surge, passing clouds, and the shoulders before/after solar noon. |
-| Autonomy | **Buffer only (~4–5 h AC-only)** | No need for overnight/multi-day autonomy — cooling is a daytime activity. |
+| Autonomy | **2-day cloudy bridge** + ~4–5 h daily buffer | Battery carries 2 overcast days at `design_daily × (1 − cloudy_derate)` plus the daily solar-direct buffer. Set in `data/scenario.json` `resilience.cloudy_day_bridge`. |
 | System voltage | **12 V (as-linked)** or **24 V (recommended)** | 24 V is meaningfully better for wiring/MPPT; 12 V is fine if you use the exact linked unit and keep runs short. |
 
 ## 4. Priorities (ranked)

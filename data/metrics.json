@@ -23,7 +23,7 @@
     { "id": "array_w_required", "unit": "W", "inputs": ["design_daily_energy_wh", "site.peak_sun_hours"], "formula": "design_daily_energy_wh / (peak_sun_hours * system_efficiency)" },
     { "id": "panels_needed", "unit": "count", "inputs": ["array_w_required", "solar_panel.watt"], "formula": "ceil(array_w_required / solar_panel.watt)" },
     { "id": "array_w_provided", "unit": "W", "inputs": ["panels_needed", "solar_panel.watt"], "formula": "panels_needed * solar_panel.watt" },
-    { "id": "battery_usable_needed_wh", "unit": "Wh", "inputs": ["ac_avg_power_w", "resilience.battery_buffer_runtime", "design_daily_energy_wh", "resilience.cloudy_day_bridge"], "formula": "ac_avg_power_w * battery_buffer_runtime + design_daily_energy_wh * cloudy_day_bridge" },
+    { "id": "battery_usable_needed_wh", "unit": "Wh", "inputs": ["ac_avg_power_w", "resilience.battery_buffer_runtime", "design_daily_energy_wh", "resilience.cloudy_day_bridge", "resilience.cloudy_derate"], "formula": "ac_avg_power_w * battery_buffer_runtime + design_daily_energy_wh * cloudy_day_bridge * (1 - cloudy_derate)" },
     { "id": "battery_nominal_needed_wh", "unit": "Wh", "inputs": ["battery_usable_needed_wh", "resilience.usable_depth_of_discharge"], "formula": "battery_usable_needed_wh / usable_depth_of_discharge" },
     { "id": "series_count", "unit": "count", "inputs": ["config.bus_voltage", "battery.form"], "formula": "cells: {12:4,24:8,48:16}[bus_voltage]; packs/modules: 1" },
     { "id": "battery_strings", "unit": "count", "inputs": ["battery_nominal_needed_wh", "battery.capacity_kwh", "series_count"], "formula": "cells: ceil(need_kwh / (series_count * cell_kwh)); packs: ceil(need_kwh / pack_kwh)" },
