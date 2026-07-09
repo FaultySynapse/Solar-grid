@@ -81,6 +81,10 @@
       "definition": "Mass of one unit/block (feeds system_mass_kg)",
       "unit": "kg",
       "type": "number"
+    },
+    "btu_claim_inflated": {
+      "definition": "True if the vendor's cooling_btu is a peak/marketing overstatement vs realistic full-load output (informational; does not gate the solver).",
+      "type": "bool"
     }
   },
   "guidance": [
@@ -100,15 +104,17 @@
       "name": "OutEquipPro Skyeline 12V mini split",
       "supply_type": "DC",
       "supply_voltage": 12,
-      "cooling_btu": 12500,
-      "running_w": 500,
-      "running_a": 62,
+      "cooling_btu": 9500,
+      "running_w": 950,
+      "running_a": 79,
       "inverter_compressor": true,
       "form_factor": "split-vehicle",
       "fit": "tradeoff",
       "price_usd": 895,
       "source": "https://outequippro.com/products/12v-air-conditioner-unit-mini-split-12500-btu-dual-fan-quiet-ac",
-      "mass_kg": 18
+      "mass_kg": 18,
+      "eer": 10.0,
+      "btu_claim_inflated": true
     },
     {
       "id": "kingclima-parking-12-24",
@@ -119,14 +125,15 @@
         24
       ],
       "cooling_btu": 10000,
-      "running_w": 500,
-      "running_a": 40,
+      "running_w": 950,
+      "running_a": 79,
       "inverter_compressor": true,
       "form_factor": "split-vehicle",
       "fit": "tradeoff",
       "source": "https://www.kingclima.com/hvac/parking-air-conditioner-12v-mini-split-air-conditioning-systeem-24v-air-conditioner-truck.html",
       "mass_kg": 15,
-      "price_usd": 950
+      "price_usd": 950,
+      "eer": 10.5
     },
     {
       "id": "fullbattery-24v-6k",
@@ -134,14 +141,16 @@
       "supply_type": "DC",
       "supply_voltage": 24,
       "cooling_btu": 6000,
-      "running_w": 350,
-      "running_a": 14,
+      "running_w": 600,
+      "running_a": 25,
       "inverter_compressor": true,
       "form_factor": "split",
       "fit": "tradeoff",
       "price_usd": 2030,
       "source": "https://fullbattery.com/products/24v-mini-split",
-      "mass_kg": 25
+      "mass_kg": 25,
+      "eer": 10.0,
+      "btu_claim_inflated": true
     },
     {
       "id": "inclusive-24-48-dc",
@@ -152,29 +161,16 @@
         48
       ],
       "cooling_btu": 12000,
-      "running_w": 700,
+      "running_w": 850,
       "inverter_compressor": true,
-      "seer2": 30,
+      "seer2": 28,
       "form_factor": "split",
       "fit": "tradeoff",
       "price_usd": 1990,
       "source": "https://inclusiveinc.org/products/dc-direct-mini-split",
-      "mass_kg": 35
-    },
-    {
-      "id": "hotspot-dc4812vrf",
-      "name": "HotSpot Energy DC4812VRF (48V)",
-      "supply_type": "DC",
-      "supply_voltage": 48,
-      "cooling_btu": 12000,
-      "running_w": 544,
-      "running_a": 20,
-      "inverter_compressor": true,
-      "form_factor": "split",
-      "fit": "tradeoff",
-      "price_usd": 2195,
-      "source": "https://www.hotspotenergy.com/DC-air-conditioner/",
-      "mass_kg": 35
+      "mass_kg": 35,
+      "eer": 14.1,
+      "running_a": 35
     },
     {
       "id": "fullbattery-48v-9k",
@@ -182,14 +178,16 @@
       "supply_type": "DC",
       "supply_voltage": 48,
       "cooling_btu": 9000,
-      "running_w": 500,
-      "running_a": 10,
+      "running_w": 900,
+      "running_a": 19,
       "inverter_compressor": true,
       "form_factor": "split",
       "fit": "tradeoff",
       "price_usd": 2030,
       "source": "https://fullbattery.com/products/48v-hvac",
-      "mass_kg": 30
+      "mass_kg": 30,
+      "eer": 10.0,
+      "btu_claim_inflated": true
     },
     {
       "id": "midea-u-8k",
@@ -197,9 +195,9 @@
       "supply_type": "AC",
       "supply_voltage": 115,
       "cooling_btu": 8000,
-      "running_w": 500,
+      "running_w": 535,
       "inverter_compressor": true,
-      "eer": 11,
+      "eer": 15.0,
       "form_factor": "window",
       "diy_install": true,
       "refrigerant": "R32",
@@ -214,9 +212,9 @@
       "supply_type": "AC",
       "supply_voltage": 115,
       "cooling_btu": 6000,
-      "running_w": 400,
+      "running_w": 510,
       "inverter_compressor": true,
-      "eer": 11.5,
+      "eer": 11.8,
       "seer2": 21.5,
       "form_factor": "split",
       "diy_install": false,
@@ -232,10 +230,10 @@
       "supply_type": "AC",
       "supply_voltage": 115,
       "cooling_btu": 12000,
-      "running_w": 800,
+      "running_w": 960,
       "inverter_compressor": true,
-      "eer": 12,
-      "seer2": 20,
+      "eer": 12.5,
+      "seer2": 22.5,
       "form_factor": "split",
       "diy_install": true,
       "refrigerant": "R454B",
@@ -250,9 +248,9 @@
       "supply_type": "AC",
       "supply_voltage": 115,
       "cooling_btu": 9000,
-      "running_w": 500,
+      "running_w": 690,
       "inverter_compressor": true,
-      "eer": 13,
+      "eer": 13.0,
       "seer2": 23,
       "form_factor": "split",
       "diy_install": false,
@@ -268,9 +266,9 @@
       "supply_type": "AC",
       "supply_voltage": 115,
       "cooling_btu": 9000,
-      "running_w": 600,
+      "running_w": 820,
       "inverter_compressor": true,
-      "eer": 12,
+      "eer": 11.0,
       "seer2": 20,
       "form_factor": "split",
       "diy_install": false,
@@ -286,7 +284,7 @@
       "supply_voltage": 230,
       "cooling_btu": 9000,
       "inverter_compressor": true,
-      "eer": 13.5,
+      "eer": 16.8,
       "seer2": 30,
       "form_factor": "split",
       "diy_install": false,
@@ -294,7 +292,8 @@
       "fit": "tradeoff",
       "price_usd": 1700,
       "source": "https://hvacdirect.com/9-000-btu-gree-sapphire-30-seer2-single-zone-wall-mount-mini-split-heat-pump-system-r32-230v.html",
-      "mass_kg": 35
+      "mass_kg": 35,
+      "running_w": 536
     },
     {
       "id": "pioneer-24k-230v",
@@ -302,15 +301,16 @@
       "supply_type": "AC",
       "supply_voltage": 230,
       "cooling_btu": 24000,
-      "running_w": 1500,
+      "running_w": 2100,
       "inverter_compressor": true,
-      "seer2": 19,
+      "seer2": 20,
       "form_factor": "split",
       "diy_install": false,
       "fit": "tradeoff",
       "price_usd": 1300,
       "source": "https://www.pioneerminisplit.com",
-      "mass_kg": 50
+      "mass_kg": 50,
+      "eer": 11.4
     },
     {
       "id": "generic-noninverter-window-12k",
@@ -320,7 +320,7 @@
       "cooling_btu": 12000,
       "running_w": 1050,
       "inverter_compressor": false,
-      "eer": 11,
+      "eer": 11.4,
       "form_factor": "window",
       "fit": "avoid",
       "price_usd": 300,
@@ -338,13 +338,15 @@
       ],
       "cooling_btu": 8000,
       "running_w": 680,
-      "running_a": 20,
+      "running_a": 57,
       "inverter_compressor": true,
       "form_factor": "self-contained",
       "fit": "tradeoff",
       "price_usd": 1829,
       "mass_kg": 34,
-      "source": "https://velitcamping.com/products/velit-2000r-rooftop-air-conditioner-12v-24v"
+      "source": "https://velitcamping.com/products/velit-2000r-rooftop-air-conditioner-12v-24v",
+      "eer": 11.8,
+      "btu_claim_inflated": true
     },
     {
       "id": "velit-2000r-mini",
@@ -356,13 +358,15 @@
       ],
       "cooling_btu": 7000,
       "running_w": 600,
-      "running_a": 20,
+      "running_a": 50,
       "inverter_compressor": true,
       "form_factor": "self-contained",
       "fit": "tradeoff",
       "price_usd": 1679,
       "mass_kg": 28,
-      "source": "https://velitcamping.com/products/velit-2000r-mini-rooftop-air-conditioner-12-48v"
+      "source": "https://velitcamping.com/products/velit-2000r-mini-rooftop-air-conditioner-12-48v",
+      "eer": 11.7,
+      "btu_claim_inflated": true
     },
     {
       "id": "velit-2000u",
@@ -375,13 +379,15 @@
       ],
       "cooling_btu": 8000,
       "running_w": 680,
-      "running_a": 20,
+      "running_a": 57,
       "inverter_compressor": true,
       "form_factor": "self-contained",
       "fit": "tradeoff",
       "price_usd": 1649,
       "mass_kg": 35,
-      "source": "https://velitcamping.com/products/velit-2000u-under-bench-air-conditioner-12v-24v"
+      "source": "https://velitcamping.com/products/velit-2000u-under-bench-air-conditioner-12v-24v",
+      "eer": 11.8,
+      "btu_claim_inflated": true
     },
     {
       "id": "nomadic-x2-helix",
@@ -394,13 +400,14 @@
       ],
       "cooling_btu": 11671,
       "running_w": 1386,
-      "running_a": 25,
+      "running_a": 116,
       "inverter_compressor": true,
       "form_factor": "self-contained",
       "fit": "tradeoff",
       "price_usd": 3515,
       "mass_kg": 20,
-      "source": "https://nomadicinnovations.com/products/x2-12v-24v-48v-compact-rooftop-air-conditioner"
+      "source": "https://nomadicinnovations.com/products/x2-12v-24v-48v-compact-rooftop-air-conditioner",
+      "eer": 8.4
     },
     {
       "id": "nomadic-x3",
@@ -413,13 +420,14 @@
       ],
       "cooling_btu": 13500,
       "running_w": 1500,
-      "running_a": 28,
+      "running_a": 125,
       "inverter_compressor": true,
       "form_factor": "self-contained",
       "fit": "tradeoff",
       "price_usd": 3805,
       "mass_kg": 25,
-      "source": "https://nomadicinnovations.com/products/x3-12v-24v-48v-off-grid-rooftop-air-conditioner"
+      "source": "https://nomadicinnovations.com/products/x3-12v-24v-48v-off-grid-rooftop-air-conditioner",
+      "eer": 9.0
     },
     {
       "id": "kingtec-48v-split",
@@ -434,7 +442,8 @@
       "fit": "tradeoff",
       "price_usd": 1600,
       "mass_kg": 45,
-      "source": "https://kingtecusa.com/product-category/all-electric-a-c-unit/"
+      "source": "https://kingtecusa.com/product-category/all-electric-a-c-unit/",
+      "eer": 12.0
     }
   ]
 }
