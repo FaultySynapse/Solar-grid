@@ -140,7 +140,8 @@
       "form_factor": "split-vehicle",
       "fit": "tradeoff",
       "source": "https://www.kingclima.com/hvac/parking-air-conditioner-12v-mini-split-air-conditioning-systeem-24v-air-conditioner-truck.html",
-      "mass_kg": 15
+      "mass_kg": 15,
+      "price_usd": 950
     },
     {
       "id": "fullbattery-24v-6k",
@@ -454,6 +455,181 @@
       "price_usd": 300,
       "source": "",
       "mass_kg": 28
+    },
+    {
+      "id": "velit-3000r",
+      "name": "Velit 3000R rooftop DC AC",
+      "supply_type": "DC",
+      "supply_voltage": [
+        24,
+        48
+      ],
+      "cooling_btu": 12000,
+      "running_w": 700,
+      "running_a": 14,
+      "inverter_compressor": true,
+      "form_factor": "self-contained",
+      "fit": "tradeoff",
+      "price_usd": 2155,
+      "mass_kg": 40,
+      "source": "https://velitcamping.com/products/velit-3000r-rooftop-air-conditioner-24-48v"
+    },
+    {
+      "id": "velit-2000r",
+      "name": "Velit 2000R rooftop DC AC",
+      "supply_type": "DC",
+      "supply_voltage": [
+        12,
+        24,
+        48
+      ],
+      "cooling_btu": 8000,
+      "running_w": 680,
+      "running_a": 20,
+      "inverter_compressor": true,
+      "form_factor": "self-contained",
+      "fit": "tradeoff",
+      "price_usd": 1829,
+      "mass_kg": 34,
+      "source": "https://velitcamping.com/products/velit-2000r-rooftop-air-conditioner-12v-24v"
+    },
+    {
+      "id": "velit-2000r-mini",
+      "name": "Velit 2000R Mini rooftop DC AC",
+      "supply_type": "DC",
+      "supply_voltage": [
+        12,
+        48
+      ],
+      "cooling_btu": 7000,
+      "running_w": 600,
+      "running_a": 20,
+      "inverter_compressor": true,
+      "form_factor": "self-contained",
+      "fit": "tradeoff",
+      "price_usd": 1679,
+      "mass_kg": 28,
+      "source": "https://velitcamping.com/products/velit-2000r-mini-rooftop-air-conditioner-12-48v"
+    },
+    {
+      "id": "velit-2000u",
+      "name": "Velit 2000U under-bench DC AC",
+      "supply_type": "DC",
+      "supply_voltage": [
+        12,
+        24,
+        48
+      ],
+      "cooling_btu": 8000,
+      "running_w": 680,
+      "running_a": 20,
+      "inverter_compressor": true,
+      "form_factor": "self-contained",
+      "fit": "tradeoff",
+      "price_usd": 1649,
+      "mass_kg": 35,
+      "source": "https://velitcamping.com/products/velit-2000u-under-bench-air-conditioner-12v-24v"
+    },
+    {
+      "id": "nomadic-x2-helix",
+      "name": "Nomadic Cooling X2 Helix DC AC",
+      "supply_type": "DC",
+      "supply_voltage": [
+        12,
+        24,
+        48
+      ],
+      "cooling_btu": 11671,
+      "running_w": 1386,
+      "running_a": 25,
+      "inverter_compressor": true,
+      "form_factor": "self-contained",
+      "fit": "tradeoff",
+      "price_usd": 3515,
+      "mass_kg": 20,
+      "source": "https://nomadicinnovations.com/products/x2-12v-24v-48v-compact-rooftop-air-conditioner"
+    },
+    {
+      "id": "nomadic-x3",
+      "name": "Nomadic Cooling X3 DC AC",
+      "supply_type": "DC",
+      "supply_voltage": [
+        12,
+        24,
+        48
+      ],
+      "cooling_btu": 13500,
+      "running_w": 1500,
+      "running_a": 28,
+      "inverter_compressor": true,
+      "form_factor": "self-contained",
+      "fit": "tradeoff",
+      "price_usd": 3805,
+      "mass_kg": 25,
+      "source": "https://nomadicinnovations.com/products/x3-12v-24v-48v-off-grid-rooftop-air-conditioner"
+    },
+    {
+      "id": "dometic-rtx-2000",
+      "name": "Dometic CoolAir RTX 2000 DC AC",
+      "supply_type": "DC",
+      "supply_voltage": 12,
+      "cooling_btu": 6824,
+      "running_w": 2000,
+      "running_a": 58,
+      "inverter_compressor": true,
+      "form_factor": "self-contained",
+      "fit": "tradeoff",
+      "price_usd": 2800,
+      "mass_kg": 32,
+      "source": "https://www.dometic.com/en/product/dometic-coolair-rtx-2000-12v-9620001310"
+    },
+    {
+      "id": "mabru-sc12dc",
+      "name": "Mabru SC12DC marine DC AC",
+      "supply_type": "DC",
+      "supply_voltage": 12,
+      "cooling_btu": 12000,
+      "running_w": 1050,
+      "running_a": 85,
+      "inverter_compressor": true,
+      "form_factor": "self-contained",
+      "fit": "tradeoff",
+      "price_usd": 5800,
+      "mass_kg": 30,
+      "source": "https://mabrustore.com/products/mps-12dc-btu-12v-with-pump-heating-and-cooling"
+    },
+    {
+      "id": "guchen-ecooler-2600",
+      "name": "Guchen Ecooler 2600 DC split AC",
+      "supply_type": "DC",
+      "supply_voltage": [
+        12,
+        24
+      ],
+      "cooling_btu": 8870,
+      "running_w": 750,
+      "running_a": 30,
+      "inverter_compressor": true,
+      "form_factor": "split-vehicle",
+      "fit": "tradeoff",
+      "price_usd": 1000,
+      "mass_kg": 21,
+      "source": "https://www.guchen.com/electrical-truck-air-conditioner/ecooler-2600-battery-powered-truck-parking-coolers.html"
+    },
+    {
+      "id": "kingtec-48v-split",
+      "name": "Kingtec 48VDC solar split AC",
+      "supply_type": "DC",
+      "supply_voltage": 48,
+      "cooling_btu": 12000,
+      "running_w": 1000,
+      "running_a": 21,
+      "inverter_compressor": true,
+      "form_factor": "split",
+      "fit": "tradeoff",
+      "price_usd": 1600,
+      "mass_kg": 45,
+      "source": "https://kingtecusa.com/product-category/all-electric-a-c-unit/"
     }
   ]
 }

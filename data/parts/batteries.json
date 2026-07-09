@@ -437,6 +437,285 @@
       "source": "",
       "mass_kg": 80,
       "bms_included": true
+    },
+    {
+      "id": "eve-mb31-314ah",
+      "name": "EVE MB31 314Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 314,
+      "capacity_kwh": 1.005,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 74.75,
+      "source": "https://www.18650batterystore.com/collections/lifepo4-prismatic-cells",
+      "mass_kg": 5.6,
+      "bms_included": false
+    },
+    {
+      "id": "eve-lf334-334ah",
+      "name": "EVE LF334 334Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 334,
+      "capacity_kwh": 1.069,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 88.75,
+      "source": "https://www.cneelbattery.com/collections/lifepo4-cells",
+      "mass_kg": 5.9,
+      "bms_included": false
+    },
+    {
+      "id": "eve-230ah",
+      "name": "EVE 230Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 230,
+      "capacity_kwh": 0.736,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 83.0,
+      "source": "https://www.docanpower.com/usa-stock/lifepo4-battery",
+      "mass_kg": 4.3,
+      "bms_included": false
+    },
+    {
+      "id": "eve-105ah",
+      "name": "EVE 105Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 105,
+      "capacity_kwh": 0.336,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 57.5,
+      "source": "https://www.docanpower.com/eve-105ah-raw-cell-usa-stock",
+      "mass_kg": 1.98,
+      "bms_included": false
+    },
+    {
+      "id": "eve-mb56-628ah",
+      "name": "EVE MB56 628Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 628,
+      "capacity_kwh": 2.01,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 150.0,
+      "source": "https://www.docanpower.com/usa-stock/lifepo4-battery",
+      "mass_kg": 11.2,
+      "bms_included": false
+    },
+    {
+      "id": "rept-280ah",
+      "name": "REPT 280Ah ESS cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 280,
+      "capacity_kwh": 0.896,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 81.0,
+      "source": "https://www.docanpower.com/rept-280ah-raw-cell-usa",
+      "mass_kg": 5.44,
+      "bms_included": false
+    },
+    {
+      "id": "rept-battero-345ah",
+      "name": "REPT Battero 345Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 345,
+      "capacity_kwh": 1.104,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 100.0,
+      "source": "https://www.docanpower.com/usa-stock/lifepo4-battery",
+      "mass_kg": 5.9,
+      "bms_included": false
+    },
+    {
+      "id": "catl-314ah",
+      "name": "CATL 314Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 314,
+      "capacity_kwh": 1.005,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 88.0,
+      "source": "https://www.docanpower.com/usa-stock/lifepo4-battery",
+      "mass_kg": 5.5,
+      "bms_included": false
+    },
+    {
+      "id": "cornex-314ah",
+      "name": "Cornex 314Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 314,
+      "capacity_kwh": 1.005,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 87.0,
+      "source": "https://www.docanpower.com/usa-stock/lifepo4-battery",
+      "mass_kg": 5.6,
+      "bms_included": false
+    },
+    {
+      "id": "gotion-lf314-340ah",
+      "name": "Gotion LF314 340Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 340,
+      "capacity_kwh": 1.088,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 64.0,
+      "source": "https://www.docanpower.com/gotion-314ah-prismatic-cell",
+      "mass_kg": 5.69,
+      "bms_included": false
+    },
+    {
+      "id": "calb-314ah",
+      "name": "CALB 314Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 314,
+      "capacity_kwh": 1.005,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 77.5,
+      "source": "https://www.cneelbattery.com/collections/lifepo4-cells",
+      "mass_kg": 5.5,
+      "bms_included": false
+    },
+    {
+      "id": "hthium-280ah",
+      "name": "HTHIUM 280Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 280,
+      "capacity_kwh": 0.896,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 72.25,
+      "source": "https://www.cneelbattery.com/collections/lifepo4-cells",
+      "mass_kg": 5.4,
+      "bms_included": false
+    },
+    {
+      "id": "catl-280ah",
+      "name": "CATL 280Ah cell",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 280,
+      "capacity_kwh": 0.896,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 75.0,
+      "source": "https://www.cneelbattery.com/collections/lifepo4-cells",
+      "mass_kg": 5.4,
+      "bms_included": false
+    },
+    {
+      "id": "relion-48v-30ah-module",
+      "name": "RELiON 48V 30Ah module (no BMS)",
+      "chemistry": "LFP",
+      "form": "module",
+      "nominal_voltage": 51.2,
+      "bus_voltage": [
+        48
+      ],
+      "capacity_ah": 30,
+      "capacity_kwh": 1.536,
+      "terminal_type": "bolt",
+      "bms": "needed",
+      "condition": "used",
+      "price_usd": 109.0,
+      "source": "https://batteryhookup.com/products/needs-bms-relion-48v-30ah-1-536kwh-lifepo4-battery",
+      "mass_kg": 13.0,
+      "bms_included": false
     }
   ]
 }
