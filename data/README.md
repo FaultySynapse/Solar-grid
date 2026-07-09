@@ -16,9 +16,22 @@ data/
   parts/<category>.json   # per-category: spec definitions + the parts list (incl. mass_kg; panels have area_m2; bms is its own category)
   configs.json            # the config table (rows=configs, cols=part categories; each row tags bus_voltage + architecture)
 scripts/
-  run_combinations.py     # ENGINE: filters parts against constraints AND computes metrics (incl. cost/mass/area)
-  solve.py                # detailed metrics + feasibility + objectives for one combination
+  run_combinations.py     # ENGINE: constraints + metrics (cost/mass/area) + catalog feedback (--catalog)
+  solve.py                # metrics + feasibility + objectives for one combination
   rank.py                 # top-N combinations by balanced score, per config and overall
+  detail.py               # full solution sheet: BOM + itemized cost breakdown + sizing + feasibility
+```
+
+## Solution detail sheet — `scripts/detail.py`
+Full report for one system (best-scoring by default): bill of materials, an
+itemized **cost breakdown** (parts + adders + computed wiring + contingency),
+objectives, the sizing chain, and feasibility. Use it to inspect a candidate
+before integrating/iterating.
+```bash
+python3 scripts/detail.py                 # best solution overall
+python3 scripts/detail.py --config C6      # best for one config
+python3 scripts/detail.py --by cost        # best by raw cost
+python3 scripts/detail.py --config C2 --set battery=eve-lf280k --set solar_panel=canadian-400w
 ```
 
 Part categories: `ac_unit`, `inverter`, `charge_controller`, `dc_dc_converter`,

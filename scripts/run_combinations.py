@@ -295,6 +295,40 @@ def verdict(checks):
     return "PASS"
 
 
+# ---------- cost breakdown ----------
+
+def part_quantities(m):
+    """Quantity of each part category in a built system (from solved metrics)."""
+    return {"ac_unit": 1, "inverter": 1, "charge_controller": 1, "dc_dc_converter": 1,
+            "bms": m.get("battery_strings", 1), "battery": m.get("battery_blocks_needed", 1),
+            "solar_panel": m.get("panels_needed", 1)}
+
+
+def cost_breakdown(combo, m, costs):
+    """Itemized cost breakdown for a solved combination: per-part line items,
+    adders, wiring, contingency, total."""
+    qty = part_quantities(m)
+    lines, parts_total = [], 0.0
+    for cat in load_configs()["part_categories"]:
+        p = combo.get(cat)
+        if p is None:
+            continue
+        q = qty.get(cat, 1)
+        unit = p.get("price_usd")
+        line = unit * q if unit is not None else None
+        lines.append({"cat": cat, "id": p["id"], "name": p.get("name", p["id"]),
+                      "qty": q, "unit": unit, "line": line})
+        if line is not None:
+            parts_total += line
+    adders = {k: v["value"] for k, v in costs["adders"].items()}
+    wiring = m.get("wiring_cost_usd") or 0.0
+    contingency = costs["rules"]["contingency_factor"]["value"]
+    subtotal = parts_total + sum(adders.values()) + wiring
+    return {"lines": lines, "parts_total": parts_total, "adders": adders,
+            "wiring": wiring, "subtotal": subtotal, "contingency": contingency,
+            "total": subtotal * contingency}
+
+
 # ---------- balance score ----------
 
 def score(m, costs):
