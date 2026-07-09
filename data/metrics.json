@@ -45,6 +45,21 @@
       "value": 3.2,
       "unit": "V",
       "definition": "Nominal LFP cell voltage (bus->series uses 12->4, 24->8, 48->16)."
+    },
+    "lfp_cell_charge_v": {
+      "value": 3.55,
+      "unit": "V",
+      "definition": "LFP per-cell absorption/charge voltage; battery charge voltage = series_cells x this (e.g. 48V bus = 16 x 3.55 = 56.8V). A PV string must reach this at operating temp to fully charge."
+    },
+    "vmp_voc_ratio": {
+      "value": 0.8,
+      "unit": "fraction",
+      "definition": "Fallback Vmp/Voc ratio for panels missing a vmp spec (typical crystalline silicon)."
+    },
+    "voc_temp_coeff": {
+      "value": -0.3,
+      "unit": "%/degC",
+      "definition": "Panel voltage (Voc/Vmp) temperature coefficient; Vmp collapses in desert heat, which sets the MINIMUM series count needed to keep charging."
     }
   },
   "metrics": [

@@ -214,13 +214,27 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
     mppt_eff = cc.get("efficiency", 0.97) if cc else (inv.get("mppt_efficiency", 0.97) if inv else 0.97)
     m["pv_system_derate"] = m["panel_temp_derate"] * K["soiling_derate"] * K["wiring_derate"] * mppt_eff
     m["array_w_required"] = m["design_daily_energy_wh"] / (g("site.peak_sun_hours") * m["pv_system_derate"] * K["battery_roundtrip"])
-    m["panels_needed"] = math.ceil(m["array_w_required"] / pan["watt"])
-    m["array_w_provided"] = m["panels_needed"] * pan["watt"]
-    m["mppt_current_required"] = m["array_w_provided"] / bus * K["mppt_headroom"]
-    # scale the controller quantity to carry the array current (high current -> more/bigger
-    # controllers -> higher cost, not a warning). All-in-one MPPT (no cc) is assumed adequate.
-    m["controllers_needed"] = math.ceil(m["mppt_current_required"] / cc["rated_a"]) if cc else 0
+    # --- panel stringing: SERIES to reach the MPPT/charge window, PARALLEL for wattage ---
+    # An MPPT is a buck: a string's Vmp (which collapses in desert heat) must exceed the battery
+    # charge voltage, while its cold Voc must stay under the controller/inverter PV ceiling.
+    pv_limit = (cc or {}).get("max_pv_voc") if cc else ((inv or {}).get("pv_max_voltage") if inv else None)
+    m["battery_charge_v"] = SERIES_FOR_BUS[bus] * K["lfp_cell_charge_v"]
+    vmp_stc = pan.get("vmp") or pan["voc"] * K["vmp_voc_ratio"]
+    imp = pan.get("imp") or (pan["watt"] / vmp_stc)
+    m["panel_vmp_hot"] = vmp_stc * (1 + K["voc_temp_coeff"] / 100 * (m["cell_temp_c"] - 25))
     m["panel_voc_cold"] = pan["voc"] * K["cold_voc_factor"]
+    series = max(1, math.ceil(m["battery_charge_v"] / m["panel_vmp_hot"])) if m["panel_vmp_hot"] > 0 else 1
+    m["panel_series"] = series
+    m["panel_string_voc_cold"] = series * m["panel_voc_cold"]
+    m["panel_string_vmp_hot"] = series * m["panel_vmp_hot"]
+    panels_by_power = math.ceil(m["array_w_required"] / pan["watt"])
+    m["panel_strings"] = max(1, math.ceil(panels_by_power / series))
+    m["panels_needed"] = series * m["panel_strings"]
+    m["array_w_provided"] = m["panels_needed"] * pan["watt"]
+    m["pv_string_current_a"] = m["panel_strings"] * imp   # real panel->controller current (series lowers it)
+    m["mppt_current_required"] = m["array_w_provided"] / bus * K["mppt_headroom"]   # battery-side charge current
+    # scale the controller quantity to carry the charge current (parallel units if needed).
+    m["controllers_needed"] = math.ceil(m["mppt_current_required"] / cc["rated_a"]) if cc else 0
 
     dod = g("resilience.usable_depth_of_discharge")
     derate = g("resilience.cloudy_derate")
@@ -271,16 +285,17 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
         adders = sum(v["value"] for v in costs["adders"].values())
         copper = costs["rules"]["wiring_copper_cost_per_a_m"]["value"]
         m["wiring_cost_usd"] = copper * (g("install.battery_run_m") * m["ac_avg_power_w"] / bus
-                                         + g("install.panel_run_m") * m["array_w_provided"] / bus)
+                                         + g("install.panel_run_m") * m["pv_string_current_a"])
         m["total_construction_cost"] = (parts_cost + adders + m["wiring_cost_usd"]) * costs["rules"]["contingency_factor"]["value"]
     else:
         m["wiring_cost_usd"] = None
         m["total_construction_cost"] = None
 
     checks = [("ac_can_hold_setpoint", "FAIL", m["thermal_load_w"] <= m["ac_cooling_w"])]
-    pv_limit = (cc or {}).get("max_pv_voc") if cc else (inv or {}).get("pv_max_voltage")
+    # PV string voltage window: cold Voc under the controller ceiling, hot Vmp above the charge voltage.
     if pv_limit is not None:
-        checks.append(("controller_voltage_ok (1 panel)", "FAIL", m["panel_voc_cold"] <= pv_limit))
+        checks.append((f"pv_string_voc_ok ({m['panel_series']}S<={pv_limit}V)", "FAIL", m["panel_string_voc_cold"] <= pv_limit + 1e-6))
+    checks.append((f"pv_string_charges ({m['panel_string_vmp_hot']:.0f}V>={m['battery_charge_v']:.0f}V)", "FAIL", m["panel_string_vmp_hot"] >= m["battery_charge_v"] - 1e-6))
     # Current-handling is enforced by removing inadequate parts (FAIL) or scaling
     # quantity (controllers), so it lands in cost/wire cost — NOT as a WARN.
     if cc:
@@ -347,7 +362,9 @@ def optimize_config(cfg, cats, scenario, K, costs, by="score", no_warn=False):
     if "charge_controller" in active:
         defaults["charge_controller"] = max(active["charge_controller"], key=lambda p: (p["max_pv_voc"], p["rated_a"]))
     if "solar_panel" in active:
-        defaults["solar_panel"] = min(active["solar_panel"], key=lambda p: p["voc"])
+        # most-stringable panel (lowest Voc/Vmp) as default: it has the widest series window, so if
+        # any panel can satisfy the min-Vmp / max-Voc squeeze on this bus, this one can too.
+        defaults["solar_panel"] = min(active["solar_panel"], key=lambda p: p["voc"] / (p.get("vmp") or p["voc"] * 0.8))
     if "battery" in active:
         working = [p for p in active["battery"] if p.get("condition") != "needs-repair"] or active["battery"]
         defaults["battery"] = min(working, key=lambda p: p.get("price_usd", 1e9) / p["capacity_kwh"])
