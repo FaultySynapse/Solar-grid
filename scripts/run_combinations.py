@@ -279,8 +279,11 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
         checks.append(("controller_bus_ok", "FAIL", bus in cc["max_battery_v"]))
     if inv:
         checks.append(("inverter_power_ok", "FAIL", inv["continuous_w"] >= ac["running_w"] * K["inverter_headroom"]))
+    m["nonworking_count"] = sum(1 for p in combo.values() if p is not None and p.get("condition") == "needs-repair")
     if conv and ac.get("running_a"):
         checks.append(("converter_current_ok", "FAIL", conv["continuous_a"] >= ac["running_a"]))
+    if m["nonworking_count"]:
+        checks.append(("all_parts_working", "WARN", False))
     if bms:
         checks.append(("bms_current_ok", "WARN", bms["continuous_a"] >= m["ac_avg_power_w"] / bus))
     checks.append(("buffer_meets_need", "WARN", m["battery_kwh_provided"] * dod * 1000 >= usable_need - 1))
@@ -340,7 +343,8 @@ def score(m, costs):
     w = costs["balance"]["weights"]
     return (w["cost_per_usd"]["value"] * c
             + w["mass_penalty_per_kg"]["value"] * m["system_mass_kg"]
-            + w["area_penalty_per_m2"]["value"] * m["array_area_m2"])
+            + w["area_penalty_per_m2"]["value"] * m["array_area_m2"]
+            + w.get("condition_penalty_per_part", {}).get("value", 0) * m.get("nonworking_count", 0))
 
 
 # ---------- rendering / CLI ----------

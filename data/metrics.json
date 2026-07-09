@@ -53,6 +53,7 @@
     { "id": "inverter_power_ok", "condition": "inverter.continuous_w >= ac_unit.running_w * inverter_headroom", "severity": "FAIL", "note": "AC path only." },
     { "id": "converter_current_ok", "condition": "dc_dc_converter.continuous_a >= ac_unit.running_a", "severity": "FAIL", "note": "converter path only." },
     { "id": "bms_current_ok", "condition": "bms.continuous_a >= ac_avg_power_w / bus_voltage", "severity": "WARN" },
-    { "id": "buffer_meets_need", "condition": "battery_kwh_provided * DoD * 1000 >= battery_usable_needed_wh", "severity": "WARN" }
+    { "id": "buffer_meets_need", "condition": "battery_kwh_provided * DoD * 1000 >= battery_usable_needed_wh", "severity": "WARN" },
+    { "id": "all_parts_working", "condition": "no selected part has condition = 'needs-repair'", "severity": "WARN", "note": "also incurs a heavy condition_penalty_per_part in the balance score (costs.json)." }
   ]
 }
