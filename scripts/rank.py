@@ -81,14 +81,18 @@ def main():
     configs, per_config, stats, by = rank_all(no_warn=args.no_warn, by=args.by)
     print(f"Ranking by: {by}  (score = cost + mass/area penalties from data/costs.json)")
 
+    cats = rc.load_categories()
     all_results = []
     print("\n=== Top per config ===")
     for cfg in configs["configs"]:
         res = per_config[cfg["id"]]
         all_results.extend(res)
         ev, pr, fe = stats[cfg["id"]]
+        opts = rc.slot_options(cfg, cats)
+        thin = [f"{c}={len(ps)}" for c, ps in opts.items() if ps is not None and len(ps) <= 2]
+        thin_s = f"  ⚠ thin: {', '.join(thin)}" if thin else ""
         print(f"\n{cfg['id']} {cfg['label']}  [{cfg['architecture']}, {cfg['bus_voltage']}V]  "
-              f"({fe} feasible / {pr} priced / {ev} combos)")
+              f"({fe} feasible / {pr} priced / {ev} combos){thin_s}")
         if not res:
             print("   (no feasible+priced combinations)")
         for r in res[:args.n]:

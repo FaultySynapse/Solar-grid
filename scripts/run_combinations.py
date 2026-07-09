@@ -28,6 +28,7 @@ import argparse
 import json
 import itertools
 import math
+import statistics
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -389,6 +390,50 @@ def render_table(configs):
             print("-+-".join("-" * widths[i] for i in range(len(row))))
 
 
+def catalog_feedback(configs, cats, thin=2):
+    """Highlight research gaps: config slots with few qualifying parts, and
+    price outliers within each category."""
+    print(f"=== Coverage — qualifying parts per config slot (! = <= {thin}, research gap) ===")
+    gaps = []
+    for cfg in configs["configs"]:
+        opts = slot_options(cfg, cats)
+        cells = []
+        for cat in configs["part_categories"]:
+            ps = opts[cat]
+            if ps is None:
+                continue
+            n = len(ps)
+            cells.append(f"{cat}={n}{'!' if n <= thin else ''}")
+            if n <= thin:
+                gaps.append((cfg["id"], cat, n, [p["id"] for p in ps]))
+        print(f"  {cfg['id']:<3} {cfg['bus_voltage']:>2}V  " + "  ".join(cells))
+    if gaps:
+        print("\n  Thin slots (more part research would help):")
+        for cid, cat, n, ids in gaps:
+            print(f"    {cid} {cat:<16} {n} option(s): {', '.join(ids)}")
+
+    print("\n=== Price outliers per category (Tukey 1.5*IQR; flags catalog gaps) ===")
+    for cat in sorted(cats):
+        priced = [(p["id"], p["price_usd"]) for p in cats[cat]["parts"] if p.get("price_usd") is not None]
+        n_total = len(cats[cat]["parts"])
+        vals = sorted(v for _, v in priced)
+        if len(vals) < 4:
+            print(f"  {cat:<18} {len(priced)}/{n_total} priced — too few to judge outliers")
+            continue
+        q1, _, q3 = statistics.quantiles(vals, n=4)
+        iqr = q3 - q1
+        lo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+        outliers = sorted(((i, v) for i, v in priced if v < lo or v > hi), key=lambda x: x[1])
+        spread = f"${vals[0]:,.0f}/{statistics.median(vals):,.0f}/{vals[-1]:,.0f} (min/med/max)"
+        unpriced = [p["id"] for p in cats[cat]["parts"] if p.get("price_usd") is None]
+        tail = ""
+        if outliers:
+            tail = "  outliers: " + ", ".join(f"{i} ${v:,.0f}{'↓' if v < lo else '↑'}" for i, v in outliers)
+        if unpriced:
+            tail += f"  | unpriced: {', '.join(unpriced)}"
+        print(f"  {cat:<18} {len(priced)}/{n_total} priced  {spread}{tail}")
+
+
 def check(configs, cats):
     ok = True
     categories = set(configs["part_categories"])
@@ -411,6 +456,7 @@ def main():
     ap.add_argument("--config", help="only this config id (e.g. C6)")
     ap.add_argument("--table", action="store_true", help="print the config x category constraint table")
     ap.add_argument("--metrics", action="store_true", help="metrics + cost for each config's representative combo")
+    ap.add_argument("--catalog", action="store_true", help="catalog feedback: thin config slots + price outliers per category")
     ap.add_argument("--enumerate", type=int, default=0, metavar="N", help="list up to N full part combinations per config")
     ap.add_argument("--check", action="store_true", help="validate constraint fields against spec definitions")
     args = ap.parse_args()
@@ -421,6 +467,8 @@ def main():
         check(configs, cats)
     elif args.table:
         render_table(configs)
+    elif args.catalog:
+        catalog_feedback(configs, cats)
     elif args.metrics:
         metrics_summary(configs, cats, only=args.config)
     else:

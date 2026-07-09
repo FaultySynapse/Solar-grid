@@ -39,7 +39,7 @@
       "type": "number"
     },
     "efficiency": {
-      "definition": "Peak PV->battery MPPT efficiency (feeds pv_derate). PLACEHOLDER pending research.",
+      "definition": "Peak PV->battery MPPT efficiency (feeds pv_derate). Datasheet.",
       "unit": "fraction",
       "type": "number"
     }
@@ -113,7 +113,7 @@
       "price_usd": 230,
       "source": "",
       "mass_kg": 2.5,
-      "efficiency": 0.975
+      "efficiency": 0.98
     },
     {
       "id": "renogy-rover-60",
@@ -129,7 +129,7 @@
       "price_usd": 260,
       "source": "",
       "mass_kg": 2,
-      "efficiency": 0.97
+      "efficiency": 0.98
     }
   ]
 }

@@ -74,12 +74,12 @@
       "type": "number"
     },
     "efficiency": {
-      "definition": "Peak battery->AC conversion efficiency (feeds inverter_conv_loss). PLACEHOLDER pending research.",
+      "definition": "Peak battery->AC conversion efficiency (feeds inverter_conv_loss). Datasheet where available, else typical.",
       "unit": "fraction",
       "type": "number"
     },
     "mppt_efficiency": {
-      "definition": "Peak PV->battery efficiency of built-in MPPT (all-in-one only). PLACEHOLDER pending research.",
+      "definition": "Peak PV->battery efficiency of built-in MPPT (all-in-one only). Datasheet/typical.",
       "unit": "fraction",
       "type": "number"
     }
@@ -149,7 +149,7 @@
       "source": "https://www.currentconnected.com/product/eg4-3000-ehv-48v-inverter-charger/",
       "mass_kg": 11,
       "efficiency": 0.94,
-      "mppt_efficiency": 0.98
+      "mppt_efficiency": 0.99
     },
     {
       "id": "growatt-spf3000tl-48",
@@ -167,7 +167,7 @@
       "price_usd": 650,
       "source": "https://signaturesolar.com/growatt-48v-3kw-250vdc-stackable-off-grid-inverter/",
       "mass_kg": 10,
-      "efficiency": 0.93,
+      "efficiency": 0.9,
       "mppt_efficiency": 0.98
     },
     {
@@ -187,8 +187,8 @@
       "price_usd": 1500,
       "source": "https://eg4electronics.com",
       "mass_kg": 20,
-      "efficiency": 0.94,
-      "mppt_efficiency": 0.98
+      "efficiency": 0.93,
+      "mppt_efficiency": 0.99
     },
     {
       "id": "growatt-spf5000es",
@@ -207,7 +207,7 @@
       "source": "https://en.growatt.com",
       "mass_kg": 14,
       "efficiency": 0.93,
-      "mppt_efficiency": 0.98
+      "mppt_efficiency": 0.97
     },
     {
       "id": "sol-ark-12k",
@@ -226,8 +226,8 @@
       "price_usd": 5000,
       "source": "https://www.sol-ark.com",
       "mass_kg": 50,
-      "efficiency": 0.95,
-      "mppt_efficiency": 0.985
+      "efficiency": 0.975,
+      "mppt_efficiency": 0.99
     },
     {
       "id": "victron-phoenix-12-1200",
@@ -295,7 +295,7 @@
       "price_usd": 380,
       "source": "https://www.renogy.com/products/3000w-12v-pro-pure-sine-wave-inverter-with-ecosleep-mode",
       "mass_kg": 7,
-      "efficiency": 0.9
+      "efficiency": 0.92
     },
     {
       "id": "victron-phoenix-24-2000",
@@ -329,7 +329,7 @@
       "price_usd": 275,
       "source": "https://www.renogy.com/products/2000w-24v-pure-sine-wave-inverter",
       "mass_kg": 4,
-      "efficiency": 0.9
+      "efficiency": 0.92
     },
     {
       "id": "aims-3000-24",
@@ -346,7 +346,7 @@
       "price_usd": 500,
       "source": "https://www.aimscorp.net/product/3000-watt-pure-sine-wave-inverter-24vdc-to-120vac-industrial-grade",
       "mass_kg": 9,
-      "efficiency": 0.9
+      "efficiency": 0.92
     },
     {
       "id": "victron-multiplusii-24-3000",
@@ -381,7 +381,7 @@
       "price_usd": 950,
       "source": "https://www.victronenergy.com/inverters/phoenix-inverter-12v-24v-48v-800va-3kva",
       "mass_kg": 8,
-      "efficiency": 0.94
+      "efficiency": 0.95
     },
     {
       "id": "victron-multiplusii-48-3000",
@@ -399,7 +399,7 @@
       "price_usd": 1000,
       "source": "https://invertersrus.com/product/victron-pmp482305100/",
       "mass_kg": 18,
-      "efficiency": 0.94
+      "efficiency": 0.95
     },
     {
       "id": "victron-quattro-48-5000",
@@ -417,7 +417,7 @@
       "price_usd": 1700,
       "source": "https://www.victronenergy.com",
       "mass_kg": 34,
-      "efficiency": 0.94
+      "efficiency": 0.96
     },
     {
       "id": "aims-3000-48",
@@ -434,7 +434,7 @@
       "price_usd": 575,
       "source": "https://www.aimscorp.net/product/3000-watt-pure-sine-inverter-etl-listed-conforms-to-ul-458-csa-22-2/",
       "mass_kg": 9,
-      "efficiency": 0.9
+      "efficiency": 0.92
     },
     {
       "id": "giandel-48-3000",
@@ -451,7 +451,7 @@
       "price_usd": 350,
       "source": "https://www.giandel.com",
       "mass_kg": 6,
-      "efficiency": 0.9
+      "efficiency": 0.88
     },
     {
       "id": "wzrelb-rbp-3000",

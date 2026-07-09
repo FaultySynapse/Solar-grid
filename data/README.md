@@ -73,6 +73,16 @@ python3 scripts/rank.py --no-warn       # PASS-only (exclude WARN)
 python3 scripts/rank.py --by cost       # rank by raw cost instead of balanced score
 ```
 
+## Catalog feedback — where more part research would help
+```bash
+python3 scripts/run_combinations.py --catalog
+```
+Reports (a) **coverage** — qualifying parts per config slot, flagging thin slots
+(≤2 options) as research gaps; and (b) **price outliers** per category (Tukey
+1.5×IQR) plus unpriced parts. `rank.py` also shows a `⚠ thin:` note per config.
+E.g. it currently flags C5's 24 V all-in-one inverter slot (only 2 options) and
+the unpriced KingClima AC unit.
+
 ## Scenario — `data/scenario.json`
 The machine-readable **conditions** that drive a power solution (the companion to
 `docs/requirements.md`): site (location, peak sun hours, outside temps, humidity,
