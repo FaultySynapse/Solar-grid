@@ -26,8 +26,8 @@
       "definition": "Battery charge/discharge round-trip efficiency."
     },
     "energy_margin": {
-      "value": 1.1,
-      "definition": "Design margin on daily energy."
+      "value": 1.0,
+      "definition": "Design margin on daily energy. (set to 1.0: the conservative thermal load already provides the design margin.)"
     },
     "cold_voc_factor": {
       "value": 1.2,
