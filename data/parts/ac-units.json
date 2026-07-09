@@ -96,21 +96,6 @@
   ],
   "parts": [
     {
-      "id": "jay-12v-cooler",
-      "name": "\"Jay\" 12V truck split AC (eBay 366514149055)",
-      "supply_type": "DC",
-      "supply_voltage": 12,
-      "cooling_btu": 11000,
-      "running_w": 500,
-      "running_a": 70,
-      "inverter_compressor": true,
-      "form_factor": "split-vehicle",
-      "fit": "tradeoff",
-      "price_usd": 335,
-      "source": "https://www.ebay.com/itm/366514149055",
-      "mass_kg": 15
-    },
-    {
       "id": "outequippro-skyeline-12v",
       "name": "OutEquipPro Skyeline 12V mini split",
       "supply_type": "DC",
