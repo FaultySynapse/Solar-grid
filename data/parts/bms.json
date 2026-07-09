@@ -139,6 +139,51 @@
       "mass_kg": 0.7,
       "notes": "Very flexible/high-current; app/firmware least polished, thin docs (tinkerers).",
       "source": "https://www.amazon.com/Lifepo4-Battery-Balance-Continuous-Bluetooth/dp/B0FL1135YP"
+    },
+    {
+      "id": "daly-4s-12v-100a",
+      "name": "Daly 4S 12V 100A (basic, AliExpress)",
+      "bus_voltage": [
+        12
+      ],
+      "series_count": 4,
+      "continuous_a": 100,
+      "comms": false,
+      "balance": "passive",
+      "price_usd": 25,
+      "mass_kg": 0.25,
+      "notes": "Same board as Daly Standard, cheaper via AliExpress (slower shipping). Passive balance; fine for new matched cells on a short trip.",
+      "source": "https://www.aliexpress.com/item/1005001803913333.html"
+    },
+    {
+      "id": "daly-8s-24v-100a",
+      "name": "Daly 8S 24V 100A (basic)",
+      "bus_voltage": [
+        24
+      ],
+      "series_count": 8,
+      "continuous_a": 100,
+      "comms": false,
+      "balance": "passive",
+      "price_usd": 28,
+      "mass_kg": 0.3,
+      "notes": "Cheapest 8S/24V board; passive balance, no BT. Undercuts the JK for 24V builds if you don't need active balance.",
+      "source": "https://www.dalybms.com/bms-8s-24v-100a/"
+    },
+    {
+      "id": "daly-16s-48v-100a",
+      "name": "Daly 16S 48V 100A (basic)",
+      "bus_voltage": [
+        48
+      ],
+      "series_count": 16,
+      "continuous_a": 100,
+      "comms": false,
+      "balance": "passive",
+      "price_usd": 45,
+      "mass_kg": 0.4,
+      "notes": "Cheapest 16S/48V board; passive balance only. JK active-balance is worth the extra for long-term cycling, less so for a one-week trip.",
+      "source": "https://www.aliexpress.com/item/1005001803913333.html"
     }
   ]
 }

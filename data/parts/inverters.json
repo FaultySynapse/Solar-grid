@@ -658,6 +658,43 @@
       "price_usd": 400,
       "mass_kg": 6,
       "source": "https://safeguardpowersolutions.com/sigmapro1524-hybrid-inverter"
+    },
+    {
+      "id": "invertercom-48v-2000w-psw",
+      "name": "inverter.com 48V 2000W Pure Sine (Sungold)",
+      "class": "standalone",
+      "input_voltage": 48,
+      "continuous_w": 2000,
+      "surge_w": 4000,
+      "idle_w": 20,
+      "mppt_builtin": false,
+      "output_ac_v": 120,
+      "waveform": "pure sine",
+      "scale": "tent",
+      "price_usd": 316,
+      "source": "https://www.inverter.com/48v-pure-sine-wave-inverter",
+      "mass_kg": 7,
+      "efficiency": 0.92
+    },
+    {
+      "id": "ecoworthy-3500w-48v-aio",
+      "name": "ECO-WORTHY 3500W 48V AIO (120V split-phase, 80A MPPT)",
+      "class": "all-in-one",
+      "input_voltage": 48,
+      "continuous_w": 3500,
+      "surge_w": 7000,
+      "idle_w": 45,
+      "mppt_builtin": true,
+      "pv_max_voltage": 150,
+      "output_ac_v": 120,
+      "split_phase": true,
+      "waveform": "pure sine",
+      "scale": "tent",
+      "price_usd": 549,
+      "source": "https://www.eco-worthy.com/products/3500w-solar-off-grid-inverter-charger-48v-dc-to-120v-ac-split-phase-power-inverter",
+      "mass_kg": 9,
+      "efficiency": 0.92,
+      "mppt_efficiency": 0.95
     }
   ]
 }
