@@ -2,7 +2,7 @@
 """
 Detailed solve of the derived parameters for ONE part combination.
 
-Uses the engine in run_combinations.py (compute_metrics / compute_cost / verdict).
+Uses the engine in run_combinations.py (compute_metrics / score / verdict).
 Prints every metric + the feasibility checks + total cost for a config's
 representative combo (or an overridden one).
 
@@ -16,7 +16,7 @@ import argparse
 import run_combinations as rc
 
 
-def report_one(cfg, combo, m, checks, cost, breakdown):
+def report_one(cfg, combo, m, checks, costs):
     print(f"\n=== {cfg['id']}: {cfg['label']}  [{cfg['architecture']}, {cfg['bus_voltage']}V] ===")
     print("  parts:")
     for cat, part in combo.items():
@@ -27,7 +27,8 @@ def report_one(cfg, combo, m, checks, cost, breakdown):
              "converter_loss_wh", "design_daily_energy_wh", "array_w_required",
              "panels_needed", "array_w_provided", "mppt_current_required", "panel_voc_cold",
              "battery_usable_needed_wh", "battery_nominal_needed_wh", "series_count",
-             "battery_strings", "battery_blocks_needed", "battery_kwh_provided", "autonomy_hours"]
+             "battery_strings", "battery_blocks_needed", "battery_kwh_provided", "autonomy_hours",
+             "array_area_m2", "system_mass_kg", "total_construction_cost"]
     for k in order:
         if k in m:
             v = m[k]
@@ -35,10 +36,12 @@ def report_one(cfg, combo, m, checks, cost, breakdown):
     print("  feasibility:")
     for name, sev, ok in checks:
         print(f"    [{'ok ' if ok else sev}] {name}")
+    cost = m.get("total_construction_cost")
+    sc = rc.score(m, costs)
     if cost is not None:
-        print(f"  cost: ${cost:,.0f}  (parts ${breakdown['_parts']:,.0f} + adders ${breakdown['_adders']:,.0f} + bms ${breakdown['bms']:,.0f}, x contingency)")
+        print(f"  objectives: cost ${cost:,.0f}  |  mass {m['system_mass_kg']:.0f} kg  |  panel area {m['array_area_m2']:.1f} m2  ->  balance score {sc:,.0f}")
     else:
-        print(f"  cost: n/a ({breakdown})")
+        print(f"  objectives: cost n/a (missing price: {m.get('cost_missing')})  |  mass {m['system_mass_kg']:.0f} kg  |  area {m['array_area_m2']:.1f} m2")
     print(f"  VERDICT: {rc.verdict(checks)}")
 
 
@@ -70,22 +73,24 @@ def main():
         if args.config and cfg["id"] != args.config:
             continue
         combo = rc.pick_combo(cfg, cats, overrides)
-        if any(combo[c] is None for c in ("ac_unit", "solar_panel", "battery")):
+        if any(combo[c] is None for c in ("ac_unit", "solar_panel", "battery", "bms")):
             print(f"{cfg['id']:<3} incomplete combo (missing a required part) — skipping")
             continue
-        m, checks = rc.compute_metrics(cfg, combo, scenario, K)
+        m, checks = rc.compute_metrics(cfg, combo, scenario, K, costs)
         if m.get("incomplete"):
             print(f"{cfg['id']:<3} -> DATA INCOMPLETE: {m['incomplete']}")
             continue
-        cost, breakdown = rc.compute_cost(combo, m, costs)
         if args.config:
-            report_one(cfg, combo, m, checks, cost, breakdown)
+            report_one(cfg, combo, m, checks, costs)
         else:
+            cost = m["total_construction_cost"]
             cost_s = f"${cost:,.0f}" if cost is not None else "$ n/a"
+            sc = rc.score(m, costs)
+            sc_s = f"{sc:,.0f}" if sc is not None else "n/a"
             print(f"{cfg['id']:<3} {cfg['architecture']:<12} {cfg['bus_voltage']:>2}V  "
-                  f"duty={m['ac_duty_cycle']:.2f} ac_avg={m['ac_avg_power_w']:.0f}W "
-                  f"daily={m['design_daily_energy_wh']/1000:.1f}kWh array={m['array_w_provided']:.0f}W "
-                  f"batt={m['battery_kwh_provided']:.1f}kWh {cost_s:>8} -> {rc.verdict(checks)}")
+                  f"duty={m['ac_duty_cycle']:.2f} daily={m['design_daily_energy_wh']/1000:.1f}kWh "
+                  f"{m['array_area_m2']:.1f}m2 mass={m['system_mass_kg']:.0f}kg "
+                  f"{cost_s:>7} score={sc_s:>6} -> {rc.verdict(checks)}")
 
 
 if __name__ == "__main__":

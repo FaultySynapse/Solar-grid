@@ -1,5 +1,5 @@
 {
-  "description": "Cost inputs NOT captured in per-part price_usd. Total system cost for a combination = sum(part.price_usd x quantity) + these adders, x contingency. Quantities come from the solved metrics (panels_needed, battery_blocks_needed). All USD, approximate — verify. Parts with no price_usd (e.g. quote-only) make a combination's cost unknown, and it is excluded from ranking.",
+  "description": "Two jobs: (1) cost adders that feed the total_construction_cost metric (things not in per-part price_usd), and (2) the BALANCE weights that trade the three objective metrics — total_construction_cost, array_area_m2, system_mass_kg — against each other into one selection score used by scripts/rank.py. BMS is now its own part (data/parts/bms.json), so it is NOT a cost rule here.",
   "adders": {
     "balance_of_system": { "value": 150, "unit": "USD", "status": "assumption", "definition": "Fuses (Class-T + string), DC breakers, disconnects, busbars." },
     "wiring":            { "value": 100, "unit": "USD", "status": "assumption", "definition": "Battery cables, PV wire, MC4, lugs." },
@@ -7,7 +7,15 @@
     "dust_enclosure":    { "value": 80,  "unit": "USD", "status": "assumption", "definition": "Sealed dust-proof case + cable glands (playa)." }
   },
   "rules": {
-    "bms_per_battery_string": { "value": 25, "unit": "USD", "status": "assumption", "definition": "Added per series string for DIY cells, or per module whose bms field is 'needed'. Packs with integrated BMS add nothing." },
-    "contingency_factor":     { "value": 1.1, "unit": "factor", "status": "assumption", "definition": "Multiplier on (parts + adders) for misc/small parts/overage." }
+    "contingency_factor": { "value": 1.1, "unit": "factor", "status": "assumption", "definition": "Multiplier on (parts + adders) for misc/small parts/overage." }
+  },
+  "balance": {
+    "objective": "minimize",
+    "note": "score = total_construction_cost + mass_penalty_per_kg * system_mass_kg + area_penalty_per_m2 * array_area_m2. Lower is better. Penalties are cost-equivalent (USD per kg / per m2) so all three objectives combine into a dollar-denominated score. Set a penalty to 0 to ignore that objective; raise it to weight it harder.",
+    "weights": {
+      "cost_per_usd":        { "value": 1.0, "unit": "score/USD", "status": "assumption", "definition": "Weight on total_construction_cost (anchor = 1.0)." },
+      "mass_penalty_per_kg": { "value": 5.0, "unit": "USD/kg", "status": "assumption", "definition": "Cost-equivalent penalty per kg of system mass (portability for a 1-week trip)." },
+      "area_penalty_per_m2": { "value": 20.0, "unit": "USD/m2", "status": "assumption", "definition": "Cost-equivalent penalty per m2 of panel area (packing bulk + desert wind loading)." }
+    }
   }
 }

@@ -171,11 +171,13 @@ def iter_combos(cfg, cats):
 
 # ---------- metrics ----------
 
-def compute_metrics(cfg, combo, scenario, K):
-    """Return (metrics dict, checks list). metrics has key 'incomplete' if unsizable."""
+def compute_metrics(cfg, combo, scenario, K, costs=None):
+    """Return (metrics dict, checks list). metrics has key 'incomplete' if unsizable.
+    If costs is given, also computes the objective metrics total_construction_cost /
+    array_area_m2 / system_mass_kg."""
     g = lambda p: sval(scenario, p)
     ac, inv, conv = combo["ac_unit"], combo["inverter"], combo["dc_dc_converter"]
-    cc, pan, bat = combo["charge_controller"], combo["solar_panel"], combo["battery"]
+    cc, pan, bat, bms = combo["charge_controller"], combo["solar_panel"], combo["battery"], combo.get("bms")
     bus = cfg["bus_voltage"]
     m = {}
 
@@ -228,6 +230,30 @@ def compute_metrics(cfg, combo, scenario, K):
         m["battery_kwh_provided"] = count * bat["capacity_kwh"]
     m["autonomy_hours"] = (m["battery_kwh_provided"] * 1000 * dod / m["ac_avg_power_w"]) if m["ac_avg_power_w"] else float("inf")
 
+    # --- objective metrics: panel area, system mass, total construction cost ---
+    qty = {"ac_unit": 1, "inverter": 1, "charge_controller": 1, "dc_dc_converter": 1,
+           "bms": m["battery_strings"], "battery": m["battery_blocks_needed"],
+           "solar_panel": m["panels_needed"]}
+    m["array_area_m2"] = m["panels_needed"] * pan.get("area_m2", 0)
+    m["system_mass_kg"] = sum(p.get("mass_kg", 0) * qty.get(c, 1)
+                              for c, p in combo.items() if p is not None)
+    parts_cost = 0.0
+    missing = None
+    for c, p in combo.items():
+        if p is None:
+            continue
+        pr = p.get("price_usd")
+        if pr is None:
+            missing = f"{c}:{p['id']}"
+            break
+        parts_cost += pr * qty.get(c, 1)
+    m["cost_missing"] = missing
+    if costs is not None and missing is None:
+        adders = sum(v["value"] for v in costs["adders"].values())
+        m["total_construction_cost"] = (parts_cost + adders) * costs["rules"]["contingency_factor"]["value"]
+    else:
+        m["total_construction_cost"] = None
+
     checks = [("ac_can_hold_setpoint", "FAIL", m["thermal_load_w"] <= m["ac_cooling_w"])]
     pv_limit = (cc or {}).get("max_pv_voc") if cc else (inv or {}).get("pv_max_voltage")
     if pv_limit is not None:
@@ -239,6 +265,8 @@ def compute_metrics(cfg, combo, scenario, K):
         checks.append(("inverter_power_ok", "FAIL", inv["continuous_w"] >= ac["running_w"] * K["inverter_headroom"]))
     if conv and ac.get("running_a"):
         checks.append(("converter_current_ok", "FAIL", conv["continuous_a"] >= ac["running_a"]))
+    if bms:
+        checks.append(("bms_current_ok", "WARN", bms["continuous_a"] >= m["ac_avg_power_w"] / bus))
     checks.append(("buffer_meets_need", "WARN", m["battery_kwh_provided"] * dod * 1000 >= usable_need - 1))
     return m, checks
 
@@ -251,47 +279,18 @@ def verdict(checks):
     return "PASS"
 
 
-# ---------- cost ----------
+# ---------- balance score ----------
 
-def compute_cost(combo, metrics, costs):
-    """Return (total_usd, breakdown) or (None, reason) if a needed price is missing."""
-    qty = {
-        "ac_unit": 1, "inverter": 1, "charge_controller": 1, "dc_dc_converter": 1,
-        "solar_panel": metrics.get("panels_needed", 1),
-        "battery": metrics.get("battery_blocks_needed", 1),
-    }
-    breakdown = {}
-    parts_total = 0.0
-    for cat, part in combo.items():
-        if part is None:
-            continue
-        price = part.get("price_usd")
-        if price is None:
-            return None, f"no price for {cat} '{part['id']}'"
-        line = price * qty.get(cat, 1)
-        breakdown[cat] = line
-        parts_total += line
-
-    adders = {k: v["value"] for k, v in costs["adders"].items()}
-    adders_total = sum(adders.values())
-
-    bat = combo["battery"]
-    bms_each = costs["rules"]["bms_per_battery_string"]["value"]
-    if bat.get("form") == "cell":
-        bms_total = bms_each * metrics.get("battery_strings", 1)
-    elif bat.get("bms") == "needed":
-        bms_total = bms_each * metrics.get("battery_blocks_needed", 1)
-    else:
-        bms_total = 0
-    breakdown["bms"] = bms_total
-    breakdown.update({f"adder:{k}": v for k, v in adders.items()})
-
-    subtotal = parts_total + adders_total + bms_total
-    total = subtotal * costs["rules"]["contingency_factor"]["value"]
-    breakdown["_parts"] = parts_total
-    breakdown["_adders"] = adders_total
-    breakdown["_total"] = total
-    return total, breakdown
+def score(m, costs):
+    """Weighted balance of the three objectives (lower = better). None if cost unknown.
+    score = cost + mass_penalty_per_kg*mass + area_penalty_per_m2*area (all cost-equivalent)."""
+    c = m.get("total_construction_cost")
+    if c is None:
+        return None
+    w = costs["balance"]["weights"]
+    return (w["cost_per_usd"]["value"] * c
+            + w["mass_penalty_per_kg"]["value"] * m["system_mass_kg"]
+            + w["area_penalty_per_m2"]["value"] * m["array_area_m2"])
 
 
 # ---------- rendering / CLI ----------
@@ -349,17 +348,18 @@ def metrics_summary(configs, cats, only=None):
         if any(combo[c] is None for c in ("ac_unit", "solar_panel", "battery")):
             print(f"{cfg['id']:<3} incomplete combo — skipping")
             continue
-        m, checks = compute_metrics(cfg, combo, scenario, K)
+        m, checks = compute_metrics(cfg, combo, scenario, K, costs)
         if m.get("incomplete"):
             print(f"{cfg['id']:<3} {cfg['architecture']:<12} {cfg['bus_voltage']:>2}V  -> DATA INCOMPLETE: {m['incomplete']}")
             continue
-        cost, _ = compute_cost(combo, m, costs)
+        cost = m["total_construction_cost"]
         cost_s = f"${cost:,.0f}" if cost is not None else "$ n/a"
+        sc = score(m, costs)
+        sc_s = f"{sc:,.0f}" if sc is not None else "n/a"
         print(f"{cfg['id']:<3} {cfg['architecture']:<12} {cfg['bus_voltage']:>2}V  "
-              f"load={m['thermal_load_w']:.0f}W duty={m['ac_duty_cycle']:.2f} "
-              f"ac_avg={m['ac_avg_power_w']:.0f}W daily={m['design_daily_energy_wh']/1000:.1f}kWh "
-              f"array={m['array_w_provided']:.0f}W batt={m['battery_kwh_provided']:.1f}kWh  "
-              f"{cost_s:>8}  -> {verdict(checks)}")
+              f"duty={m['ac_duty_cycle']:.2f} daily={m['design_daily_energy_wh']/1000:.1f}kWh "
+              f"array={m['array_w_provided']:.0f}W/{m['array_area_m2']:.1f}m2 batt={m['battery_kwh_provided']:.1f}kWh "
+              f"mass={m['system_mass_kg']:.0f}kg {cost_s:>7} score={sc_s:>6}  -> {verdict(checks)}")
 
 
 def render_table(configs):

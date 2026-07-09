@@ -1,0 +1,23 @@
+{
+  "category": "bms",
+  "specs": {
+    "bus_voltage": { "definition": "Bus voltage(s) this BMS supports (by series count). A list means configurable across buses.", "unit": "V", "type": "list" },
+    "series_count": { "definition": "Cell series count(s) supported", "type": "number|list" },
+    "continuous_a": { "definition": "Continuous discharge current rating", "unit": "A", "type": "number" },
+    "comms": { "definition": "Closed-loop comms (CAN/RS485) to an inverter", "type": "bool" },
+    "price_usd": { "definition": "Approximate price (verify)", "unit": "USD", "type": "number" },
+    "mass_kg": { "definition": "Mass (feeds system_mass_kg)", "unit": "kg", "type": "number" },
+    "source": { "definition": "Reference URL", "type": "string" }
+  },
+  "guidance": [
+    "One BMS per series string of bare cells; sized to the bus (series count) and the pack's continuous discharge current.",
+    "Turnkey batteries with an integrated BMS (bms_included=true) do not need a separate BMS part; the tent configs use bare cells/modules so a BMS is always required.",
+    "Closed-loop comms (CAN/RS485) improves charge control when battery and inverter brands match; not essential for a small buffer."
+  ],
+  "parts": [
+    { "id": "bms-4s-100a", "name": "Generic 4S 100A LFP BMS (12V)", "bus_voltage": [12], "series_count": 4, "continuous_a": 100, "comms": false, "price_usd": 25, "mass_kg": 0.5, "source": "" },
+    { "id": "bms-8s-100a", "name": "Generic 8S 100A LFP BMS (24V)", "bus_voltage": [24], "series_count": 8, "continuous_a": 100, "comms": false, "price_usd": 30, "mass_kg": 0.6, "source": "" },
+    { "id": "bms-16s-100a", "name": "Generic 16S 100A LFP BMS (48V)", "bus_voltage": [48], "series_count": 16, "continuous_a": 100, "comms": false, "price_usd": 35, "mass_kg": 0.8, "source": "" },
+    { "id": "jk-smart-4-16s", "name": "JK smart BMS 4-16S 200A (CAN/RS485)", "bus_voltage": [12, 24, 48], "series_count": [4, 8, 16], "continuous_a": 200, "comms": true, "price_usd": 130, "mass_kg": 1.5, "source": "https://www.jkbms.com" }
+  ]
+}

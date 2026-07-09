@@ -12,14 +12,19 @@ converted to thermal watts inside the engine.
 data/
   scenario.json           # CONDITIONS only — inputs. No derived values.
   metrics.json            # derived-parameter DEFINITIONS (formulas, inputs, feasibility) + constants
-  costs.json              # cost adders NOT in per-part price (BoS, wiring, mounting, dust box, BMS, contingency)
-  parts/<category>.json   # per-category: spec definitions + the parts list
+  costs.json              # cost adders (feed the cost metric) + BALANCE weights (trade cost vs mass vs area)
+  parts/<category>.json   # per-category: spec definitions + the parts list (incl. mass_kg; panels have area_m2; bms is its own category)
   configs.json            # the config table (rows=configs, cols=part categories; each row tags bus_voltage + architecture)
 scripts/
-  run_combinations.py     # ENGINE: filters parts against constraints AND computes metrics + cost
-  solve.py                # detailed metrics + feasibility + cost for one combination
-  rank.py                 # top-N cheapest feasible combinations per config and overall
+  run_combinations.py     # ENGINE: filters parts against constraints AND computes metrics (incl. cost/mass/area)
+  solve.py                # detailed metrics + feasibility + objectives for one combination
+  rank.py                 # top-N combinations by balanced score, per config and overall
 ```
+
+Part categories: `ac_unit`, `inverter`, `charge_controller`, `dc_dc_converter`,
+`battery`, **`bms`** (its own part), `solar_panel`, plus `balance_of_system` (reference).
+The tent configs require **bare batteries** (`bms_included: false`) so a BMS part is
+always selected; turnkey packs with an integrated BMS aren't in the candidate set.
 
 ## Conditions vs. derived (important split)
 - **`scenario.json` holds only conditions/inputs** — site, space, thermal
@@ -43,17 +48,29 @@ python3 scripts/solve.py --list-metrics              # the derived-parameter def
 Verdict per combination is PASS / WARN / FAIL from the feasibility checks (e.g. AC
 can hold setpoint, controller PV-voltage/current fits, inverter power headroom).
 
-## Cost & ranking — `data/costs.json` + `scripts/rank.py`
-Total system cost for a combination = sum(part `price_usd` x quantity, where the
-quantities `panels_needed` / `battery_blocks_needed` come from the solved metrics)
-+ the adders in `costs.json` (BoS, wiring, mounting, dust box, per-string BMS),
-x contingency. A part with no `price_usd` makes that combination's cost unknown,
-so it's excluded from ranking. `rank.py` enumerates every qualifying combination,
-solves it, drops FAILs, and reports the cheapest N per config and overall:
+## Objectives, balancing & ranking — `data/costs.json` + `scripts/rank.py`
+Three **objective metrics** are computed per combination:
+- **`total_construction_cost`** = sum(part `price_usd` × quantity) + adders (BoS,
+  wiring, mounting, dust box) × contingency. Quantities come from the solved
+  metrics (`panels_needed`, `battery_blocks_needed`, and BMS × `battery_strings`).
+  A part with no `price_usd` makes the cost unknown → excluded from ranking.
+- **`array_area_m2`** = `panels_needed` × panel `area_m2` (transport/mount bulk).
+- **`system_mass_kg`** = Σ(part `mass_kg` × quantity) (portability).
+
+`costs.json` `balance.weights` combine them into one **score** (lower = better):
+```
+score = total_construction_cost
+      + mass_penalty_per_kg  × system_mass_kg     (default $5/kg)
+      + area_penalty_per_m2  × array_area_m2       (default $20/m²)
+```
+Penalties are cost-equivalent, so the score is in dollars; set a penalty to 0 to
+ignore that objective. `rank.py` enumerates every qualifying combination, solves
+it, drops FAILs, and reports the best N by score, per config and overall:
 ```bash
-python3 scripts/rank.py                 # top 3 per config + top 10 overall
+python3 scripts/rank.py                 # top 3 per config + top 10 overall (by balanced score)
 python3 scripts/rank.py --n 5 --overall 20
 python3 scripts/rank.py --no-warn       # PASS-only (exclude WARN)
+python3 scripts/rank.py --by cost       # rank by raw cost instead of balanced score
 ```
 
 ## Scenario — `data/scenario.json`

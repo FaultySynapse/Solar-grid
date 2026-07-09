@@ -61,6 +61,15 @@ values; AC power/duty are NOT stored — they come from the AC part + thermal lo
 `scripts/solve.py` computes them per part combination with PASS/WARN/FAIL
 feasibility. Run `python3 scripts/solve.py` (or `--config Cx`).
 
+Objectives & balancing (2026-07-09): three objective metrics are computed per
+combination — **total_construction_cost, array_area_m2, system_mass_kg**.
+`data/costs.json` now holds cost adders AND `balance.weights` (cost-equivalent
+penalties $/kg and $/m²) that combine the three into one score; `rank.py` ranks by
+it (`--by cost` for raw cost). **BMS is its own part** (`data/parts/bms.json`);
+the tent configs require bare batteries (`bms_included: false`) so a BMS is always
+selected (turnkey integrated-BMS packs are out of the candidate set). All parts
+carry `mass_kg`; panels carry `area_m2`. Units are metric throughout.
+
 ## Candidate threads not yet researched
 - [ ] Charge controllers matched to the final bus voltage + surplus-panel Voc.
 - [ ] Portable/dust-proof mounting & enclosure specifics for playa.

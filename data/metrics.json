@@ -1,5 +1,5 @@
 {
-  "description": "Derived parameters — solved PER PART COMBINATION by the engine in scripts/run_combinations.py (compute_metrics), from data/scenario.json + the selected parts (+ the config's bus voltage & architecture). Nothing here is stored in scenario.json. Units are metric (W, degC, Wh, kWh); AC nameplate BTU/h is converted to thermal watts. Each metric lists its formula, the inputs it consumes, and (where relevant) a feasibility condition that flags a combination PASS/WARN/FAIL.",
+  "description": "Derived parameters — solved PER PART COMBINATION by the engine in scripts/run_combinations.py (compute_metrics), from data/scenario.json + the selected parts (+ the config's bus voltage & architecture) + cost adders from data/costs.json. Nothing here is stored in scenario.json. Units are metric (W, degC, kg, m2, Wh, kWh); AC nameplate BTU/h is converted to thermal watts. The three balancing objectives are total_construction_cost, array_area_m2, system_mass_kg — data/costs.json holds the weights that balance them. Each metric lists its formula, the inputs it consumes, and (where relevant) a feasibility condition (PASS/WARN/FAIL).",
   "constants": {
     "btu_h_to_w":            { "value": 0.29307, "definition": "Convert AC nameplate BTU/h to thermal watts (W = BTU/h x 0.29307)." },
     "system_efficiency":     { "value": 0.72, "definition": "PV -> stored/used efficiency (MPPT, wiring, heat derate, dust, charge)." },
@@ -7,40 +7,44 @@
     "cold_voc_factor":       { "value": 1.2, "definition": "Multiplier on panel STC Voc for cold-morning open-circuit voltage." },
     "mppt_headroom":         { "value": 1.25, "definition": "Charge-controller current headroom over array current." },
     "inverter_headroom":     { "value": 1.25, "definition": "Inverter continuous-power headroom over the AC unit's running watts." },
-    "lfp_cell_voltage":      { "value": 3.2, "unit": "V", "definition": "Nominal LFP cell voltage (series-count reference; bus->series uses 12->4, 24->8, 48->16)." }
+    "lfp_cell_voltage":      { "value": 3.2, "unit": "V", "definition": "Nominal LFP cell voltage (bus->series uses 12->4, 24->8, 48->16)." }
   },
   "metrics": [
     { "id": "thermal_load_w", "unit": "W", "inputs": ["thermal_conditions.envelope_ua", "site.outside_temp_day", "thermal_conditions.target_indoor_temp", "thermal_conditions.solar_gain", "thermal_conditions.occupancy_gain", "space.occupancy_count"],
       "formula": "envelope_ua * (outside_temp_day - target_indoor_temp) + solar_gain + occupancy_gain * occupancy_count" },
-    { "id": "ac_cooling_w", "unit": "W", "inputs": ["ac_unit.cooling_btu"], "formula": "ac_unit.cooling_btu * btu_h_to_w  (nameplate BTU/h -> thermal W)" },
-    { "id": "ac_duty_cycle", "unit": "fraction", "inputs": ["thermal_load_w", "ac_cooling_w"], "formula": "min(1, thermal_load_w / ac_cooling_w)",
-      "feasibility": "FAIL if thermal_load_w > ac_cooling_w (unit can't hold setpoint)" },
-    { "id": "ac_avg_power_w", "unit": "W", "inputs": ["ac_unit.running_w", "ac_duty_cycle"], "formula": "ac_unit.running_w * ac_duty_cycle",
-      "note": "AC running power comes from the PART (running_w) scaled by the thermal-load-derived duty cycle." },
+    { "id": "ac_cooling_w", "unit": "W", "inputs": ["ac_unit.cooling_btu"], "formula": "ac_unit.cooling_btu * btu_h_to_w" },
+    { "id": "ac_duty_cycle", "unit": "fraction", "inputs": ["thermal_load_w", "ac_cooling_w"], "formula": "min(1, thermal_load_w / ac_cooling_w)", "feasibility": "FAIL if thermal_load_w > ac_cooling_w" },
+    { "id": "ac_avg_power_w", "unit": "W", "inputs": ["ac_unit.running_w", "ac_duty_cycle"], "formula": "ac_unit.running_w * ac_duty_cycle" },
     { "id": "ac_daily_energy_wh", "unit": "Wh/day", "inputs": ["ac_avg_power_w", "cooling_schedule.cooling_hours"], "formula": "ac_avg_power_w * cooling_hours" },
     { "id": "non_ac_daily_energy_wh", "unit": "Wh/day", "inputs": ["non_ac_loads.items"], "formula": "sum(item.watts * item.hours_per_day)" },
-    { "id": "inverter_idle_energy_wh", "unit": "Wh/day", "inputs": ["inverter.idle_w", "cooling_schedule.cooling_hours"], "formula": "AC-inverter path only: inverter.idle_w * (cooling_hours + 2)" },
-    { "id": "converter_loss_wh", "unit": "Wh/day", "inputs": ["ac_daily_energy_wh", "dc_dc_converter.efficiency"], "formula": "DC-converter path only: ac_daily_energy_wh * (1/efficiency - 1)" },
+    { "id": "inverter_idle_energy_wh", "unit": "Wh/day", "inputs": ["inverter.idle_w", "cooling_schedule.cooling_hours"], "formula": "AC path only: inverter.idle_w * (cooling_hours + 2)" },
+    { "id": "converter_loss_wh", "unit": "Wh/day", "inputs": ["ac_daily_energy_wh", "dc_dc_converter.efficiency"], "formula": "converter path only: ac_daily_energy_wh * (1/efficiency - 1)" },
     { "id": "design_daily_energy_wh", "unit": "Wh/day", "inputs": ["ac_daily_energy_wh", "non_ac_daily_energy_wh", "inverter_idle_energy_wh", "converter_loss_wh"], "formula": "(ac_daily + non_ac + inverter_idle + converter_loss) * energy_margin" },
     { "id": "array_w_required", "unit": "W", "inputs": ["design_daily_energy_wh", "site.peak_sun_hours"], "formula": "design_daily_energy_wh / (peak_sun_hours * system_efficiency)" },
     { "id": "panels_needed", "unit": "count", "inputs": ["array_w_required", "solar_panel.watt"], "formula": "ceil(array_w_required / solar_panel.watt)" },
     { "id": "array_w_provided", "unit": "W", "inputs": ["panels_needed", "solar_panel.watt"], "formula": "panels_needed * solar_panel.watt" },
     { "id": "battery_usable_needed_wh", "unit": "Wh", "inputs": ["ac_avg_power_w", "resilience.battery_buffer_runtime", "design_daily_energy_wh", "resilience.cloudy_day_bridge"], "formula": "ac_avg_power_w * battery_buffer_runtime + design_daily_energy_wh * cloudy_day_bridge" },
     { "id": "battery_nominal_needed_wh", "unit": "Wh", "inputs": ["battery_usable_needed_wh", "resilience.usable_depth_of_discharge"], "formula": "battery_usable_needed_wh / usable_depth_of_discharge" },
-    { "id": "series_count", "unit": "count", "inputs": ["config.bus_voltage", "battery.form"], "formula": "cells: {12:4,24:8,48:16}[bus_voltage]; packs/modules: 1 (already at bus)" },
-    { "id": "battery_blocks_needed", "unit": "count", "inputs": ["battery_nominal_needed_wh", "battery.capacity_kwh", "series_count"], "formula": "cells: series_count * ceil(need_kwh / (series_count * cell_kwh)); packs: ceil(need_kwh / pack_kwh)" },
-    { "id": "battery_kwh_provided", "unit": "kWh", "inputs": ["battery_blocks_needed", "battery.capacity_kwh"], "formula": "strings_or_count * capacity_kwh (nominal)" },
+    { "id": "series_count", "unit": "count", "inputs": ["config.bus_voltage", "battery.form"], "formula": "cells: {12:4,24:8,48:16}[bus_voltage]; packs/modules: 1" },
+    { "id": "battery_strings", "unit": "count", "inputs": ["battery_nominal_needed_wh", "battery.capacity_kwh", "series_count"], "formula": "cells: ceil(need_kwh / (series_count * cell_kwh)); packs: ceil(need_kwh / pack_kwh)" },
+    { "id": "battery_blocks_needed", "unit": "count", "inputs": ["series_count", "battery_strings"], "formula": "cells: series_count * strings; packs: strings" },
+    { "id": "battery_kwh_provided", "unit": "kWh", "inputs": ["battery_blocks_needed", "battery.capacity_kwh"], "formula": "strings_or_count * capacity_kwh" },
     { "id": "autonomy_hours", "unit": "h", "inputs": ["battery_kwh_provided", "resilience.usable_depth_of_discharge", "ac_avg_power_w"], "formula": "battery_kwh_provided * 1000 * DoD / ac_avg_power_w" },
     { "id": "mppt_current_required", "unit": "A", "inputs": ["array_w_provided", "config.bus_voltage"], "formula": "array_w_provided / bus_voltage * mppt_headroom" },
-    { "id": "panel_voc_cold", "unit": "V", "inputs": ["solar_panel.voc"], "formula": "solar_panel.voc * cold_voc_factor (per-panel; multiply by series length for a string)" }
+    { "id": "panel_voc_cold", "unit": "V", "inputs": ["solar_panel.voc"], "formula": "solar_panel.voc * cold_voc_factor" },
+
+    { "id": "array_area_m2", "unit": "m2", "objective": true, "inputs": ["panels_needed", "solar_panel.area_m2"], "formula": "panels_needed * solar_panel.area_m2  (physical panel size to transport/mount)" },
+    { "id": "system_mass_kg", "unit": "kg", "objective": true, "inputs": ["<all selected parts>.mass_kg", "quantities"], "formula": "sum(part.mass_kg * qty) over ac_unit(1), inverter(1), charge_controller(1), dc_dc_converter(1), bms(battery_strings), battery(battery_blocks_needed), solar_panel(panels_needed)" },
+    { "id": "total_construction_cost", "unit": "USD", "objective": true, "inputs": ["<all selected parts>.price_usd", "quantities", "costs.adders", "costs.rules.contingency_factor"], "formula": "( sum(part.price_usd * qty) + sum(costs.adders) ) * contingency_factor. Quantities as for system_mass_kg. Unknown if any selected part lacks price_usd." }
   ],
   "feasibility_checks": [
     { "id": "ac_can_hold_setpoint", "condition": "thermal_load_w <= ac_cooling_w", "severity": "FAIL" },
-    { "id": "controller_voltage_ok", "condition": "panel_voc_cold <= (charge_controller.max_pv_voc or inverter.pv_max_voltage)", "severity": "FAIL", "note": "single-panel check; a series string of N multiplies panel_voc_cold by N." },
-    { "id": "controller_current_ok", "condition": "charge_controller.rated_a >= array_w_provided / bus_voltage", "severity": "WARN", "note": "skip for all-in-one (MPPT built in)." },
+    { "id": "controller_voltage_ok", "condition": "panel_voc_cold <= (charge_controller.max_pv_voc or inverter.pv_max_voltage)", "severity": "FAIL", "note": "single-panel check." },
+    { "id": "controller_current_ok", "condition": "charge_controller.rated_a >= array_w_provided / bus_voltage", "severity": "WARN", "note": "skip for all-in-one." },
     { "id": "controller_bus_ok", "condition": "bus_voltage in charge_controller.max_battery_v", "severity": "FAIL", "note": "skip for all-in-one." },
-    { "id": "inverter_power_ok", "condition": "inverter.continuous_w >= ac_unit.running_w * inverter_headroom", "severity": "FAIL", "note": "AC-inverter path only." },
-    { "id": "converter_current_ok", "condition": "dc_dc_converter.continuous_a >= ac_unit.running_a", "severity": "FAIL", "note": "DC-converter path only." },
+    { "id": "inverter_power_ok", "condition": "inverter.continuous_w >= ac_unit.running_w * inverter_headroom", "severity": "FAIL", "note": "AC path only." },
+    { "id": "converter_current_ok", "condition": "dc_dc_converter.continuous_a >= ac_unit.running_a", "severity": "FAIL", "note": "converter path only." },
+    { "id": "bms_current_ok", "condition": "bms.continuous_a >= ac_avg_power_w / bus_voltage", "severity": "WARN" },
     { "id": "buffer_meets_need", "condition": "battery_kwh_provided * DoD * 1000 >= battery_usable_needed_wh", "severity": "WARN" }
   ]
 }

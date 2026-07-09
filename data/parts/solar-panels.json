@@ -1,39 +1,282 @@
 {
   "category": "solar_panel",
   "specs": {
-    "watt": { "definition": "Rated power at STC", "unit": "W", "type": "number" },
-    "voc": { "definition": "Open-circuit voltage (stringing input to the controller; rises in cold)", "unit": "V", "type": "number" },
-    "vmp": { "definition": "Voltage at max power point", "unit": "V", "type": "number" },
-    "isc": { "definition": "Short-circuit current", "unit": "A", "type": "number" },
-    "cells": { "definition": "Cell count / class", "type": "number" },
-    "form": { "definition": "Physical type", "type": "enum", "values": ["rigid", "foldable"] },
-    "condition": { "definition": "New / used / surplus", "type": "string" },
-    "dollars_per_w": { "definition": "Approximate price per watt", "unit": "USD/W", "type": "number" },
-    "price_usd": { "definition": "Approximate price per panel/unit (verify)", "unit": "USD", "type": "number" },
-    "source": { "definition": "Reference URL", "type": "string" }
+    "watt": {
+      "definition": "Rated power at STC",
+      "unit": "W",
+      "type": "number"
+    },
+    "voc": {
+      "definition": "Open-circuit voltage (stringing input to the controller; rises in cold)",
+      "unit": "V",
+      "type": "number"
+    },
+    "vmp": {
+      "definition": "Voltage at max power point",
+      "unit": "V",
+      "type": "number"
+    },
+    "isc": {
+      "definition": "Short-circuit current",
+      "unit": "A",
+      "type": "number"
+    },
+    "cells": {
+      "definition": "Cell count / class",
+      "type": "number"
+    },
+    "form": {
+      "definition": "Physical type",
+      "type": "enum",
+      "values": [
+        "rigid",
+        "foldable"
+      ]
+    },
+    "condition": {
+      "definition": "New / used / surplus",
+      "type": "string"
+    },
+    "dollars_per_w": {
+      "definition": "Approximate price per watt",
+      "unit": "USD/W",
+      "type": "number"
+    },
+    "price_usd": {
+      "definition": "Approximate price per panel/unit (verify)",
+      "unit": "USD",
+      "type": "number"
+    },
+    "source": {
+      "definition": "Reference URL",
+      "type": "string"
+    },
+    "mass_kg": {
+      "definition": "Mass of one unit/block (feeds system_mass_kg)",
+      "unit": "kg",
+      "type": "number"
+    },
+    "area_m2": {
+      "definition": "Physical panel area (feeds array_area_m2)",
+      "unit": "m2",
+      "type": "number"
+    }
   },
   "guidance": [
     "Monocrystalline default. Larger 60/72-cell 'residential' panels give the best $/W; small 12 V-nominal panels cost more per watt but suit tiny/RV builds.",
     "SF Bay Craigslist has used 300-315 W residential panels at ~$0.14-0.18/W (~$45-55). That's the very good end of the ~$0.05-0.60/W used market. Facebook Marketplace is login-walled (search it yourself).",
-    "Foldable/suitcase panels run $1-2/W (the portability tax) but pack down, self-stand, no glass — good for a 1-week desert teardown.",
+    "Foldable/suitcase panels run $1-2/W (the portability tax) but pack down, self-stand, no glass \u2014 good for a 1-week desert teardown.",
     "Stringing ceiling is the controller's max PV Voc, not the battery bus. Cold-Voc rule: Voc_cold = Voc_STC x (1 + (T_min - 25) x -0.003). Two 40 V-Voc panels in series can approach a 100 V MPPT limit on a cold morning.",
     "Higher string voltage (more in series) = lower current = thinner PV wire. Keep all panels in a string the same model so the string isn't dragged to the weakest panel.",
     "On playa: stake/ballast against wind and wipe dust daily (dust = lost watts). Inspect used panels for cracks/delamination/burnt junction box; confirm MC4 vs cut leads."
   ],
   "parts": [
-    { "id": "used-175w", "name": "Used 175W panel (Craigslist)", "watt": 175, "voc": 22, "cells": 36, "form": "rigid", "condition": "used", "dollars_per_w": 0.14, "price_usd": 25, "source": "https://sfbay.craigslist.org" },
-    { "id": "used-300w-72cell", "name": "Used 300W 72-cell residential (Craigslist)", "watt": 300, "voc": 40, "vmp": 32.8, "isc": 9.61, "cells": 72, "form": "rigid", "condition": "used", "dollars_per_w": 0.15, "price_usd": 45, "source": "https://sfbay.craigslist.org" },
-    { "id": "used-370w-santan", "name": "Used/blemished 370W 72-cell (SanTan-style)", "watt": 370, "voc": 47, "vmp": 39, "isc": 10, "cells": 72, "form": "rigid", "condition": "used", "dollars_per_w": 0.15, "price_usd": 55, "source": "https://www.santansolar.com/product-category/solar-panels/condition/used-solar-panels/" },
-    { "id": "mission-solar-300w", "name": "Mission Solar 300W 72-cell (SanTan)", "watt": 300, "voc": 40.18, "vmp": 32.8, "isc": 9.61, "cells": 72, "form": "rigid", "condition": "used", "dollars_per_w": 0.4, "price_usd": 120, "source": "https://store.santansolar.com/product/mission-solar-300w-72-cell/" },
-    { "id": "renogy-100w-12v", "name": "Renogy 100W 12V mono", "watt": 100, "voc": 24.3, "vmp": 20.4, "isc": 5.2, "cells": 36, "form": "rigid", "condition": "new", "dollars_per_w": 1.0, "price_usd": 100, "source": "https://www.renogy.com" },
-    { "id": "renogy-200w-12v", "name": "Renogy 200W 12V mono", "watt": 200, "voc": 27.5, "vmp": 22.3, "isc": 9.5, "form": "rigid", "condition": "new", "dollars_per_w": 0.65, "price_usd": 130, "source": "https://www.renogy.com" },
-    { "id": "rigid-200w-generic", "name": "Rigid 200W mono (generic)", "watt": 200, "voc": 24, "form": "rigid", "condition": "new", "dollars_per_w": 0.55, "price_usd": 110, "source": "" },
-    { "id": "newpowa-240w-24v", "name": "Newpowa 240W 24V mono", "watt": 240, "voc": 37, "vmp": 30, "isc": 8.6, "cells": 60, "form": "rigid", "condition": "new", "dollars_per_w": 0.5, "price_usd": 120, "source": "" },
-    { "id": "canadian-400w", "name": "Canadian Solar 400W mono", "watt": 400, "voc": 45, "vmp": 37, "isc": 11.4, "cells": 108, "form": "rigid", "condition": "new", "dollars_per_w": 0.3, "price_usd": 120, "source": "" },
-    { "id": "ja-solar-455w-bifacial", "name": "JA Solar 455W bifacial", "watt": 455, "voc": 50, "cells": 144, "form": "rigid", "condition": "used", "dollars_per_w": 0.35, "price_usd": 160, "source": "https://sfbay.craigslist.org" },
-    { "id": "trina-jinko-550w", "name": "Trina/Jinko 550W bifacial", "watt": 550, "voc": 50, "vmp": 42, "isc": 13.9, "cells": 144, "form": "rigid", "condition": "new", "dollars_per_w": 0.25, "price_usd": 140, "source": "" },
-    { "id": "renogy-400-suitcase", "name": "Renogy 400W foldable suitcase", "watt": 400, "voc": 24, "form": "foldable", "condition": "new", "dollars_per_w": 0.49, "price_usd": 195, "source": "https://www.renogy.com" },
-    { "id": "renogy-200-suitcase", "name": "Renogy 200W folding suitcase", "watt": 200, "voc": 24, "form": "foldable", "condition": "new", "dollars_per_w": 1.5, "price_usd": 300, "source": "https://www.renogy.com" },
-    { "id": "ef-220w-blanket", "name": "EF/generic 220W folding blanket", "watt": 220, "voc": 26, "form": "foldable", "condition": "new", "dollars_per_w": 1.4, "price_usd": 300, "source": "" }
+    {
+      "id": "used-175w",
+      "name": "Used 175W panel (Craigslist)",
+      "watt": 175,
+      "voc": 22,
+      "cells": 36,
+      "form": "rigid",
+      "condition": "used",
+      "dollars_per_w": 0.14,
+      "price_usd": 25,
+      "source": "https://sfbay.craigslist.org",
+      "mass_kg": 11,
+      "area_m2": 1.0
+    },
+    {
+      "id": "used-300w-72cell",
+      "name": "Used 300W 72-cell residential (Craigslist)",
+      "watt": 300,
+      "voc": 40,
+      "vmp": 32.8,
+      "isc": 9.61,
+      "cells": 72,
+      "form": "rigid",
+      "condition": "used",
+      "dollars_per_w": 0.15,
+      "price_usd": 45,
+      "source": "https://sfbay.craigslist.org",
+      "mass_kg": 18,
+      "area_m2": 1.6
+    },
+    {
+      "id": "used-370w-santan",
+      "name": "Used/blemished 370W 72-cell (SanTan-style)",
+      "watt": 370,
+      "voc": 47,
+      "vmp": 39,
+      "isc": 10,
+      "cells": 72,
+      "form": "rigid",
+      "condition": "used",
+      "dollars_per_w": 0.15,
+      "price_usd": 55,
+      "source": "https://www.santansolar.com/product-category/solar-panels/condition/used-solar-panels/",
+      "mass_kg": 21,
+      "area_m2": 1.94
+    },
+    {
+      "id": "mission-solar-300w",
+      "name": "Mission Solar 300W 72-cell (SanTan)",
+      "watt": 300,
+      "voc": 40.18,
+      "vmp": 32.8,
+      "isc": 9.61,
+      "cells": 72,
+      "form": "rigid",
+      "condition": "used",
+      "dollars_per_w": 0.4,
+      "price_usd": 120,
+      "source": "https://store.santansolar.com/product/mission-solar-300w-72-cell/",
+      "mass_kg": 18,
+      "area_m2": 1.69
+    },
+    {
+      "id": "renogy-100w-12v",
+      "name": "Renogy 100W 12V mono",
+      "watt": 100,
+      "voc": 24.3,
+      "vmp": 20.4,
+      "isc": 5.2,
+      "cells": 36,
+      "form": "rigid",
+      "condition": "new",
+      "dollars_per_w": 1.0,
+      "price_usd": 100,
+      "source": "https://www.renogy.com",
+      "mass_kg": 7,
+      "area_m2": 0.54
+    },
+    {
+      "id": "renogy-200w-12v",
+      "name": "Renogy 200W 12V mono",
+      "watt": 200,
+      "voc": 27.5,
+      "vmp": 22.3,
+      "isc": 9.5,
+      "form": "rigid",
+      "condition": "new",
+      "dollars_per_w": 0.65,
+      "price_usd": 130,
+      "source": "https://www.renogy.com",
+      "mass_kg": 11,
+      "area_m2": 1.03
+    },
+    {
+      "id": "rigid-200w-generic",
+      "name": "Rigid 200W mono (generic)",
+      "watt": 200,
+      "voc": 24,
+      "form": "rigid",
+      "condition": "new",
+      "dollars_per_w": 0.55,
+      "price_usd": 110,
+      "source": "",
+      "mass_kg": 11,
+      "area_m2": 1.0
+    },
+    {
+      "id": "newpowa-240w-24v",
+      "name": "Newpowa 240W 24V mono",
+      "watt": 240,
+      "voc": 37,
+      "vmp": 30,
+      "isc": 8.6,
+      "cells": 60,
+      "form": "rigid",
+      "condition": "new",
+      "dollars_per_w": 0.5,
+      "price_usd": 120,
+      "source": "",
+      "mass_kg": 13,
+      "area_m2": 1.09
+    },
+    {
+      "id": "canadian-400w",
+      "name": "Canadian Solar 400W mono",
+      "watt": 400,
+      "voc": 45,
+      "vmp": 37,
+      "isc": 11.4,
+      "cells": 108,
+      "form": "rigid",
+      "condition": "new",
+      "dollars_per_w": 0.3,
+      "price_usd": 120,
+      "source": "",
+      "mass_kg": 19,
+      "area_m2": 2.0
+    },
+    {
+      "id": "ja-solar-455w-bifacial",
+      "name": "JA Solar 455W bifacial",
+      "watt": 455,
+      "voc": 50,
+      "cells": 144,
+      "form": "rigid",
+      "condition": "used",
+      "dollars_per_w": 0.35,
+      "price_usd": 160,
+      "source": "https://sfbay.craigslist.org",
+      "mass_kg": 24,
+      "area_m2": 2.2
+    },
+    {
+      "id": "trina-jinko-550w",
+      "name": "Trina/Jinko 550W bifacial",
+      "watt": 550,
+      "voc": 50,
+      "vmp": 42,
+      "isc": 13.9,
+      "cells": 144,
+      "form": "rigid",
+      "condition": "new",
+      "dollars_per_w": 0.25,
+      "price_usd": 140,
+      "source": "",
+      "mass_kg": 27,
+      "area_m2": 2.6
+    },
+    {
+      "id": "renogy-400-suitcase",
+      "name": "Renogy 400W foldable suitcase",
+      "watt": 400,
+      "voc": 24,
+      "form": "foldable",
+      "condition": "new",
+      "dollars_per_w": 0.49,
+      "price_usd": 195,
+      "source": "https://www.renogy.com",
+      "mass_kg": 16,
+      "area_m2": 1.2
+    },
+    {
+      "id": "renogy-200-suitcase",
+      "name": "Renogy 200W folding suitcase",
+      "watt": 200,
+      "voc": 24,
+      "form": "foldable",
+      "condition": "new",
+      "dollars_per_w": 1.5,
+      "price_usd": 300,
+      "source": "https://www.renogy.com",
+      "mass_kg": 9,
+      "area_m2": 0.6
+    },
+    {
+      "id": "ef-220w-blanket",
+      "name": "EF/generic 220W folding blanket",
+      "watt": 220,
+      "voc": 26,
+      "form": "foldable",
+      "condition": "new",
+      "dollars_per_w": 1.4,
+      "price_usd": 300,
+      "source": "",
+      "mass_kg": 5,
+      "area_m2": 1.2
+    }
   ]
 }
