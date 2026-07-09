@@ -72,7 +72,7 @@ def report(cfg, combo, m, checks, costs):
     print(f"  array need {m['array_w_required']:.0f} W -> {m['panels_needed']} x {combo['solar_panel']['id']} = {m['array_w_provided']:.0f} W ({m['array_area_m2']:.1f} m2)")
     print(f"  battery need {m['battery_nominal_needed_wh']/1000:.1f} kWh nominal -> "
           f"{m['series_count']}S x {m['battery_strings']}P = {m['battery_blocks_needed']} x {combo['battery']['id']} "
-          f"= {m['battery_kwh_provided']:.1f} kWh  (autonomy {m['autonomy_hours']:.0f} h)")
+          f"= {m['battery_kwh_provided']:.1f} kWh  (autonomy {m['autonomy_cycles']:.1f} usage cycles / {m['autonomy_cloudy_cycles']:.1f} cloudy))")
     print(f"  MPPT current required {m['mppt_current_required']:.0f} A  |  panel Voc(cold) {m['panel_voc_cold']:.0f} V")
 
     print("\nFEASIBILITY")

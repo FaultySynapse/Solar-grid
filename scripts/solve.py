@@ -28,7 +28,8 @@ def report_one(cfg, combo, m, checks, costs):
              "cell_temp_c", "panel_temp_derate", "pv_system_derate", "array_w_required",
              "panels_needed", "array_w_provided", "mppt_current_required", "controllers_needed", "panel_voc_cold",
              "battery_usable_needed_wh", "battery_nominal_needed_wh", "series_count",
-             "battery_strings", "battery_blocks_needed", "battery_kwh_provided", "autonomy_hours",
+             "battery_strings", "battery_blocks_needed", "battery_kwh_provided",
+             "autonomy_hours", "autonomy_cycles", "autonomy_cloudy_cycles",
              "array_area_m2", "system_mass_kg", "wiring_cost_usd", "total_construction_cost"]
     for k in order:
         if k in m:

@@ -26,7 +26,7 @@ def line(r):
     m = r["m"]
     return (f"score {r['score']:>6,.0f} | ${r['cost']:>6,.0f} {m['system_mass_kg']:>3.0f}kg "
             f"{m['array_area_m2']:.1f}m2 [{r['verdict']:<4}] {m['design_daily_energy_wh']/1000:.1f}kWh/d "
-            f"auton {m['autonomy_hours']:.0f}h  {picks}")
+            f"auton {m['autonomy_cycles']:.1f}cyc  {picks}")
 
 
 def main():

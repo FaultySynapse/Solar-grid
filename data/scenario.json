@@ -43,8 +43,8 @@
   },
 
   "resilience": {
-    "cloudy_day_bridge":         { "value": 2.0, "unit": "days", "status": "assumption", "definition": "Days of overcast operation the battery must carry. On each bridge day the array still delivers cloudy_derate of normal, so the battery supplies design_daily_energy x (1 - cloudy_derate) per day. The main lever on battery size." },
-    "battery_buffer_runtime":    { "value": 4.5, "unit": "h", "status": "assumption", "definition": "AC-only runtime the buffer must cover (surge + passing clouds + shoulders of solar noon), on top of the cloudy-day bridge." },
+    "cloudy_day_bridge":         { "value": 2.0, "unit": "usage_cycles", "status": "assumption", "definition": "Overcast USAGE CYCLES the battery must carry (one cycle = one design_daily_energy = 8h cooling + a day's loads), NOT 48h of continuous operation. On each cloudy cycle the array still delivers cloudy_derate of normal, so the battery supplies design_daily_energy x (1 - cloudy_derate) per cycle. The main lever on battery size." },
+    "battery_buffer_runtime":    { "value": 4.5, "unit": "h", "status": "assumption", "definition": "Intra-cycle AC-only buffer (compressor surge + passing clouds + shoulders of solar noon), added on top of the multi-cycle bridge. The one deliberately hours-based term." },
     "cloudy_derate":             { "value": 0.35, "unit": "fraction", "status": "assumption", "definition": "Fraction of normal daily solar yield on a heavily overcast day; reduces the battery draw during the cloudy-day bridge." },
     "usable_depth_of_discharge": { "value": 0.8, "unit": "fraction", "status": "assumption", "definition": "LiFePO4 daily DoD used to convert usable Wh to nominal battery kWh." }
   }

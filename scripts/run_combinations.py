@@ -244,6 +244,10 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
         m["battery_blocks_needed"] = count
         m["battery_kwh_provided"] = count * bat["capacity_kwh"]
     m["autonomy_hours"] = (m["battery_kwh_provided"] * 1000 * dod / m["ac_avg_power_w"]) if m["ac_avg_power_w"] else float("inf")
+    # autonomy in USAGE CYCLES (one cycle = design_daily_energy = 8h cooling + a day's loads),
+    # not continuous run-hours: full-blackout cycles, and cloudy cycles (35% solar assist each day).
+    m["autonomy_cycles"] = (m["battery_kwh_provided"] * 1000 * dod / m["design_daily_energy_wh"]) if m["design_daily_energy_wh"] else float("inf")
+    m["autonomy_cloudy_cycles"] = (m["autonomy_cycles"] / (1 - derate)) if m["design_daily_energy_wh"] else float("inf")
     # usable capacity above the full requirement — rewarded by the capacity bounty in score()
     m["battery_extra_kwh"] = max(0.0, m["battery_kwh_provided"] - m["battery_nominal_needed_wh"] / 1000)
 
