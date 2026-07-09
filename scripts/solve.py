@@ -24,11 +24,12 @@ def report_one(cfg, combo, m, checks, costs):
     print("  derived metrics:")
     order = ["thermal_load_w", "ac_cooling_w", "ac_duty_cycle", "ac_avg_power_w",
              "ac_daily_energy_wh", "non_ac_daily_energy_wh", "inverter_idle_energy_wh",
-             "converter_loss_wh", "design_daily_energy_wh", "array_w_required",
+             "inverter_conv_loss_wh", "converter_loss_wh", "design_daily_energy_wh",
+             "cell_temp_c", "panel_temp_derate", "pv_system_derate", "array_w_required",
              "panels_needed", "array_w_provided", "mppt_current_required", "panel_voc_cold",
              "battery_usable_needed_wh", "battery_nominal_needed_wh", "series_count",
              "battery_strings", "battery_blocks_needed", "battery_kwh_provided", "autonomy_hours",
-             "array_area_m2", "system_mass_kg", "total_construction_cost"]
+             "array_area_m2", "system_mass_kg", "wiring_cost_usd", "total_construction_cost"]
     for k in order:
         if k in m:
             v = m[k]

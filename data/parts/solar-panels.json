@@ -60,6 +60,16 @@
       "definition": "Physical panel area (feeds array_area_m2)",
       "unit": "m2",
       "type": "number"
+    },
+    "temp_coeff_pmax": {
+      "definition": "Temperature coefficient of Pmax (negative; feeds cell-temperature derate). Datasheet where available, else typical for the cell class.",
+      "unit": "%/degC",
+      "type": "number"
+    },
+    "noct": {
+      "definition": "Nominal Operating Cell Temperature / NMOT (feeds cell-temp estimate). Datasheet where available.",
+      "unit": "degC",
+      "type": "number"
     }
   },
   "guidance": [
@@ -83,7 +93,9 @@
       "price_usd": 25,
       "source": "https://sfbay.craigslist.org",
       "mass_kg": 11,
-      "area_m2": 1.0
+      "area_m2": 1.0,
+      "temp_coeff_pmax": -0.45,
+      "noct": 45
     },
     {
       "id": "used-300w-72cell",
@@ -99,7 +111,9 @@
       "price_usd": 45,
       "source": "https://sfbay.craigslist.org",
       "mass_kg": 18,
-      "area_m2": 1.6
+      "area_m2": 1.6,
+      "temp_coeff_pmax": -0.42,
+      "noct": 45
     },
     {
       "id": "used-370w-santan",
@@ -115,7 +129,9 @@
       "price_usd": 55,
       "source": "https://www.santansolar.com/product-category/solar-panels/condition/used-solar-panels/",
       "mass_kg": 21,
-      "area_m2": 1.94
+      "area_m2": 1.94,
+      "temp_coeff_pmax": -0.39,
+      "noct": 45
     },
     {
       "id": "mission-solar-300w",
@@ -131,7 +147,9 @@
       "price_usd": 120,
       "source": "https://store.santansolar.com/product/mission-solar-300w-72-cell/",
       "mass_kg": 18,
-      "area_m2": 1.69
+      "area_m2": 1.69,
+      "temp_coeff_pmax": -0.427,
+      "noct": 44
     },
     {
       "id": "renogy-100w-12v",
@@ -147,7 +165,9 @@
       "price_usd": 100,
       "source": "https://www.renogy.com",
       "mass_kg": 7,
-      "area_m2": 0.54
+      "area_m2": 0.54,
+      "temp_coeff_pmax": -0.44,
+      "noct": 47
     },
     {
       "id": "renogy-200w-12v",
@@ -162,7 +182,9 @@
       "price_usd": 130,
       "source": "https://www.renogy.com",
       "mass_kg": 11,
-      "area_m2": 1.03
+      "area_m2": 1.03,
+      "temp_coeff_pmax": -0.37,
+      "noct": 47
     },
     {
       "id": "rigid-200w-generic",
@@ -175,7 +197,9 @@
       "price_usd": 110,
       "source": "",
       "mass_kg": 11,
-      "area_m2": 1.0
+      "area_m2": 1.0,
+      "temp_coeff_pmax": -0.38,
+      "noct": 45
     },
     {
       "id": "newpowa-240w-24v",
@@ -191,7 +215,9 @@
       "price_usd": 120,
       "source": "",
       "mass_kg": 13,
-      "area_m2": 1.09
+      "area_m2": 1.09,
+      "temp_coeff_pmax": -0.5,
+      "noct": 47
     },
     {
       "id": "canadian-400w",
@@ -207,7 +233,9 @@
       "price_usd": 120,
       "source": "",
       "mass_kg": 19,
-      "area_m2": 2.0
+      "area_m2": 2.0,
+      "temp_coeff_pmax": -0.34,
+      "noct": 42
     },
     {
       "id": "ja-solar-455w-bifacial",
@@ -221,7 +249,9 @@
       "price_usd": 160,
       "source": "https://sfbay.craigslist.org",
       "mass_kg": 24,
-      "area_m2": 2.2
+      "area_m2": 2.2,
+      "temp_coeff_pmax": -0.354,
+      "noct": 45
     },
     {
       "id": "trina-jinko-550w",
@@ -237,7 +267,9 @@
       "price_usd": 140,
       "source": "",
       "mass_kg": 27,
-      "area_m2": 2.6
+      "area_m2": 2.6,
+      "temp_coeff_pmax": -0.35,
+      "noct": 45
     },
     {
       "id": "renogy-400-suitcase",
@@ -250,7 +282,9 @@
       "price_usd": 195,
       "source": "https://www.renogy.com",
       "mass_kg": 16,
-      "area_m2": 1.2
+      "area_m2": 1.2,
+      "temp_coeff_pmax": -0.4,
+      "noct": 45
     },
     {
       "id": "renogy-200-suitcase",
@@ -263,7 +297,9 @@
       "price_usd": 300,
       "source": "https://www.renogy.com",
       "mass_kg": 9,
-      "area_m2": 0.6
+      "area_m2": 0.6,
+      "temp_coeff_pmax": -0.44,
+      "noct": 47
     },
     {
       "id": "ef-220w-blanket",
@@ -276,7 +312,9 @@
       "price_usd": 300,
       "source": "",
       "mass_kg": 5,
-      "area_m2": 1.2
+      "area_m2": 1.2,
+      "temp_coeff_pmax": -0.4,
+      "noct": 45
     }
   ]
 }

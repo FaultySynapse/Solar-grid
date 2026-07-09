@@ -27,6 +27,11 @@
     "cooling_hours":       { "value": 8, "unit": "h/day", "status": "assumption", "definition": "Hours the AC runs per day (feeds AC daily energy)." }
   },
 
+  "install": {
+    "battery_run_m":       { "value": 2, "unit": "m", "status": "known", "definition": "One-way cable run battery<->AC/inverter. Short (battery sits next to the AC unit). Feeds wiring cost (current = load/bus)." },
+    "panel_run_m":         { "value": 4, "unit": "m", "status": "assumption", "definition": "One-way cable run panels<->controller. Longer than the battery run. Feeds wiring cost (current = array/bus)." }
+  },
+
   "non_ac_loads": {
     "definition": "Itemized non-AC loads; the daily total is derived (sum of watts x hours), not stored.",
     "items": [

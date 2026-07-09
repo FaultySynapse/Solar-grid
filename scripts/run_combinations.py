@@ -198,11 +198,21 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
 
     m["non_ac_daily_energy_wh"] = sum(i["watts"] * i["hours_per_day"] for i in scenario["non_ac_loads"]["items"])
     m["inverter_idle_energy_wh"] = inv.get("idle_w", 0) * (hours + 2) if inv else 0
+    inv_eff = inv.get("efficiency", 0.90) if inv else None
+    m["inverter_conv_loss_wh"] = m["ac_daily_energy_wh"] * (1 / inv_eff - 1) if inv else 0
     m["converter_loss_wh"] = m["ac_daily_energy_wh"] * (1 / conv["efficiency"] - 1) if conv else 0
     m["design_daily_energy_wh"] = (m["ac_daily_energy_wh"] + m["non_ac_daily_energy_wh"]
-                                   + m["inverter_idle_energy_wh"] + m["converter_loss_wh"]) * K["energy_margin"]
+                                   + m["inverter_idle_energy_wh"] + m["inverter_conv_loss_wh"]
+                                   + m["converter_loss_wh"]) * K["energy_margin"]
 
-    m["array_w_required"] = m["design_daily_energy_wh"] / (g("site.peak_sun_hours") * K["system_efficiency"])
+    # part-specific panel temperature derate + composite PV-system derate
+    noct = pan.get("noct", 45)
+    tc = pan.get("temp_coeff_pmax", -0.38)
+    m["cell_temp_c"] = g("site.outside_temp_day") + (noct - 20) / 800 * K["irradiance_design"]
+    m["panel_temp_derate"] = 1 + tc / 100 * (m["cell_temp_c"] - 25)
+    mppt_eff = cc.get("efficiency", 0.97) if cc else (inv.get("mppt_efficiency", 0.97) if inv else 0.97)
+    m["pv_system_derate"] = m["panel_temp_derate"] * K["soiling_derate"] * K["wiring_derate"] * mppt_eff
+    m["array_w_required"] = m["design_daily_energy_wh"] / (g("site.peak_sun_hours") * m["pv_system_derate"] * K["battery_roundtrip"])
     m["panels_needed"] = math.ceil(m["array_w_required"] / pan["watt"])
     m["array_w_provided"] = m["panels_needed"] * pan["watt"]
     m["mppt_current_required"] = m["array_w_provided"] / bus * K["mppt_headroom"]
@@ -251,8 +261,12 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
     m["cost_missing"] = missing
     if costs is not None and missing is None:
         adders = sum(v["value"] for v in costs["adders"].values())
-        m["total_construction_cost"] = (parts_cost + adders) * costs["rules"]["contingency_factor"]["value"]
+        copper = costs["rules"]["wiring_copper_cost_per_a_m"]["value"]
+        m["wiring_cost_usd"] = copper * (g("install.battery_run_m") * m["ac_avg_power_w"] / bus
+                                         + g("install.panel_run_m") * m["array_w_provided"] / bus)
+        m["total_construction_cost"] = (parts_cost + adders + m["wiring_cost_usd"]) * costs["rules"]["contingency_factor"]["value"]
     else:
+        m["wiring_cost_usd"] = None
         m["total_construction_cost"] = None
 
     checks = [("ac_can_hold_setpoint", "FAIL", m["thermal_load_w"] <= m["ac_cooling_w"])]

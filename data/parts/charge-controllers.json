@@ -37,6 +37,11 @@
       "definition": "Mass of one unit/block (feeds system_mass_kg)",
       "unit": "kg",
       "type": "number"
+    },
+    "efficiency": {
+      "definition": "Peak PV->battery MPPT efficiency (feeds pv_derate). PLACEHOLDER pending research.",
+      "unit": "fraction",
+      "type": "number"
     }
   },
   "guidance": [
@@ -59,7 +64,8 @@
       "max_pv_voc": 150,
       "price_usd": 430,
       "source": "",
-      "mass_kg": 1.3
+      "mass_kg": 1.3,
+      "efficiency": 0.98
     },
     {
       "id": "victron-250-100",
@@ -74,7 +80,8 @@
       "max_pv_voc": 250,
       "price_usd": 720,
       "source": "",
-      "mass_kg": 3
+      "mass_kg": 3,
+      "efficiency": 0.98
     },
     {
       "id": "victron-100-50",
@@ -89,7 +96,8 @@
       "max_pv_voc": 100,
       "price_usd": 330,
       "source": "",
-      "mass_kg": 1.3
+      "mass_kg": 1.3,
+      "efficiency": 0.98
     },
     {
       "id": "epever-6415an",
@@ -104,7 +112,8 @@
       "max_pv_voc": 150,
       "price_usd": 230,
       "source": "",
-      "mass_kg": 2.5
+      "mass_kg": 2.5,
+      "efficiency": 0.975
     },
     {
       "id": "renogy-rover-60",
@@ -119,7 +128,8 @@
       "max_pv_voc": 100,
       "price_usd": 260,
       "source": "",
-      "mass_kg": 2
+      "mass_kg": 2,
+      "efficiency": 0.97
     }
   ]
 }

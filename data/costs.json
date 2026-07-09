@@ -2,12 +2,13 @@
   "description": "Two jobs: (1) cost adders that feed the total_construction_cost metric (things not in per-part price_usd), and (2) the BALANCE weights that trade the three objective metrics — total_construction_cost, array_area_m2, system_mass_kg — against each other into one selection score used by scripts/rank.py. BMS is now its own part (data/parts/bms.json), so it is NOT a cost rule here.",
   "adders": {
     "balance_of_system": { "value": 150, "unit": "USD", "status": "assumption", "definition": "Fuses (Class-T + string), DC breakers, disconnects, busbars." },
-    "wiring":            { "value": 100, "unit": "USD", "status": "assumption", "definition": "Battery cables, PV wire, MC4, lugs." },
+    "connectors":        { "value": 40,  "unit": "USD", "status": "assumption", "definition": "MC4, lugs, terminal hardware (cable itself is priced by run below)." },
     "mounting":          { "value": 100, "unit": "USD", "status": "assumption", "definition": "Racking / ground mounts, stakes/ballast." },
     "dust_enclosure":    { "value": 80,  "unit": "USD", "status": "assumption", "definition": "Sealed dust-proof case + cable glands (playa)." }
   },
   "rules": {
-    "contingency_factor": { "value": 1.1, "unit": "factor", "status": "assumption", "definition": "Multiplier on (parts + adders) for misc/small parts/overage." }
+    "contingency_factor":          { "value": 1.1, "unit": "factor", "status": "assumption", "definition": "Multiplier on (parts + adders + wiring) for misc/small parts/overage." },
+    "wiring_copper_cost_per_a_m":  { "value": 0.35, "unit": "USD/(A*m)", "status": "assumption", "definition": "Copper cost per amp-meter of DC run (thicker wire for more current). wiring_cost = this x (battery_run_m x load_A + panel_run_m x array_A), currents = power/bus. Lower bus voltage -> higher current -> more copper." }
   },
   "balance": {
     "objective": "minimize",
