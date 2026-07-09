@@ -217,6 +217,9 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
     m["panels_needed"] = math.ceil(m["array_w_required"] / pan["watt"])
     m["array_w_provided"] = m["panels_needed"] * pan["watt"]
     m["mppt_current_required"] = m["array_w_provided"] / bus * K["mppt_headroom"]
+    # scale the controller quantity to carry the array current (high current -> more/bigger
+    # controllers -> higher cost, not a warning). All-in-one MPPT (no cc) is assumed adequate.
+    m["controllers_needed"] = math.ceil(m["mppt_current_required"] / cc["rated_a"]) if cc else 0
     m["panel_voc_cold"] = pan["voc"] * K["cold_voc_factor"]
 
     dod = g("resilience.usable_depth_of_discharge")
@@ -243,9 +246,7 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
     m["autonomy_hours"] = (m["battery_kwh_provided"] * 1000 * dod / m["ac_avg_power_w"]) if m["ac_avg_power_w"] else float("inf")
 
     # --- objective metrics: panel area, system mass, total construction cost ---
-    qty = {"ac_unit": 1, "inverter": 1, "charge_controller": 1, "dc_dc_converter": 1,
-           "bms": m["battery_strings"], "battery": m["battery_blocks_needed"],
-           "solar_panel": m["panels_needed"]}
+    qty = part_quantities(m)
     m["array_area_m2"] = m["panels_needed"] * pan.get("area_m2", 0)
     m["system_mass_kg"] = sum(p.get("mass_kg", 0) * qty.get(c, 1)
                               for c, p in combo.items() if p is not None)
@@ -274,18 +275,21 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
     pv_limit = (cc or {}).get("max_pv_voc") if cc else (inv or {}).get("pv_max_voltage")
     if pv_limit is not None:
         checks.append(("controller_voltage_ok (1 panel)", "FAIL", m["panel_voc_cold"] <= pv_limit))
+    # Current-handling is enforced by removing inadequate parts (FAIL) or scaling
+    # quantity (controllers), so it lands in cost/wire cost — NOT as a WARN.
     if cc:
-        checks.append(("controller_current_ok", "WARN", cc["rated_a"] >= m["array_w_provided"] / bus))
         checks.append(("controller_bus_ok", "FAIL", bus in cc["max_battery_v"]))
     if inv:
         checks.append(("inverter_power_ok", "FAIL", inv["continuous_w"] >= ac["running_w"] * K["inverter_headroom"]))
-    m["nonworking_count"] = sum(1 for p in combo.values() if p is not None and p.get("condition") == "needs-repair")
     if conv and ac.get("running_a"):
         checks.append(("converter_current_ok", "FAIL", conv["continuous_a"] >= ac["running_a"]))
+    if bms:
+        # per-string discharge current; a BMS that can't carry it is removed (FAIL), not warned.
+        checks.append(("bms_current_ok", "FAIL", bms["continuous_a"] >= (m["ac_avg_power_w"] / bus) / m["battery_strings"]))
+    # WARN = possibly-degenerate solutions only:
+    m["nonworking_count"] = sum(1 for p in combo.values() if p is not None and p.get("condition") == "needs-repair")
     if m["nonworking_count"]:
         checks.append(("all_parts_working", "WARN", False))
-    if bms:
-        checks.append(("bms_current_ok", "WARN", bms["continuous_a"] >= m["ac_avg_power_w"] / bus))
     checks.append(("buffer_meets_need", "WARN", m["battery_kwh_provided"] * dod * 1000 >= usable_need - 1))
     return m, checks
 
@@ -301,8 +305,11 @@ def verdict(checks):
 # ---------- cost breakdown ----------
 
 def part_quantities(m):
-    """Quantity of each part category in a built system (from solved metrics)."""
-    return {"ac_unit": 1, "inverter": 1, "charge_controller": 1, "dc_dc_converter": 1,
+    """Quantity of each part category in a built system (from solved metrics).
+    Controllers scale to carry the array current (parallel units if needed)."""
+    return {"ac_unit": 1, "inverter": 1,
+            "charge_controller": max(1, m.get("controllers_needed", 1)),
+            "dc_dc_converter": 1,
             "bms": m.get("battery_strings", 1), "battery": m.get("battery_blocks_needed", 1),
             "solar_panel": m.get("panels_needed", 1)}
 

@@ -38,6 +38,7 @@
     { "id": "battery_kwh_provided", "unit": "kWh", "inputs": ["battery_blocks_needed", "battery.capacity_kwh"], "formula": "strings_or_count * capacity_kwh" },
     { "id": "autonomy_hours", "unit": "h", "inputs": ["battery_kwh_provided", "resilience.usable_depth_of_discharge", "ac_avg_power_w"], "formula": "battery_kwh_provided * 1000 * DoD / ac_avg_power_w" },
     { "id": "mppt_current_required", "unit": "A", "inputs": ["array_w_provided", "config.bus_voltage"], "formula": "array_w_provided / bus_voltage * mppt_headroom" },
+    { "id": "controllers_needed", "unit": "count", "inputs": ["mppt_current_required", "charge_controller.rated_a"], "formula": "standalone/DC path: ceil(mppt_current_required / charge_controller.rated_a) — parallel controllers to carry the current (0 for all-in-one). High current -> more controllers -> higher cost, not a warning." },
     { "id": "panel_voc_cold", "unit": "V", "inputs": ["solar_panel.voc"], "formula": "solar_panel.voc * cold_voc_factor" },
 
     { "id": "array_area_m2", "unit": "m2", "objective": true, "inputs": ["panels_needed", "solar_panel.area_m2"], "formula": "panels_needed * solar_panel.area_m2  (physical panel size to transport/mount)" },
@@ -46,13 +47,13 @@
     { "id": "total_construction_cost", "unit": "USD", "objective": true, "inputs": ["<all selected parts>.price_usd", "quantities", "costs.adders", "wiring_cost_usd", "costs.rules.contingency_factor"], "formula": "( sum(part.price_usd * qty) + sum(costs.adders) + wiring_cost_usd ) * contingency_factor. Unknown if any selected part lacks price_usd." }
   ],
   "feasibility_checks": [
+    "FAIL removes an infeasible combo (a part genuinely can't do the job). WARN flags a possibly-degenerate solution only — NOT engineering limits like high current, which are handled by scaling controllers (controllers_needed) and wiring cost.",
     { "id": "ac_can_hold_setpoint", "condition": "thermal_load_w <= ac_cooling_w", "severity": "FAIL" },
     { "id": "controller_voltage_ok", "condition": "panel_voc_cold <= (charge_controller.max_pv_voc or inverter.pv_max_voltage)", "severity": "FAIL", "note": "single-panel check." },
-    { "id": "controller_current_ok", "condition": "charge_controller.rated_a >= array_w_provided / bus_voltage", "severity": "WARN", "note": "skip for all-in-one." },
     { "id": "controller_bus_ok", "condition": "bus_voltage in charge_controller.max_battery_v", "severity": "FAIL", "note": "skip for all-in-one." },
     { "id": "inverter_power_ok", "condition": "inverter.continuous_w >= ac_unit.running_w * inverter_headroom", "severity": "FAIL", "note": "AC path only." },
     { "id": "converter_current_ok", "condition": "dc_dc_converter.continuous_a >= ac_unit.running_a", "severity": "FAIL", "note": "converter path only." },
-    { "id": "bms_current_ok", "condition": "bms.continuous_a >= ac_avg_power_w / bus_voltage", "severity": "WARN" },
+    { "id": "bms_current_ok", "condition": "bms.continuous_a >= (ac_avg_power_w / bus_voltage) / battery_strings", "severity": "FAIL", "note": "per-string discharge current; inadequate BMS removed." },
     { "id": "buffer_meets_need", "condition": "battery_kwh_provided * DoD * 1000 >= battery_usable_needed_wh", "severity": "WARN" },
     { "id": "all_parts_working", "condition": "no selected part has condition = 'needs-repair'", "severity": "WARN", "note": "also incurs a heavy condition_penalty_per_part in the balance score (costs.json)." }
   ]
