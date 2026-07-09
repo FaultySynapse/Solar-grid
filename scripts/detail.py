@@ -22,19 +22,11 @@ def evaluate(cfg, combo, scenario, K, costs):
 
 
 def best_for_config(cfg, cats, scenario, K, costs, by):
-    best = None
-    for combo in rc.iter_combos(cfg, cats):
-        if any(combo[c] is None for c in ("ac_unit", "solar_panel", "battery", "bms")):
-            continue
-        m, checks = evaluate(cfg, combo, scenario, K, costs)
-        if m.get("incomplete") or rc.verdict(checks) == "FAIL":
-            continue
-        if m["total_construction_cost"] is None:
-            continue
-        key = m["total_construction_cost"] if by == "cost" else rc.score(m, costs)
-        if best is None or key < best[0]:
-            best = (key, combo, m, checks)
-    return best  # (key, combo, m, checks) or None
+    res = rc.optimize_config(cfg, cats, scenario, K, costs, by=by)
+    if not res:
+        return None
+    r = res[0]
+    return (r["score"], r["combo"], r["m"], r["checks"])
 
 
 def money(x):

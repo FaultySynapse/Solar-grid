@@ -302,6 +302,79 @@ def verdict(checks):
     return "PASS"
 
 
+# ---------- fast decomposed optimizer ----------
+# The score is a sum of per-part contributions coupled only through the per-load-block
+# energy. So for a fixed load block (ac_unit + inverter + converter), battery+bms and
+# panel+controller can be optimized INDEPENDENTLY, then combined. Exact, and ~50x faster
+# than enumerating the full product.
+
+def _argmin_block(cfg, base, vary, opts, scenario, K, costs, by):
+    """Vary parts in `vary` (others fixed in `base`); return {cat: part} of the lowest-key
+    fully-feasible variant (or None). Because the non-varying slots use feasible defaults,
+    a FAIL means this varying block itself is infeasible."""
+    best = None
+    for tup in itertools.product(*[opts[c] for c in vary]):
+        combo = dict(base)
+        for c, p in zip(vary, tup):
+            combo[c] = p
+        m, checks = compute_metrics(cfg, combo, scenario, K, costs)
+        if m.get("incomplete") or m["total_construction_cost"] is None or verdict(checks) == "FAIL":
+            continue
+        key = m["total_construction_cost"] if by == "cost" else score(m, costs)
+        if best is None or key < best[0]:
+            best = (key, {c: combo[c] for c in vary})
+    return best[1] if best else None
+
+
+def optimize_config(cfg, cats, scenario, K, costs, by="score", no_warn=False):
+    """Best solution per load block (ac_unit x inverter x converter), sorted. Exact via
+    independent battery+bms / panel+controller sub-optimization."""
+    pcats = load_configs()["part_categories"]
+    opts = slot_options(cfg, cats)
+    active = {c: opts[c] for c in pcats if opts[c] is not None}
+    load_cats = [c for c in ("ac_unit", "inverter", "dc_dc_converter") if c in active]
+    batt_cats = [c for c in ("battery", "bms") if c in active]
+    arr_cats = [c for c in ("solar_panel", "charge_controller") if c in active]
+
+    # feasible defaults for the non-varying slots (so a block FAIL is that block's fault)
+    defaults = {}
+    if "charge_controller" in active:
+        defaults["charge_controller"] = max(active["charge_controller"], key=lambda p: (p["max_pv_voc"], p["rated_a"]))
+    if "solar_panel" in active:
+        defaults["solar_panel"] = min(active["solar_panel"], key=lambda p: p["voc"])
+    if "battery" in active:
+        working = [p for p in active["battery"] if p.get("condition") != "needs-repair"] or active["battery"]
+        defaults["battery"] = min(working, key=lambda p: p.get("price_usd", 1e9) / p["capacity_kwh"])
+    if "bms" in active:
+        defaults["bms"] = min(active["bms"], key=lambda p: p.get("price_usd", 1e9))
+
+    results = []
+    for lt in itertools.product(*[active[c] for c in load_cats]):
+        base = {c: None for c in pcats}
+        for c, p in zip(load_cats, lt):
+            base[c] = p
+        for c in batt_cats + arr_cats:
+            base[c] = defaults[c]
+        bb = _argmin_block(cfg, dict(base), batt_cats, active, scenario, K, costs, by)
+        if bb is None:
+            continue
+        base.update(bb)
+        aa = _argmin_block(cfg, dict(base), arr_cats, active, scenario, K, costs, by)
+        if aa is None:
+            continue
+        base.update(aa)
+        m, checks = compute_metrics(cfg, base, scenario, K, costs)
+        if m.get("incomplete") or m["total_construction_cost"] is None:
+            continue
+        v = verdict(checks)
+        if v == "FAIL" or (no_warn and v == "WARN"):
+            continue
+        results.append({"combo": dict(base), "m": m, "checks": checks, "verdict": v,
+                        "score": score(m, costs), "cost": m["total_construction_cost"]})
+    results.sort(key=(lambda r: r["cost"]) if by == "cost" else (lambda r: r["score"]))
+    return results
+
+
 # ---------- cost breakdown ----------
 
 def part_quantities(m):

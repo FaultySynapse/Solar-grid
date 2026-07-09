@@ -2,15 +2,12 @@
 """
 Rank part combinations by the balanced score — top N per config and overall.
 
-The score balances the three objective metrics (total construction cost, panel
-area, system mass) using the weights in data/costs.json:
+Uses the fast decomposed optimizer (run_combinations.optimize_config): it returns
+the best solution per load block (ac_unit x inverter x converter), which is both
+fast and diverse (each entry is a genuinely different system, not a near-duplicate).
 
-    score = total_construction_cost
-          + mass_penalty_per_kg * system_mass_kg
-          + area_penalty_per_m2 * array_area_m2      (lower = better)
-
-FAIL combinations are excluded; WARN combinations are included unless --no-warn.
-Combinations with an unknown price (a selected part has no price_usd) are skipped.
+Score = total_construction_cost + mass/area penalties + condition penalty (costs.json).
+FAIL combos are excluded; WARN included unless --no-warn.
 
 Usage:
   python3 scripts/rank.py               # top 3 per config + top 10 overall
@@ -22,52 +19,14 @@ import argparse
 import run_combinations as rc
 
 
-def rank_all(no_warn=False, by="score"):
-    scenario = rc.load_scenario()
-    K = rc.load_metric_constants()
-    costs = rc.load_costs()
-    cats = rc.load_categories()
-    configs = rc.load_configs()
-
-    per_config, stats = {}, {}
-    for cfg in configs["configs"]:
-        results, evaluated, priced = [], 0, 0
-        for combo in rc.iter_combos(cfg, cats):
-            if any(combo[c] is None for c in ("ac_unit", "solar_panel", "battery", "bms")):
-                continue
-            evaluated += 1
-            m, checks = rc.compute_metrics(cfg, combo, scenario, K, costs)
-            if m.get("incomplete"):
-                continue
-            v = rc.verdict(checks)
-            if v == "FAIL" or (no_warn and v == "WARN"):
-                continue
-            if m["total_construction_cost"] is None:
-                continue
-            priced += 1
-            sc = rc.score(m, costs)
-            results.append({
-                "config": cfg["id"], "arch": cfg["architecture"], "bus": cfg["bus_voltage"],
-                "score": sc, "cost": m["total_construction_cost"], "verdict": v,
-                "mass": m["system_mass_kg"], "area": m["array_area_m2"],
-                "daily_kwh": m["design_daily_energy_wh"] / 1000, "array_w": m["array_w_provided"],
-                "batt_kwh": m["battery_kwh_provided"], "autonomy_h": m["autonomy_hours"],
-                "combo": {c: (p["id"] if p else None) for c, p in combo.items()},
-            })
-        key = (lambda r: r["cost"]) if by == "cost" else (lambda r: r["score"])
-        results.sort(key=key)
-        per_config[cfg["id"]] = results
-        stats[cfg["id"]] = (evaluated, priced, len(results))
-    return configs, per_config, stats, by
-
-
 def line(r):
-    c = r["combo"]
+    c = {k: (p["id"] if p else None) for k, p in r["combo"].items()}
     picks = " ".join(f"{k}={c[k]}" for k in ("ac_unit", "inverter", "dc_dc_converter",
                      "charge_controller", "battery", "bms", "solar_panel") if c.get(k))
-    return (f"score {r['score']:>6,.0f} | ${r['cost']:>6,.0f} {r['mass']:>3.0f}kg "
-            f"{r['area']:.1f}m2 [{r['verdict']:<4}] {r['daily_kwh']:.1f}kWh/d "
-            f"auton {r['autonomy_h']:.0f}h  {picks}")
+    m = r["m"]
+    return (f"score {r['score']:>6,.0f} | ${r['cost']:>6,.0f} {m['system_mass_kg']:>3.0f}kg "
+            f"{m['array_area_m2']:.1f}m2 [{r['verdict']:<4}] {m['design_daily_energy_wh']/1000:.1f}kWh/d "
+            f"auton {m['autonomy_hours']:.0f}h  {picks}")
 
 
 def main():
@@ -75,31 +34,32 @@ def main():
     ap.add_argument("--n", type=int, default=3, help="top N per config (default 3)")
     ap.add_argument("--overall", type=int, default=10, help="top N overall (default 10)")
     ap.add_argument("--no-warn", action="store_true", help="exclude WARN combinations")
-    ap.add_argument("--by", choices=["score", "cost"], default="score", help="ranking key (default balanced score)")
+    ap.add_argument("--by", choices=["score", "cost"], default="score", help="ranking key")
     args = ap.parse_args()
 
-    configs, per_config, stats, by = rank_all(no_warn=args.no_warn, by=args.by)
-    print(f"Ranking by: {by}  (score = cost + mass/area penalties from data/costs.json)")
+    scenario, K, costs = rc.load_scenario(), rc.load_metric_constants(), rc.load_costs()
+    cats, configs = rc.load_categories(), rc.load_configs()
+    cat_opts_of = lambda cfg: rc.slot_options(cfg, cats)
 
-    cats = rc.load_categories()
+    print(f"Ranking by: {args.by}  (score = cost + mass/area/condition penalties, data/costs.json)")
     all_results = []
-    print("\n=== Top per config ===")
+    print("\n=== Top per config (best per load block) ===")
     for cfg in configs["configs"]:
-        res = per_config[cfg["id"]]
+        res = rc.optimize_config(cfg, cats, scenario, K, costs, by=args.by, no_warn=args.no_warn)
+        for r in res:
+            r["config"] = cfg["id"]
         all_results.extend(res)
-        ev, pr, fe = stats[cfg["id"]]
-        opts = rc.slot_options(cfg, cats)
+        opts = cat_opts_of(cfg)
         thin = [f"{c}={len(ps)}" for c, ps in opts.items() if ps is not None and len(ps) <= 2]
         thin_s = f"  ⚠ thin: {', '.join(thin)}" if thin else ""
         print(f"\n{cfg['id']} {cfg['label']}  [{cfg['architecture']}, {cfg['bus_voltage']}V]  "
-              f"({fe} feasible / {pr} priced / {ev} combos){thin_s}")
+              f"({len(res)} feasible load blocks){thin_s}")
         if not res:
-            print("   (no feasible+priced combinations)")
+            print("   (no feasible priced solution)")
         for r in res[:args.n]:
             print("   " + line(r))
 
-    key = (lambda r: r["cost"]) if by == "cost" else (lambda r: r["score"])
-    all_results.sort(key=key)
+    all_results.sort(key=(lambda r: r["cost"]) if args.by == "cost" else (lambda r: r["score"]))
     print(f"\n=== Top {args.overall} overall ===")
     for r in all_results[:args.overall]:
         print(f"  {r['config']:<3} " + line(r))
