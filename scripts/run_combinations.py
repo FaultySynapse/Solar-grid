@@ -244,6 +244,8 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
         m["battery_blocks_needed"] = count
         m["battery_kwh_provided"] = count * bat["capacity_kwh"]
     m["autonomy_hours"] = (m["battery_kwh_provided"] * 1000 * dod / m["ac_avg_power_w"]) if m["ac_avg_power_w"] else float("inf")
+    # usable capacity above the full requirement — rewarded by the capacity bounty in score()
+    m["battery_extra_kwh"] = max(0.0, m["battery_kwh_provided"] - m["battery_nominal_needed_wh"] / 1000)
 
     # --- objective metrics: panel area, system mass, total construction cost ---
     qty = part_quantities(m)
@@ -415,16 +417,23 @@ def cost_breakdown(combo, m, costs):
 # ---------- balance score ----------
 
 def score(m, costs):
-    """Weighted balance of the three objectives (lower = better). None if cost unknown.
-    score = cost + mass_penalty_per_kg*mass + area_penalty_per_m2*area (all cost-equivalent)."""
+    """Weighted balance of the objectives (lower = better). None if cost unknown.
+    score = cost + mass/area/condition penalties - capacity_bounty (all cost-equivalent).
+    The bounty is a CREDIT for usable battery capacity above the full requirement, at a
+    modest $/kWh, capped, so the optimizer will buy cheap headroom (e.g. a bigger cell in a
+    single 48V string) but won't chase runaway banks."""
     c = m.get("total_construction_cost")
     if c is None:
         return None
     w = costs["balance"]["weights"]
+    bounty_rate = w.get("capacity_bounty_per_kwh", {}).get("value", 0)
+    bounty_cap = w.get("capacity_bounty_cap_kwh", {}).get("value", 0)
+    credit = bounty_rate * min(m.get("battery_extra_kwh", 0.0), bounty_cap) if bounty_rate else 0
     return (w["cost_per_usd"]["value"] * c
             + w["mass_penalty_per_kg"]["value"] * m["system_mass_kg"]
             + w["area_penalty_per_m2"]["value"] * m["array_area_m2"]
-            + w.get("condition_penalty_per_part", {}).get("value", 0) * m.get("nonworking_count", 0))
+            + w.get("condition_penalty_per_part", {}).get("value", 0) * m.get("nonworking_count", 0)
+            - credit)
 
 
 # ---------- rendering / CLI ----------

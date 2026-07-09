@@ -12,12 +12,14 @@
   },
   "balance": {
     "objective": "minimize",
-    "note": "score = total_construction_cost + mass_penalty_per_kg * system_mass_kg + area_penalty_per_m2 * array_area_m2 + condition_penalty_per_part * nonworking_count. Lower is better. Penalties are cost-equivalent (USD) so all objectives combine into a dollar-denominated score. Set a penalty to 0 to ignore it; raise it to weight it harder.",
+    "note": "score = total_construction_cost + mass_penalty_per_kg * system_mass_kg + area_penalty_per_m2 * array_area_m2 + condition_penalty_per_part * nonworking_count - capacity_bounty_per_kwh * min(battery_extra_kwh, capacity_bounty_cap_kwh). Lower is better. Penalties are cost-equivalent (USD) so all objectives combine into a dollar-denominated score. The bounty is a negative term (credit). Set a weight to 0 to ignore it; raise it to weight it harder.",
     "weights": {
       "cost_per_usd":              { "value": 1.0, "unit": "score/USD", "status": "assumption", "definition": "Weight on total_construction_cost (anchor = 1.0)." },
       "mass_penalty_per_kg":       { "value": 5.0, "unit": "USD/kg", "status": "assumption", "definition": "Cost-equivalent penalty per kg of system mass (portability for a 1-week trip)." },
       "area_penalty_per_m2":       { "value": 20.0, "unit": "USD/m2", "status": "assumption", "definition": "Cost-equivalent penalty per m2 of panel area (packing bulk + desert wind loading)." },
-      "condition_penalty_per_part": { "value": 3000.0, "unit": "USD/part", "status": "assumption", "definition": "HEAVY cost-equivalent penalty per selected part that is not in working condition (condition = 'needs-repair'). Demotes salvage/broken parts below any working alternative. Used-but-working parts are NOT penalized." }
+      "condition_penalty_per_part": { "value": 3000.0, "unit": "USD/part", "status": "assumption", "definition": "HEAVY cost-equivalent penalty per selected part that is not in working condition (condition = 'needs-repair'). Demotes salvage/broken parts below any working alternative. Used-but-working parts are NOT penalized." },
+      "capacity_bounty_per_kwh":   { "value": 55.0, "unit": "USD/kWh", "status": "assumption", "definition": "MODEST credit per kWh of usable battery capacity ABOVE the full requirement (battery_extra_kwh = provided - nominal_needed). Rewards cheap headroom: any capacity upgrade whose marginal SCORE cost (cost + mass penalty) is below this rate is selected. On a fixed 48V single string this tips the pick to a bigger cell (e.g. gotion 340Ah -> 17.4 kWh); below ~$55/kWh the mass penalty offsets it and no pick changes. Set to 0 to disable." },
+      "capacity_bounty_cap_kwh":   { "value": 10.0, "unit": "kWh", "status": "assumption", "definition": "Ceiling on the credited extra capacity (~one extra cloudy-day-bridge of energy). Beyond this, more capacity earns no bounty, so the optimizer won't chase a runaway oversized bank." }
     }
   }
 }
