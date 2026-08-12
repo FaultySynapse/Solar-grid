@@ -500,6 +500,26 @@
       "source": "https://batteryhookup.com/products/needs-bms-relion-48v-30ah-1-536kwh-lifepo4-battery",
       "mass_kg": 13.0,
       "bms_included": false
+    },
+    {
+      "id": "local-230ah",
+      "name": "Local 230Ah LFP prismatic (owned)",
+      "chemistry": "LFP",
+      "form": "cell",
+      "cell_voltage": 3.2,
+      "bus_voltage": [
+        12,
+        24,
+        48
+      ],
+      "capacity_ah": 230,
+      "capacity_kwh": 0.736,
+      "terminal_type": "stud",
+      "condition": "new",
+      "price_usd": 50,
+      "mass_kg": 4.5,
+      "bms_included": false,
+      "source": "local supplier (purchased)"
     }
   ]
 }
