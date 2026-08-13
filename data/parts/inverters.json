@@ -477,7 +477,8 @@
       "mppt_efficiency": 0.98,
       "price_usd": 785,
       "mass_kg": 9.5,
-      "source": "https://signaturesolar.com/growatt-24v-3kw-150vdc-stackable-off-grid-inverter/"
+      "source": "https://signaturesolar.com/growatt-24v-3kw-150vdc-stackable-off-grid-inverter/",
+      "mppt_charge_a": 80
     },
     {
       "id": "srne-hf2430u60",
@@ -497,7 +498,8 @@
       "mppt_efficiency": 0.98,
       "price_usd": 650,
       "mass_kg": 9.5,
-      "source": "https://www.homesteadhybrid.com/products/srne-all-in-one-mppt-solar-charger-3000w-inverter"
+      "source": "https://www.homesteadhybrid.com/products/srne-all-in-one-mppt-solar-charger-3000w-inverter",
+      "mppt_charge_a": 60
     },
     {
       "id": "powmr-3000-24v",
@@ -528,16 +530,17 @@
       "surge_w": 3000,
       "idle_w": 30,
       "mppt_builtin": true,
-      "pv_max_voltage": 100,
+      "pv_max_voltage": 80,
       "output_ac_v": 120,
       "split_phase": false,
       "waveform": "pure sine",
       "scale": "tent",
       "efficiency": 0.9,
       "mppt_efficiency": 0.97,
-      "price_usd": 300,
+      "price_usd": 200,
       "mass_kg": 5,
-      "source": "https://www.amazon.com/dp/B09FDD6HMJ"
+      "source": "https://www.amazon.com/ECO-WORTHY-Hybrid-Inverter-Controller-Off-Grid/dp/B09FDD6HMJ",
+      "mppt_charge_a": 30
     },
     {
       "id": "yh-3000-24v",
@@ -695,6 +698,27 @@
       "mass_kg": 9,
       "efficiency": 0.92,
       "mppt_efficiency": 0.95
+    },
+    {
+      "id": "mpp-solar-lv2424",
+      "name": "MPP Solar LV2424 24V all-in-one",
+      "class": "all-in-one",
+      "input_voltage": 24,
+      "continuous_w": 2400,
+      "surge_w": 6000,
+      "idle_w": 30,
+      "mppt_builtin": true,
+      "pv_max_voltage": 145,
+      "mppt_charge_a": 80,
+      "output_ac_v": 120,
+      "split_phase": false,
+      "waveform": "pure sine",
+      "scale": "tent",
+      "efficiency": 0.93,
+      "mppt_efficiency": 0.97,
+      "price_usd": 499,
+      "mass_kg": 8,
+      "source": "https://shopsolarkits.com/products/mpp-solar-lv2424-hybrid"
     }
   ]
 }

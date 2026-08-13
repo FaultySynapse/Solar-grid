@@ -296,6 +296,10 @@ def compute_metrics(cfg, combo, scenario, K, costs=None):
     if pv_limit is not None:
         checks.append((f"pv_string_voc_ok ({m['panel_series']}S<={pv_limit}V)", "FAIL", m["panel_string_voc_cold"] <= pv_limit + 1e-6))
     checks.append((f"pv_string_charges ({m['panel_string_vmp_hot']:.0f}V>={m['battery_charge_v']:.0f}V)", "FAIL", m["panel_string_vmp_hot"] >= m["battery_charge_v"] - 1e-6))
+    # all-in-one built-in MPPT must carry the array's charge current (a separate CC scales in quantity;
+    # a bundled MPPT does not, so an undersized one FAILs). Charge current = array watts / bus.
+    if inv and inv.get("mppt_builtin") and not cc and inv.get("mppt_charge_a"):
+        checks.append((f"aio_mppt_current_ok ({inv['mppt_charge_a']}A>={m['array_w_provided']/bus:.0f}A)", "FAIL", inv["mppt_charge_a"] >= m["array_w_provided"] / bus))
     # Current-handling is enforced by removing inadequate parts (FAIL) or scaling
     # quantity (controllers), so it lands in cost/wire cost — NOT as a WARN.
     if cc:
