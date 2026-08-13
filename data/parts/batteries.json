@@ -503,7 +503,7 @@
     },
     {
       "id": "local-230ah",
-      "name": "Local 230Ah LFP prismatic (owned)",
+      "name": "BYD 230Ah 3.2V LFP prismatic (owned)",
       "chemistry": "LFP",
       "form": "cell",
       "cell_voltage": 3.2,
@@ -517,9 +517,10 @@
       "terminal_type": "stud",
       "condition": "new",
       "price_usd": 50,
-      "mass_kg": 4.5,
+      "mass_kg": 4.2,
       "bms_included": false,
-      "source": "local supplier (purchased)"
+      "source": "local supplier (purchased) - BYD 230Ah 3.2V LiFePO4 prismatic",
+      "manufacturer": "BYD"
     }
   ]
 }
