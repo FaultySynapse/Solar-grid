@@ -184,6 +184,22 @@
       "mass_kg": 0.4,
       "notes": "Cheapest 16S/48V board; passive balance only. JK active-balance is worth the extra for long-term cycling, less so for a one-week trip.",
       "source": "https://www.aliexpress.com/item/1005001803913333.html"
+    },
+    {
+      "id": "jk-b1a8s10p",
+      "name": "JKBMS JK-B1A8S10P smart 8S 100A 1A active",
+      "bus_voltage": [
+        24
+      ],
+      "series_count": 8,
+      "continuous_a": 100,
+      "comms": true,
+      "balance": "active",
+      "balance_a": 1.0,
+      "price_usd": 68,
+      "mass_kg": 0.5,
+      "notes": "8S-native (24V), 1A active balance + BT. Right-sized for a committed 24V pack.",
+      "source": "Amazon (JK-B1A8S10P)"
     }
   ]
 }
