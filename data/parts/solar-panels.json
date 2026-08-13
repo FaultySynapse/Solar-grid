@@ -216,6 +216,25 @@
       "area_m2": 1.2,
       "temp_coeff_pmax": -0.4,
       "noct": 45
+    },
+    {
+      "id": "trina-tsm310pd14",
+      "name": "Trina Tallmax TSM-310PD14.18 310W 72-cell poly (used, Craigslist)",
+      "watt": 310,
+      "voc": 45.8,
+      "vmp": 37.0,
+      "isc": 8.9,
+      "imp": 8.4,
+      "cells": 72,
+      "form": "rigid",
+      "condition": "used",
+      "dollars_per_w": 0.16,
+      "price_usd": 49,
+      "source": "https://www.craigslist.org/view/d/oakland-trina-solar-panels-305w-solar/9NnbbcHv1rgVAzAB2JdM2u",
+      "mass_kg": 22,
+      "area_m2": 1.94,
+      "temp_coeff_pmax": -0.41,
+      "noct": 45
     }
   ]
 }
