@@ -309,7 +309,7 @@
       "output_ac_v": 120,
       "waveform": "pure sine",
       "scale": "tent",
-      "price_usd": 275,
+      "price_usd": 390,
       "source": "https://www.renogy.com/products/2000w-24v-pure-sine-wave-inverter",
       "mass_kg": 4,
       "efficiency": 0.92
@@ -719,6 +719,24 @@
       "price_usd": 499,
       "mass_kg": 8,
       "source": "https://shopsolarkits.com/products/mpp-solar-lv2424-hybrid"
+    },
+    {
+      "id": "giandel-2000-24",
+      "name": "GIANDEL 24V 2000W Pure Sine (standalone)",
+      "class": "standalone",
+      "input_voltage": 24,
+      "continuous_w": 2000,
+      "surge_w": 4000,
+      "idle_w": 20,
+      "mppt_builtin": false,
+      "output_ac_v": 120,
+      "split_phase": false,
+      "waveform": "pure sine",
+      "scale": "tent",
+      "efficiency": 0.9,
+      "price_usd": 220,
+      "mass_kg": 4,
+      "source": "https://www.amazon.com/Giandel-Inverter-Outlets-Control-Display/dp/B07GDH711G"
     }
   ]
 }

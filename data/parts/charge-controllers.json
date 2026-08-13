@@ -110,8 +110,8 @@
         48
       ],
       "max_pv_voc": 150,
-      "price_usd": 230,
-      "source": "",
+      "price_usd": 192,
+      "source": "https://mannsolar.com/products/charge-controller-epever-tracer-6415an",
       "mass_kg": 2.5,
       "efficiency": 0.98
     },
