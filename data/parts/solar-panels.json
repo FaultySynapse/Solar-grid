@@ -235,6 +235,25 @@
       "area_m2": 1.94,
       "temp_coeff_pmax": -0.41,
       "noct": 45
+    },
+    {
+      "id": "kyocera-kc175gt",
+      "name": "Kyocera KC175GT 175W 48-cell multicrystalline (old)",
+      "watt": 175,
+      "voc": 29.2,
+      "vmp": 23.6,
+      "isc": 8.09,
+      "imp": 7.42,
+      "cells": 48,
+      "form": "rigid",
+      "condition": "used",
+      "dollars_per_w": 0.29,
+      "price_usd": 50,
+      "source": "used market (~2005-2010 era)",
+      "mass_kg": 16,
+      "area_m2": 1.28,
+      "temp_coeff_pmax": -0.46,
+      "noct": 45
     }
   ]
 }
