@@ -254,6 +254,25 @@
       "area_m2": 1.28,
       "temp_coeff_pmax": -0.46,
       "noct": 45
+    },
+    {
+      "id": "znshine-zxm6-60-310",
+      "name": "ZNShine ZXM6-60-310/M 310W 60-cell mono PERC (new)",
+      "watt": 310,
+      "voc": 40.6,
+      "vmp": 33.3,
+      "isc": 9.85,
+      "imp": 9.31,
+      "cells": 60,
+      "form": "rigid",
+      "condition": "new",
+      "dollars_per_w": 0.37,
+      "price_usd": 115,
+      "source": "user-quoted $115/panel",
+      "mass_kg": 18.5,
+      "area_m2": 1.635,
+      "temp_coeff_pmax": -0.39,
+      "noct": 45
     }
   ]
 }
