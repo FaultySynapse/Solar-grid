@@ -273,6 +273,25 @@
       "area_m2": 1.635,
       "temp_coeff_pmax": -0.39,
       "noct": 45
+    },
+    {
+      "id": "sharp-nt175u1",
+      "name": "Sharp NT-175U1 175W 72-cell mono (old, 13.5%)",
+      "watt": 175,
+      "voc": 44.4,
+      "vmp": 35.4,
+      "isc": 5.4,
+      "imp": 4.95,
+      "cells": 72,
+      "form": "rigid",
+      "condition": "used",
+      "dollars_per_w": 0.069,
+      "price_usd": 12,
+      "source": "FB/CL listing $12",
+      "mass_kg": 17,
+      "area_m2": 1.3,
+      "temp_coeff_pmax": -0.45,
+      "noct": 47
     }
   ]
 }
