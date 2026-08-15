@@ -292,6 +292,25 @@
       "area_m2": 1.3,
       "temp_coeff_pmax": -0.45,
       "noct": 47
+    },
+    {
+      "id": "hyundai-350w",
+      "name": "Hyundai HiS-S350 350W 72-cell mono (used)",
+      "watt": 350,
+      "voc": 47.1,
+      "vmp": 38.7,
+      "isc": 9.6,
+      "imp": 9.0,
+      "cells": 72,
+      "form": "rigid",
+      "condition": "used",
+      "dollars_per_w": 0.27,
+      "price_usd": 95,
+      "source": "FB/CL local, $95 OBO",
+      "mass_kg": 21,
+      "area_m2": 1.94,
+      "temp_coeff_pmax": -0.41,
+      "noct": 45
     }
   ]
 }
