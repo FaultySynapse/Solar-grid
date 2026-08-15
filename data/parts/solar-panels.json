@@ -311,6 +311,25 @@
       "area_m2": 1.94,
       "temp_coeff_pmax": -0.41,
       "noct": 45
+    },
+    {
+      "id": "znshine-zxm7-440n",
+      "name": "ZNShine ZXM7-UHLDD08-440/N 440W N-type TOPCon bifacial (new)",
+      "watt": 440,
+      "voc": 38.9,
+      "vmp": 33.4,
+      "isc": 14.2,
+      "imp": 13.4,
+      "cells": 108,
+      "form": "rigid",
+      "condition": "new",
+      "dollars_per_w": 0.318,
+      "price_usd": 140,
+      "source": "user-quoted $140 new",
+      "mass_kg": 22,
+      "area_m2": 1.95,
+      "temp_coeff_pmax": -0.3,
+      "noct": 45
     }
   ]
 }
